@@ -8,14 +8,21 @@ export default createModel({
         systemName: '小程序'
     },
     action: {
-        
+        changeName:(name)=>{
+            console.log(name)
+        }
     },
     reducer: {
-
+        changeName(state,{payload}){
+            return {
+                ...state,
+                systemName: payload
+            }
+        }
     },
     saga:{
         *didMount(){
-            console.log('didMount=========?')
+            console.log('pages/home/index.model.js/saga/didMount')
         }
     },
     selector: {

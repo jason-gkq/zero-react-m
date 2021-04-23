@@ -1,15 +1,13 @@
 import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware } from 'redux';
-// import reducer from './rootReducer';
-import modelConfig from '@src/app/index.model';
+import reducer from './rootReducer';
 import sagas from './rootSaga';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import { persistReducer, persistStore } from 'redux-persist'; //不要使用persistCombineReducers，已作废
+import { persistReducer, persistStore, persistCombineReducers } from 'redux-persist'; //不要使用persistCombineReducers，已作废
 import storage from 'redux-persist/lib/storage';
 import { batchActions, enableBatching } from 'redux-batched-actions';
 
-let {reducer} = modelConfig
 const persistConfig = {
 	key: 'root',
 	storage,
@@ -19,7 +17,7 @@ const persistConfig = {
 
 function createReducer(asyncReducers) {
 	const rootReducer = enableBatching(
-		persistReducer(persistConfig, {
+		persistCombineReducers(persistConfig, {
 			...reducer,
 			...asyncReducers,
 		})
@@ -35,8 +33,9 @@ function createReducer(asyncReducers) {
 const loggerMiddleware = createLogger();
 const sagaMiddleware = createSagaMiddleware();
 
-let store = createStore(
-	persistReducer(persistConfig, reducer),
+const store = createStore(
+	// reducer,
+	persistCombineReducers(persistConfig, reducer),
 	applyMiddleware(sagaMiddleware, thunkMiddleware, loggerMiddleware)
 );
 

@@ -1,12 +1,11 @@
 import React, { PureComponent, Fragment, lazy, Suspense } from 'react';
 import { Switch, Redirect, withRouter } from 'react-router-dom';
-import RootPage from '@src/common/core/basePage';
 import * as styles from './index.less';
 import { generateRoute } from '@menus/menu.route';
 import { getCookie, devSetCookieToken } from '@utils/handleCookie';
 import { setAxiosToken } from '@utils/handleAxios';
 import { toLoginPage } from '@utils/handleLogin';
-import Connect from '@components/hoc/Connect';
+import Connect from '@common/redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from '@redux/store';
 
@@ -134,11 +133,11 @@ class AppPage extends PureComponent {
 		return (
 			<PersistGate persistor={persistor} loading={null}>
 				<div className={styles.app}>
-				<Switch>
-					{routes}
-					{redirects}
-					<Redirect to={match.url} />
-				</Switch>
+					<Switch>
+						{routes}
+						{redirects}
+						<Redirect to={match.url} />
+					</Switch>
 				</div>
 			</PersistGate>
 		);

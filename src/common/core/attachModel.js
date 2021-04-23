@@ -4,10 +4,14 @@ import { connect } from 'react-redux';
 // import { action as globalAction } from '../Redux';
 
 export default (model) => (Component) => {
+	console.log('common/core/attachModel/model::::',model)
+	console.log('common/core/attachModel/Component::::',Component)
 	// 实例级别model的情况
 	class TargetComponent extends Component {
 		constructor(props) {
 			super(props);
+			console.log('common/core/this.model:::',this.model);
+			
 			const model = this.model;
 			if (!model) {
 				return;
@@ -18,21 +22,6 @@ export default (model) => (Component) => {
 				dispatch(model.action.initState());
 			}
 			this.props.$model = model;
-		}
-
-		componentWillMount() {
-			if (super.componentWillMount) {
-				super.componentWillMount();
-			}
-			// const { rootTag, dispatch } = this.props;
-			// if (!TargetComponent.getConfig().notRegister){
-			//     if (!Config.routes){
-			//         Config.routes = {};
-			//     }
-			//     Config.routes[rootTag] = TargetComponent.getConfig().id;
-			//     // 路由变化全局通知
-			//     dispatch(globalAction.currentPage({rootTag: rootTag, pageId: TargetComponent.getConfig().id}));
-			// }
 		}
 
 		componentDidMount() {
@@ -53,20 +42,6 @@ export default (model) => (Component) => {
 			if (super.componentWillUnmount) {
 				super.componentWillUnmount();
 			}
-			// const { rootTag, dispatch } = this.props;
-
-			// if (!TargetComponent.getConfig().notRegister) {
-			//     if (Config.routes && Object.keys(Config.routes).includes(rootTag && rootTag.toString())) {
-			//         delete Config.routes[rootTag && rootTag.toString()];
-			//     }
-			//     const routeKeys = Object.keys(Config.routes);
-			//     // 路由变化全局通知
-			//     dispatch(globalAction.currentPage({
-			//         rootTag: [routeKeys[routeKeys.length - 1]],
-			//         pageId: Config.routes[routeKeys[routeKeys.length - 1]]
-			//     }));
-			// }
-
 			const model = this.model;
 			if (!model) {
 				return;
@@ -89,6 +64,7 @@ export default (model) => (Component) => {
 	}
 
 	if (!model) {
+		console.log('attatchModel/没有model')
 		return connect()(TargetComponent);
 	}
 

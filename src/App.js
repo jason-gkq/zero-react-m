@@ -7,11 +7,11 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+// import { PersistGate } from 'redux-persist/integration/react';
 import { store } from '@redux/store';
 import packageJson from '../package.json';
 import { setAxiosBase } from '@utils/handleAxios';
-import { persistor } from '@common/redux/store';
+// import { persistor } from '@common/redux/store';
 import 'antd-mobile/dist/antd-mobile.css';// or 'antd-mobile/dist/antd-mobile.less'
 // import "./app.css";
 
@@ -28,17 +28,14 @@ const AppPage = lazy(async () => await import(/* webpackChunkName: 'app' */ './a
 
 const App = (
 	<Provider store={store}>
-		<PersistGate persistor={persistor} loading={null}>
 			<BrowserRouter>
 				<Suspense fallback={<div>Loading...</div>}>
 					<Switch>
-						{/* <Route path='/login' component={LoginPage} /> */}
 						<Route path={homepage} component={AppPage} />
 						<Redirect to={homepage} />
 					</Switch>
 				</Suspense>
 			</BrowserRouter>
-		</PersistGate>
 	</Provider>
 );
 
