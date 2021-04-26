@@ -13,7 +13,7 @@ import packageJson from '../package.json';
 import { setAxiosBase } from '@utils/handleAxios';
 // import { persistor } from '@common/redux/store';
 import 'antd-mobile/dist/antd-mobile.css';// or 'antd-mobile/dist/antd-mobile.less'
-// import "./app.css";
+import "./App.css";
 
 // console.log(packageJson, process.env);
 
