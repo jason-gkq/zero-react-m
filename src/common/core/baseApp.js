@@ -18,7 +18,7 @@ import { store } from "@redux/store";
 import packageJson from "../../../package.json";
 import { setAxiosBase } from "@common/net/defaultAxios";
 
-import "antd-mobile/dist/antd-mobile.css"; // or 'antd-mobile/dist/antd-mobile.less'
+// import "antd-mobile/dist/antd-mobile.css"; // or 'antd-mobile/dist/antd-mobile.less'
 import createModel from "./createModel";
 const systemInfo = { packageJson, processEnv: process.env };
 
@@ -48,9 +48,6 @@ export default (appModel) => (WrappedComponent) => {
       if (super.componentDidMount) {
         super.componentDidMount();
       }
-      store.dispatch(store.globalActions.test({}));
-      store.dispatch(store.globalActions.test({}));
-      store.dispatch(store.globalActions.test({}));
     }
 
     componentWillUnmount() {
