@@ -1,121 +1,118 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 // import Config from './PageConfig';
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 // import { action as globalAction } from '../Redux';
 
 export default (model) => (Component) => {
-	console.log('common/core/attachModel/model::::',model)
-	console.log('common/core/attachModel/Component::::',Component)
-	// 实例级别model的情况
-	class TargetComponent extends Component {
-		constructor(props) {
-			super(props);
-			console.log('common/core/this.model:::',this.model);
-			
-			const model = this.model;
-			if (!model) {
-				return;
-			}
-			model.runSaga();
-			const { dispatch } = this.props;
-			if (model.initialize) {
-				dispatch(model.action.initState());
-			}
-			this.props.$model = model;
-		}
+  // 实例级别model的情况
+  class TargetComponent extends Component {
+    constructor(props) {
+      super(props);
 
-		componentDidMount() {
-			if (super.componentDidMount) {
-				super.componentDidMount();
-			}
-			const model = this.model;
-			if (!model) {
-				return;
-			}
-			const { dispatch } = this.props;
-			if (model.action.didMount) {
-				dispatch(model.action.didMount(this.props));
-			}
-		}
+      const model = this.model;
+      if (!model) {
+        return;
+      }
+      model.runSaga();
+      const { dispatch } = this.props;
+      if (model.initialize) {
+        dispatch(model.action.initState());
+      }
+      this.props.$model = model;
+    }
 
-		componentWillUnmount() {
-			if (super.componentWillUnmount) {
-				super.componentWillUnmount();
-			}
-			const model = this.model;
-			if (!model) {
-				return;
-			}
-			if (model.cache === false) {
-				model.removeReducer();
-			}
-			if (model.action.willUnmount) {
-				dispatch(
-					model.action.willUnmount({
-						done: () => {
-							model.cancelSaga();
-						},
-					})
-				);
-			} else {
-				model.cancelSaga();
-			}
-		}
-	}
+    componentDidMount() {
+      if (super.componentDidMount) {
+        super.componentDidMount();
+      }
+      const model = this.model;
+      if (!model) {
+        return;
+      }
+      const { dispatch } = this.props;
+      if (model.action.didMount) {
+        dispatch(model.action.didMount(this.props));
+      }
+    }
 
-	if (!model) {
-		console.log('attatchModel/没有model')
-		return connect()(TargetComponent);
-	}
+    componentWillUnmount() {
+      if (super.componentWillUnmount) {
+        super.componentWillUnmount();
+      }
+      const model = this.model;
+      if (!model) {
+        return;
+      }
+      if (model.cache === false) {
+        model.removeReducer();
+      }
+      if (model.action.willUnmount) {
+        dispatch(
+          model.action.willUnmount({
+            done: () => {
+              model.cancelSaga();
+            },
+          })
+        );
+      } else {
+        model.cancelSaga();
+      }
+    }
+  }
 
-	@connect((state) => ({
-		$pageStatus: model.selector.getState(state).pageStatus,
-	}))
-	class ComponentWithModel extends PureComponent {
-		constructor(props) {
-			super(props);
-			model.runSaga();
-			const { dispatch } = this.props;
-			if (model.initialize) {
-				dispatch(model.action.initState());
-			}
-		}
+  if (!model) {
+    console.log("attatchModel/没有model");
+    return connect()(TargetComponent);
+  }
 
-		componentDidMount() {
-			// 使用setTimeout解决跳转页面短暂空白问题
-			setTimeout(() => {
-				const { dispatch } = this.props;
-				if (model.action.didMount) {
-					dispatch(model.action.didMount(this.props));
-				}
-			}, 0);
-		}
-		componentWillUnmount() {
-			const { dispatch, rootTag } = this.props;
-			// const pageId = TargetComponent.getConfig().id;
-			// if (Config.routes && Config.routes[rootTag]) {
-			// 	delete Config.routes[rootTag];
-			// }
-			if (model.action.willUnmount) {
-				dispatch(
-					model.action.willUnmount({
-						done: () => {
-							if (!Object.values(Config.routes).includes(pageId)) {
-								model.cancelSaga();
-							}
-						},
-					})
-				);
-			} else {
-				// if (!Object.values(Config.routes).includes(pageId)) {
-				// 	model.cancelSaga();
-				// }
-			}
-		}
-		render() {
-			return <TargetComponent {...this.props} $model={model} />;
-		}
-	}
+  @connect((state) => ({
+    $pageStatus: model.selector.getState(state).pageStatus,
+  }))
+  class ComponentWithModel extends PureComponent {
+    constructor(props) {
+      super(props);
+      model.runSaga();
+      const { dispatch } = this.props;
+      if (model.initialize) {
+        dispatch(model.action.initState());
+      }
+    }
 
-	return ComponentWithModel;
+    componentDidMount() {
+      // 使用setTimeout解决跳转页面短暂空白问题
+      setTimeout(() => {
+        const { dispatch } = this.props;
+        if (model.action.didMount) {
+          dispatch(model.action.didMount(this.props));
+        }
+      }, 0);
+    }
+    componentWillUnmount() {
+      const { dispatch, rootTag } = this.props;
+      // const pageId = TargetComponent.getConfig().id;
+      // if (Config.routes && Config.routes[rootTag]) {
+      // 	delete Config.routes[rootTag];
+      // }
+      if (model.action.willUnmount) {
+        dispatch(
+          model.action.willUnmount({
+            done: () => {
+              if (!Object.values(Config.routes).includes(pageId)) {
+                model.cancelSaga();
+              }
+            },
+          })
+        );
+      } else {
+        // if (!Object.values(Config.routes).includes(pageId)) {
+        // 	model.cancelSaga();
+        // }
+      }
+    }
+    render() {
+      return <TargetComponent {...this.props} $model={model} />;
+    }
+  }
+
+  return ComponentWithModel;
 };

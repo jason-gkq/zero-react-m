@@ -1,42 +1,13 @@
-/**
- * 1. 初始化store
- * 2. 设置axios拦截器
- * 3. 初始化语言包
- * 4. 定义项目入口
- */
-import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, HashRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Provider } from 'react-redux';
-// import { PersistGate } from 'redux-persist/integration/react';
-import { store } from '@redux/store';
-import packageJson from '../package.json';
-import { setAxiosBase } from '@utils/handleAxios';
-// import { persistor } from '@common/redux/store';
-import 'antd-mobile/dist/antd-mobile.css';// or 'antd-mobile/dist/antd-mobile.less'
-import "./App.css";
+import React from "react";
+import "./app.css";
+import { BaseApp } from "@common/core";
+import model from "./app.model";
 
-// console.log(packageJson, process.env);
-
-const homepage = packageJson.homepage && packageJson.homepage.slice(0, -1) ? packageJson.homepage.slice(0, -1) : '/';
-
-const systemInfo = { packageJson, processEnv: process.env };
-// 设置axios拦截器
-setAxiosBase(); //打包时chunk名称，默认为数字，不利于定位分析打包文件  // const LoginPage = lazy(() => import(/* webpackChunkName: 'login' */'./pages/login'))
-
-/* webpackChunkName: "login" */
-const AppPage = lazy(async () => await import(/* webpackChunkName: 'app' */ './app/index.js'));
-
-const App = (
-	<Provider store={store}>
-			<BrowserRouter>
-				<Suspense fallback={<div>Loading...</div>}>
-					<Switch>
-						<Route path={homepage} component={AppPage} />
-						<Redirect to={homepage} />
-					</Switch>
-				</Suspense>
-			</BrowserRouter>
-	</Provider>
-);
+@BaseApp(model)
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+}
 
 export default App;
