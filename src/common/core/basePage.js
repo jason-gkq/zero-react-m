@@ -1,7 +1,7 @@
 import attachModel from "./attachModel";
 
-export default (WrappedComponent) => {
-  @attachModel(WrappedComponent.model)
+export default (model) => (WrappedComponent) => {
+  @attachModel(model)
   class PageComponent extends WrappedComponent {
     constructor(props) {
       super(props);
@@ -9,9 +9,9 @@ export default (WrappedComponent) => {
         ...this.state,
       };
     }
-    async componentWillMount() {
-      if (super.componentWillMount) {
-        super.componentWillMount();
+    async componentDidMount() {
+      if (super.componentDidMount) {
+        super.componentDidMount();
       }
     }
     render() {

@@ -148,7 +148,7 @@ const initSystem = function* () {
 
 const test = function* ({ payload }) {
   axios
-    .post(`gateway/manage/common/apiss/auth/queryUserAuth`, {
+    .post(`gateway/manage/common/api/auth/queryUserAuth`, {
       groupId: 58,
       groupType: 2,
       groupKey: "2|58",

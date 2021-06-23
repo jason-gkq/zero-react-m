@@ -5,10 +5,9 @@ import { BasePage } from "@common/core";
 import model from "./index.model";
 import Connect from "@common/redux";
 import Header from "@common/components/header";
-import { store } from "@common/redux/store";
-// @BasePage
+import { store } from "@common/redux/configureStore";
+@BasePage(model)
 class Home extends PureComponent {
-  static model = model;
   render() {
     return (
       <div>
@@ -38,6 +37,7 @@ export default connect(
   (dispatch) => {
     return {
       addVoucher() {
+        console.log(Home);
         store.dispatch(store.globalActions.test());
         dispatch(model.action.changeName("dsfds"));
       },

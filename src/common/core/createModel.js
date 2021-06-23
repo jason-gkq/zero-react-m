@@ -3,13 +3,13 @@ import {
   injectAsyncReducer,
   removeAsyncReducer,
   sagaMiddleware,
-  store,
-} from "@redux/store";
+  // store,
+} from "@redux/configureStore";
 import { takeEvery, takeLatest } from "redux-saga/effects";
 
 import { createSelector } from "reselect";
-import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+// import { persistReducer } from "redux-persist";
+// import storage from "redux-persist/lib/storage";
 
 export const isObject = (obj) =>
   Object.prototype.toString.call(obj) === "[object Object]";
@@ -152,40 +152,26 @@ export default function createDucks({
   reducers: reducerMap = {},
   sagas: sagaMap = {},
   selectors = {},
-  persist,
 }) {
-  const getSliceState = (state) => state[name];
-  selectors = toLocalSelectors(selectors, getSliceState);
   fillActionMap(actionMap, reducerMap);
   fillActionMap(actionMap, sagaMap);
-  const action = createActionsFromMap(actionMap, name);
-  let sliceReducer = createReducerFromMap(reducerMap, action, state, name);
-  const sliceSaga = createSagaFromMap(sagaMap, action, selectors);
 
-  if (persist) {
-    sliceReducer = persistReducer(
-      {
-        key: name,
-        storage,
-        throttle: 1000,
-        timeout: 8000,
-        ...persist,
-      },
-      sliceReducer
-    );
-  }
+  const sliceAction = createActionsFromMap(actionMap, name);
+  const sliceSelector = toLocalSelectors(selectors, (state) => state[name]);
+  let sliceReducer = createReducerFromMap(reducerMap, sliceAction, state, name);
+  const sliceSaga = createSagaFromMap(sagaMap, sliceAction, sliceSelector);
 
-  injectAsyncReducer(store, name, sliceReducer);
+  injectAsyncReducer(name, sliceReducer);
 
   return {
     name,
     initialize,
     cache,
     selectors,
-    action,
-    reducer: sliceReducer,
+    actions: sliceAction,
+    // reducers: sliceReducer,
     removeReducer() {
-      removeAsyncReducer(store, name);
+      removeAsyncReducer(name);
       // if (__DEV__) {
       // 	console.log(`reducer of ${name} has been removed`);
       // }

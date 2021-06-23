@@ -13,9 +13,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { Provider } from "react-redux";
-// import { PersistGate } from 'redux-persist/integration/react';
-import { store } from "@redux/store";
-import packageJson from "../../../package.json";
+import { store } from "@redux/configureStore";
 import { setAxiosBase } from "@common/net/defaultAxios";
 
 import "@common/style/index.less";
@@ -23,10 +21,7 @@ import "@common/style/index.less";
 // import "antd-mobile/dist/antd-mobile.css"; // or 'antd-mobile/dist/antd-mobile.less'
 import createModel from "./createModel";
 
-const homepage =
-  packageJson.homepage && packageJson.homepage.slice(0, -1)
-    ? packageJson.homepage.slice(0, -1)
-    : "/";
+const homepage = "/" + store.getState().env.module;
 
 const AppPage = lazy(
   async () =>

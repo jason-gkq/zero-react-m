@@ -16,7 +16,7 @@ export default (model) => (Component) => {
       model.runSaga();
       const { dispatch } = this.props;
       if (model.initialize) {
-        dispatch(model.action.initState());
+        dispatch(model.actions.initState());
       }
       this.props.$model = model;
     }
@@ -30,8 +30,8 @@ export default (model) => (Component) => {
         return;
       }
       const { dispatch } = this.props;
-      if (model.action.didMount) {
-        dispatch(model.action.didMount(this.props));
+      if (model.actions.didMount) {
+        dispatch(model.actions.didMount(this.props));
       }
     }
 
@@ -46,9 +46,9 @@ export default (model) => (Component) => {
       if (model.cache === false) {
         model.removeReducer();
       }
-      if (model.action.willUnmount) {
+      if (model.actions.willUnmount) {
         dispatch(
-          model.action.willUnmount({
+          model.actions.willUnmount({
             done: () => {
               model.cancelSaga();
             },
@@ -66,7 +66,7 @@ export default (model) => (Component) => {
   }
 
   @connect((state) => ({
-    $pageStatus: model.selector.getState(state).pageStatus,
+    // $pageStatus: model.selector.getState(state).pageStatus,
   }))
   class ComponentWithModel extends PureComponent {
     constructor(props) {
@@ -74,7 +74,7 @@ export default (model) => (Component) => {
       model.runSaga();
       const { dispatch } = this.props;
       if (model.initialize) {
-        dispatch(model.action.initState());
+        dispatch(model.actions.initState());
       }
     }
 
@@ -82,8 +82,8 @@ export default (model) => (Component) => {
       // 使用setTimeout解决跳转页面短暂空白问题
       setTimeout(() => {
         const { dispatch } = this.props;
-        if (model.action.didMount) {
-          dispatch(model.action.didMount(this.props));
+        if (model.actions.didMount) {
+          dispatch(model.actions.didMount(this.props));
         }
       }, 0);
     }
@@ -93,9 +93,9 @@ export default (model) => (Component) => {
       // if (Config.routes && Config.routes[rootTag]) {
       // 	delete Config.routes[rootTag];
       // }
-      if (model.action.willUnmount) {
+      if (model.actions.willUnmount) {
         dispatch(
-          model.action.willUnmount({
+          model.actions.willUnmount({
             done: () => {
               if (!Object.values(Config.routes).includes(pageId)) {
                 model.cancelSaga();

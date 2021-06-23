@@ -1,6 +1,4 @@
-import { call, put, select } from "redux-saga/effects";
 import createModel from "@src/common/core/createModel";
-import { createSelector } from "reselect";
 
 export default createModel({
   name: "Home",
