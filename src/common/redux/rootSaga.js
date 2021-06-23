@@ -147,6 +147,15 @@ const initSystem = function* () {
   yield put(staticActions.system.setSystem(system));
 };
 
+// navigate
+const goto = function* () {};
+
+const goback = function* () {};
+
+const redirect = function* () {};
+
+const reLaunch = function* () {};
+
 const test = function* ({ payload }) {
   axios
     .post(`gateway/manage/common/api/auth/queryUserAuth`, {
@@ -166,8 +175,19 @@ const test = function* ({ payload }) {
 };
 
 export default function* staticSagas() {
+  /**
+   * 系统信息初始化
+   */
   yield takeLatest(staticActions.system.initSystem, initSystem);
   yield takeLatest(staticActions.env.initEnv, initEnv);
+
+  /**
+   * 路由
+   */
+  yield takeLatest(staticActions.navigate.goto, goto);
+  yield takeLatest(staticActions.navigate.goback, goback);
+  yield takeLatest(staticActions.navigate.redirect, redirect);
+  yield takeLatest(staticActions.navigate.reLaunch, reLaunch);
 
   yield takeLatest(staticActions.test, test);
   // yield all(rootSagas);

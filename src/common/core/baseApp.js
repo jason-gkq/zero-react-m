@@ -19,8 +19,6 @@ import { setAxiosBase } from "../net";
 
 import "../style/index.less";
 
-// import "antd-mobile/dist/antd-mobile.css"; // or 'antd-mobile/dist/antd-mobile.less'
-
 const homepage = "/" + store.getState().env.module;
 
 const AppPage = lazy(

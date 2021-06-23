@@ -51,7 +51,20 @@ const env = handleActions(
   },
   {}
 );
+
+const route = handleActions(
+  {
+    [staticActions.route.setRoute](state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+  },
+  {}
+);
 export default {
   system,
   env,
+  route,
 };
