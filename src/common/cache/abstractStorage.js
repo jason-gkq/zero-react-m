@@ -1,5 +1,8 @@
-import { environment } from "@env/environment";
-import * as _ from "lodash";
+import { isPlainObject } from "../utils";
+const environment = {
+  prefixUnable: [],
+  prefix: "",
+};
 
 class NameStorage {
   store;
@@ -16,7 +19,7 @@ class NameStorage {
       }
     }
 
-    if (!_.isPlainObject(ret)) {
+    if (!isPlainObject(ret)) {
       ret = {};
     }
 

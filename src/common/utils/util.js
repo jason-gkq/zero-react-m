@@ -6,20 +6,118 @@ export function guid() {
   });
 }
 
-export const isLikeObject = (obj) => {
-  return isObject(obj) || Array.isArray(obj);
-};
-
-export const isObject = (obj) =>
-  Object.prototype.toString.call(obj) === "[object Object]";
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * isObject({})
+ * // => true
+ *
+ * isObject([1, 2, 3])
+ * // => true
+ *
+ * isObject(Function)
+ * // => true
+ *
+ * isObject(null)
+ * // => false
+ */
+export function isObject(value) {
+  const type = typeof value;
+  return value != null && (type === "object" || type === "function");
+}
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * isObjectLike({})
+ * // => true
+ *
+ * isObjectLike([1, 2, 3])
+ * // => true
+ *
+ * isObjectLike(Function)
+ * // => false
+ *
+ * isObjectLike(null)
+ * // => false
+ */
+export function isObjectLike(value) {
+  return typeof value === "object" && value !== null;
+}
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function getTag(value) {
+  if (value == null) {
+    return value === undefined ? "[object Undefined]" : "[object Null]";
+  }
+  return Object.prototype.toString.call(value);
+}
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1
+ * }
+ *
+ * isPlainObject(new Foo)
+ * // => false
+ *
+ * isPlainObject([1, 2, 3])
+ * // => false
+ *
+ * isPlainObject({ 'x': 0, 'y': 0 })
+ * // => true
+ *
+ * isPlainObject(Object.create(null))
+ * // => true
+ */
+export function isPlainObject(value) {
+  if (!isObjectLike(value) || getTag(value) != "[object Object]") {
+    return false;
+  }
+  if (Object.getPrototypeOf(value) === null) {
+    return true;
+  }
+  let proto = value;
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+  return Object.getPrototypeOf(value) === proto;
+}
 
 function ext(target, source) {
-  if (isLikeObject(source) && isLikeObject(target)) {
+  if (isObject(source) && isObject(target)) {
     for (let key in source) {
       let item = source[key];
 
-      if (isLikeObject(item)) {
-        if (isObject(item) && !isObject(target[key])) {
+      if (isObject(item)) {
+        if (isPlainObject(item) && !isPlainObject(target[key])) {
           target[key] = {};
         } else if (Array.isArray(item) && !Array.isArray(target[key])) {
           target[key] = [];
@@ -36,7 +134,7 @@ function ext(target, source) {
 }
 
 export function cloneDeep(obj) {
-  if (!isLikeObject(obj)) return obj;
+  if (!isObject(obj)) return obj;
 
   let result;
 
@@ -51,6 +149,7 @@ export function cloneDeep(obj) {
 
   return ext({}, obj);
 }
+
 // define([], function() {
 //   /**
 //    * 版本号比较
@@ -207,59 +306,12 @@ export function cloneDeep(obj) {
 //     return result
 //   }
 
-//   function ext(target, source) {
-//     if (isObject(source) && isObject(target)) {
-//       for (let key in source) {
-//         let item = source[key]
-
-//         if (isObject(item)) {
-//           if (isPlainObject(item) && !isPlainObject(target[key])) {
-//             target[key] = {}
-//           } else if (Array.isArray(item) && !Array.isArray(target[key])) {
-//             target[key] = []
-//           }
-
-//           ext(target[key], item)
-//         } else {
-//           target[key] = item
-//         }
-//       }
-//     }
-
-//     return target
-//   }
-
 //   function extend(target, ...source) {
 //     source.forEach(item => {
 //       ext(target, item)
 //     })
 
 //     return target
-//   }
-
-//   function guid() {
-//     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-//       var r = (Math.random() * 16) | 0,
-//         v = c == 'x' ? r : (r & 0x3) | 0x8
-//       return v.toString(16)
-//     })
-//   }
-
-//   function cloneDeep(obj) {
-//     if (!isObject(obj)) return obj
-
-//     let result
-
-//     if (Array.isArray(obj)) {
-//       result = []
-
-//       obj.forEach(item => {
-//         result.push(cloneDeep(item))
-//       })
-//       return result
-//     }
-
-//     return ext({}, obj)
 //   }
 
 //   function deleteKey(obj, arr) {

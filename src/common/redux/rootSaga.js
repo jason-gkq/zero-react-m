@@ -10,10 +10,11 @@ import axios from "axios";
 import platform from "platform";
 import packageJson from "../../../package.json";
 
-import cookieStorage from "../cache/cookieStorage";
 import staticActions from "./rootAction";
-import { guid } from "../utils/util";
 import { getEnv } from "./rootSelector";
+
+import { cookieStorage } from "../cache";
+import { guid } from "../utils";
 
 const initEnv = function* () {
   const env = yield select(getEnv);

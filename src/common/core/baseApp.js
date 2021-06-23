@@ -15,7 +15,7 @@ import {
 import { Provider } from "react-redux";
 
 import { createModel, store } from "../redux";
-import { setAxiosBase } from "../net/defaultAxios";
+import { setAxiosBase } from "../net";
 
 import "../style/index.less";
 
