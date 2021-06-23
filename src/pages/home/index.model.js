@@ -1,4 +1,4 @@
-import createModel from "@src/common/core/createModel";
+import { createModel } from "@src/common/redux";
 
 export default createModel({
   name: "Home",

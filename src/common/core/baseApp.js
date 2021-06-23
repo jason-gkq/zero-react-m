@@ -13,13 +13,13 @@ import {
   Redirect,
 } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "@redux/configureStore";
-import { setAxiosBase } from "@common/net/defaultAxios";
 
-import "@common/style/index.less";
+import { createModel, store } from "../redux";
+import { setAxiosBase } from "../net/defaultAxios";
+
+import "../style/index.less";
 
 // import "antd-mobile/dist/antd-mobile.css"; // or 'antd-mobile/dist/antd-mobile.less'
-import createModel from "./createModel";
 
 const homepage = "/" + store.getState().env.module;
 

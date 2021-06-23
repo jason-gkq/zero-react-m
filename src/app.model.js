@@ -22,7 +22,6 @@ const model = {
       },
     ],
   },
-  // reducer
   reducers: {
     setLanguage: (state, action) => {
       const { language } = action.payload || {};
@@ -40,7 +39,6 @@ const model = {
       }
     },
   },
-  // saga
   sagas: {},
 };
 

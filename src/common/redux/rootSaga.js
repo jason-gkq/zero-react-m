@@ -7,12 +7,12 @@ import {
   takeEvery,
 } from "redux-saga/effects";
 import axios from "axios";
-import packageJson from "../../../package.json";
 import platform from "platform";
+import packageJson from "../../../package.json";
 
-import cookieStorage from "@common/cache/cookieStorage";
+import cookieStorage from "../cache/cookieStorage";
 import staticActions from "./rootAction";
-import { guid } from "@common/utils/util";
+import { guid } from "../utils/util";
 import { getEnv } from "./rootSelector";
 
 const initEnv = function* () {

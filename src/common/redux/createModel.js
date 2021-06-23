@@ -1,15 +1,13 @@
 import { createActions, handleActions } from "redux-actions";
+import { takeEvery, takeLatest } from "redux-saga/effects";
+import { createSelector } from "reselect";
+
 import {
   injectAsyncReducer,
   removeAsyncReducer,
   sagaMiddleware,
   // store,
-} from "@redux/configureStore";
-import { takeEvery, takeLatest } from "redux-saga/effects";
-
-import { createSelector } from "reselect";
-// import { persistReducer } from "redux-persist";
-// import storage from "redux-persist/lib/storage";
+} from "./configureStore";
 
 export const isObject = (obj) =>
   Object.prototype.toString.call(obj) === "[object Object]";
