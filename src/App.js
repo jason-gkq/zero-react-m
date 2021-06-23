@@ -1,5 +1,6 @@
 import React from "react";
-import "./app.css";
+// import "./app.css";
+import "./app.less";
 import { BaseApp } from "@common/core";
 import model from "./app.model";
 

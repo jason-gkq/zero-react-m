@@ -1,3 +1,12 @@
+/**
+ * http://axios-js.com/zh-cn/docs/index.html
+ * https://www.kancloud.cn/yunye/axios/234845#handling-errors
+ * https://github.com/axios/axios#axios-api
+ *
+ * https://blog.csdn.net/Gomeer/article/details/89030650
+ * https://segmentfault.com/a/1190000016457844
+ * https://blog.csdn.net/qiushisoftware/article/details/80158593
+ */
 import axios, { Cancel } from "axios";
 import { guid, cloneDeep } from "@common/utils/util";
 import cookieStorage from "../cache/cookieStorage";

@@ -18,6 +18,8 @@ import { store } from "@redux/store";
 import packageJson from "../../../package.json";
 import { setAxiosBase } from "@common/net/defaultAxios";
 
+import "@common/style/index.less";
+
 // import "antd-mobile/dist/antd-mobile.css"; // or 'antd-mobile/dist/antd-mobile.less'
 import createModel from "./createModel";
 const systemInfo = { packageJson, processEnv: process.env };
