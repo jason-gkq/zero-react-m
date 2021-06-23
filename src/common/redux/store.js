@@ -24,7 +24,7 @@ const persistConfig = {
   storage,
   throttle: 1000,
   timeout: 8000,
-  whitelist: ["system", "application", "app"],
+  whitelist: [],
 };
 
 function createReducer(asyncReducers) {

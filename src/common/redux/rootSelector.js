@@ -1,3 +1,5 @@
 import { createSelector } from "reselect";
 
-export const getApplication = (state) => state.application || {};
+export const getEnv = (state) => state.env || {};
+
+export const getSystem = (state) => state.system || {};

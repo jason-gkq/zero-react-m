@@ -4,6 +4,12 @@ import staticActions from "./rootAction";
 
 const system = handleActions(
   {
+    /**
+     *
+     * @param {*} state
+     * @param {*} param1
+     * @returns
+     */
     [staticActions.system.setSystem](state, { payload }) {
       return {
         ...state,
@@ -14,7 +20,7 @@ const system = handleActions(
   {}
 );
 
-const application = handleActions(
+const env = handleActions(
   {
     /**
      * 初始化信息：
@@ -23,9 +29,9 @@ const application = handleActions(
      * sessionId
      * onLunchTime
      * env
+     *
+     *
      * platformType
-     *
-     *
      * onLunchOptions
      * onShowOptions
      * appCode
@@ -36,7 +42,7 @@ const application = handleActions(
      * groupType
      * token
      */
-    [staticActions.application.setApplication](state, { payload }) {
+    [staticActions.env.setEnv](state, { payload }) {
       return {
         ...state,
         ...payload,
@@ -47,5 +53,5 @@ const application = handleActions(
 );
 export default {
   system,
-  application,
+  env,
 };

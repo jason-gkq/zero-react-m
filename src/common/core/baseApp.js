@@ -22,7 +22,6 @@ import "@common/style/index.less";
 
 // import "antd-mobile/dist/antd-mobile.css"; // or 'antd-mobile/dist/antd-mobile.less'
 import createModel from "./createModel";
-const systemInfo = { packageJson, processEnv: process.env };
 
 const homepage =
   packageJson.homepage && packageJson.homepage.slice(0, -1)
@@ -33,7 +32,13 @@ const AppPage = lazy(
   async () =>
     await import(/* webpackChunkName: 'app' */ "@src/pages/home/index")
 );
-
+window.addEventListener("resize", function () {
+  // if(window.innerWidth <= 800) {
+  //     div.style.display = 'none';
+  // } else {
+  //     div.style.display = 'block';
+  // }
+});
 export default (appModel) => (WrappedComponent) => {
   const model = createModel(appModel);
   Object.assign(store.globalActions, model.action);
@@ -42,8 +47,8 @@ export default (appModel) => (WrappedComponent) => {
   class AppComponent extends WrappedComponent {
     constructor(props) {
       super(props);
-      store.dispatch(store.globalActions.application.initApplication());
-      store.dispatch(store.globalActions.system.setSystem(systemInfo));
+      store.dispatch(store.globalActions.env.initEnv());
+      store.dispatch(store.globalActions.system.initSystem());
     }
 
     componentDidMount() {
