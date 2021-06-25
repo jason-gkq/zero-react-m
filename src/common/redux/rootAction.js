@@ -11,6 +11,7 @@ const staticActions = {
   },
   ROUTE: {
     SET_ROUTE: void 0,
+    CURRENT_PAGE: void 0,
   },
   NAVIGATE: {
     /**

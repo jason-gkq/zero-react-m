@@ -60,6 +60,12 @@ const route = handleActions(
         ...payload,
       };
     },
+    [staticActions.route.currentPage](state, { payload }) {
+      return {
+        ...state,
+        currentPage: { ...payload },
+      };
+    },
   },
   {}
 );

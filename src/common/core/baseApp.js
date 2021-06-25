@@ -4,7 +4,7 @@
  * 3. 初始化语言包
  * 4. 定义项目入口 sdfsd
  */
-import React, { lazy, Suspense } from "react";
+import React, { lazy } from "react";
 import {
   BrowserRouter,
   HashRouter,
@@ -17,14 +17,16 @@ import { Provider } from "react-redux";
 import { createModel, store } from "../redux";
 import { setAxiosBase } from "../net";
 
+import { Layout } from "../components";
 import "../style/index.less";
 
-const homepage = "/" + store.getState().env.module;
+const homepage = process.env.publicUrlOrPath.slice(0, -1);
 
 const AppPage = lazy(
   async () =>
-    await import(/* webpackChunkName: 'app' */ "@src/pages/home/index")
+    await import(/* webpackChunkName: 'home' */ "@src/pages/home/index")
 );
+
 window.addEventListener("resize", function () {
   // if(window.innerWidth <= 800) {
   //     div.style.display = 'none';
@@ -59,13 +61,12 @@ export default (appModel) => (WrappedComponent) => {
       return (
         <Provider store={store}>
           <BrowserRouter>
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* {super.render()} */}
+            <Layout>
               <Switch>
                 <Route path={homepage} component={AppPage} />
                 <Redirect to={homepage} />
               </Switch>
-            </Suspense>
+            </Layout>
           </BrowserRouter>
         </Provider>
       );

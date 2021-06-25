@@ -1,17 +1,36 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as styles from "./index.less";
 import { BasePage } from "@common/core";
 import model from "./index.model";
-import Connect from "@common/redux";
-import Header from "@common/components/header";
-import { store } from "@common/redux/configureStore";
+// import Connect from "@common/redux";
+// import { store } from "@common/redux/configureStore";
 @BasePage(model)
-class Home extends PureComponent {
+class Home extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  static getConfig() {
+    return {
+      pageId: "10011",
+      name: "AppCardData",
+      barSettings: {
+        title: { text: "修改名片" },
+        leftItems: [{ type: 1 }],
+        rightItems: [
+          {
+            text: "保存",
+            onPress: "$saveMessage",
+          },
+        ],
+      },
+    };
+  }
+
   render() {
     return (
       <div>
-        <Header />
         {/* <PageContent/> */}
         <div className={styles.testContainer}>
           <div onClick={this.props.addVoucher} className={styles.containerDiv}>
@@ -37,8 +56,7 @@ export default connect(
   (dispatch) => {
     return {
       addVoucher() {
-        console.log(Home);
-        store.dispatch(store.globalActions.test());
+        // store.dispatch(store.globalActions.test());
         dispatch(model.action.changeName("dsfds"));
       },
     };

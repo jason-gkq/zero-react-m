@@ -65,11 +65,11 @@ export function removeAsyncReducer(name) {
 store.globalActions = staticActions;
 
 store.subscribe(function (...data) {
-  console.log(
-    "store_0 has been updated. Latest store state:",
-    data,
-    store.getState()
-  );
+  // console.log(
+  //   "store_0 has been updated. Latest store state:",
+  //   data,
+  //   store.getState()
+  // );
   // 在这里更新你的视图
 });
 
