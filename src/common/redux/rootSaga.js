@@ -16,6 +16,8 @@ import { getEnv } from "./rootSelector";
 import { cookieStorage } from "../cache";
 import { guid } from "../utils";
 
+import { navigate } from "../navigate";
+
 const initEnv = function* () {
   const env = yield select(getEnv);
   let clientId = cookieStorage.getItem("__clientId");
@@ -148,13 +150,22 @@ const initSystem = function* () {
 };
 
 // navigate
-const goto = function* () {};
+const goTo = function* ({ payload: { url, params = {}, options = {} } }) {
+  navigate.goTo({ url, params, options });
+  return;
+};
 
-const goback = function* () {};
+const goBack = function* ({ payload: { delta, url = "" } = {} }) {
+  navigate.goBack({ delta, url });
+  return;
+};
 
-const redirect = function* () {};
+const redirect = function* ({ payload: { url, params = {}, options = {} } }) {
+  navigate.redirect({ url, params, options });
+  return;
+};
 
-const reLaunch = function* () {};
+const reLaunch = function* ({ payload: { url, params = {}, options = {} } }) {};
 
 const test = function* ({ payload }) {
   axios
@@ -184,8 +195,8 @@ export default function* staticSagas() {
   /**
    * 路由
    */
-  yield takeLatest(staticActions.navigate.goto, goto);
-  yield takeLatest(staticActions.navigate.goback, goback);
+  yield takeLatest(staticActions.navigate.goto, goTo);
+  yield takeLatest(staticActions.navigate.goback, goBack);
   yield takeLatest(staticActions.navigate.redirect, redirect);
   yield takeLatest(staticActions.navigate.reLaunch, reLaunch);
 

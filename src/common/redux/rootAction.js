@@ -14,28 +14,11 @@ const staticActions = {
     CURRENT_PAGE: void 0,
   },
   NAVIGATE: {
-    /**
-     * @param {string} pageName
-     * @param {object} params
-     * @param {object} options {@link /Consts/constants.js} 参照constants.js文件
-     */
-    GOTO: (pageName, params = {}, options = {}) => ({
-      pageName,
-      params,
-      options,
-    }),
-    // 对待不友好的, 一定要
-    GOBACK: (pageName) => ({
-      pageName,
-    }),
-    RE_LAUNCH: () => ({}),
-    REDIRECT: () => ({}),
-    REPLACE: (pageName, params = {}, options = {}, replacePage = null) => ({
-      replacePage,
-      pageName,
-      params,
-      options,
-    }),
+    GOTO: void 0,
+    GOBACK: void 0,
+    RE_LAUNCH: void 0,
+    REDIRECT: void 0,
+    REPLACE: void 0,
   },
   SHARE: void 0,
   TEST: void 0,

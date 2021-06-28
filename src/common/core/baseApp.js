@@ -7,6 +7,7 @@
 import React, { lazy } from "react";
 import {
   BrowserRouter,
+  Router,
   HashRouter,
   Switch,
   Route,
@@ -15,16 +16,26 @@ import {
 import { Provider } from "react-redux";
 
 import { createModel, store } from "../redux";
+import { history } from "../navigate";
 import { setAxiosBase } from "../net";
 
 import { Layout } from "../components";
 import "../style/index.less";
 
-const homepage = process.env.publicUrlOrPath.slice(0, -1);
+// const homepage = process.env.publicUrlOrPath.slice(0, -1);
 
-const AppPage = lazy(
+const Home = lazy(
   async () =>
     await import(/* webpackChunkName: 'home' */ "@src/pages/home/index")
+);
+const Home2 = lazy(
+  async () =>
+    await import(/* webpackChunkName: 'home2' */ "@src/pages/home2/index")
+);
+
+const Home3 = lazy(
+  async () =>
+    await import(/* webpackChunkName: 'home3' */ "@src/pages/home3/index")
 );
 
 window.addEventListener("resize", function () {
@@ -60,14 +71,25 @@ export default (appModel) => (WrappedComponent) => {
     render() {
       return (
         <Provider store={store}>
-          <BrowserRouter>
-            <Layout>
+          {/* <BrowserRouter basename="/calendar">
+                <Link to="/today"/> // renders <a href="/calendar/today">
+                <Link to="/tomorrow"/> // renders <a href="/calendar/tomorrow">
+                ...
+            </BrowserRouter> */}
+          <Layout>
+            {/* <BrowserRouter basename='/lcbtest'> */}
+            <Router history={history}>
               <Switch>
-                <Route path={homepage} component={AppPage} />
-                <Redirect to={homepage} />
+                <Route path='/lcbtest/home' component={Home} />
+                <Route path='/lcbtest/home2' component={Home2} />
+                <Route path='/lcbtest/home3' component={Home3} />
+                <Route>
+                  <Home />
+                </Route>
               </Switch>
-            </Layout>
-          </BrowserRouter>
+            </Router>
+            {/* </BrowserRouter> */}
+          </Layout>
         </Provider>
       );
     }

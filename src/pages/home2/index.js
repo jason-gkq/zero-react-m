@@ -5,17 +5,17 @@ import { BasePage } from "@common/core";
 import model from "./index.model";
 
 import { globalActions } from "@common/redux";
+
 @BasePage(model)
 class Home extends Component {
   constructor(props) {
     super(props);
-    console.log("home-props", props);
   }
 
   static getConfig() {
     return {
       pageId: "10011",
-      name: "home",
+      name: "home2",
       barSettings: {
         title: { text: "修改名片" },
         leftItems: [{ type: 1 }],
@@ -35,10 +35,10 @@ class Home extends Component {
         {/* <PageContent/> */}
         <div className={styles.testContainer}>
           <div onClick={this.props.addVoucher} className={styles.containerDiv}>
-            我是一个home
+            我是一个home2
           </div>
           <div onClick={this.props.goTo} className={styles.containerDiv}>
-            我是一个很多字div{" "}
+            我是asdfasdfdiv{" "}
           </div>
           <div className={styles.containerDiv}>我是一个更多字而且第三个div</div>
         </div>
@@ -49,17 +49,18 @@ class Home extends Component {
 // export default Connect(Home);
 
 export default connect(
-  (state) => {
+  (state, ownProps) => {
+    console.log("home2-ownProps", ownProps);
     return state;
   },
   (dispatch) => {
     return {
       addVoucher() {
         // store.dispatch(store.globalActions.test());
-        dispatch(model.action.changeName("dsfds"));
+        dispatch(model.actions.addVer("dsfds"));
       },
       goTo() {
-        dispatch(globalActions.navigate.goto({ url: "/home2" }));
+        dispatch(globalActions.navigate.goto({ url: "/home3?a=1&b=3" }));
       },
     };
   }
