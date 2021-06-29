@@ -10,12 +10,13 @@ import { globalActions } from "@common/redux";
 class Home extends Component {
   constructor(props) {
     super(props);
+    // console.log("home3-props", props);
   }
 
   static getConfig() {
     return {
       pageId: "10011",
-      name: "home2",
+      name: "home3",
       barSettings: {
         title: { text: "修改名片" },
         leftItems: [{ type: 1 }],
@@ -35,10 +36,10 @@ class Home extends Component {
         {/* <PageContent/> */}
         <div className={styles.testContainer}>
           <div onClick={this.props.addVoucher} className={styles.containerDiv}>
-            我是一个home2
+            我是一个home3
           </div>
           <div onClick={this.props.goTo} className={styles.containerDiv}>
-            我是asdfasdfdiv{" "}
+            我是一个很多字div{" "}
           </div>
           <div className={styles.containerDiv}>我是一个更多字而且第三个div</div>
         </div>
@@ -46,21 +47,18 @@ class Home extends Component {
     );
   }
 }
-// export default Connect(Home);
 
 export default connect(
-  (state, ownProps) => {
-    console.log("home2-ownProps", ownProps);
+  (state) => {
     return state;
   },
   (dispatch) => {
     return {
       addVoucher() {
-        // store.dispatch(store.globalActions.test());
-        dispatch(model.actions.addVer("dsfds"));
+        dispatch(model.action.changeName("dsfds"));
       },
       goTo() {
-        dispatch(globalActions.navigate.goto({ url: "/home3?a=1&b=3" }));
+        dispatch(globalActions.navigate.goto({ url: "/home/home1" }));
       },
     };
   }

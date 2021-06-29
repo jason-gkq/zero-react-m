@@ -8,15 +8,7 @@
       "@assets/*": ["public/assets/*"],
       "@src/*": ["src/*"],
       "@common": ["src/common"],
-      "@common/*": ["src/common/*"],
-      "@components": ["src/common/components"],
-      "@components/*": ["src/common/components/*"],
-      "@utils": ["src/common/utils"],
-      "@utils/*": ["src/common/utils/*"],
-      "@redux": ["src/common/redux"],
-      "@redux/*": ["src/common/redux/*"],
-      "@menus/*": ["src/common/menus/*"],
-      "@locales/*": ["src/common/locales/*"]
+      "@common/*": ["src/common/*"]
     }
   },
   "exclude": ["node_modules", "dist", "dest"]

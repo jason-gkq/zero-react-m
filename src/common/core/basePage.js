@@ -8,8 +8,21 @@ export default (model) => (WrappedComponent) => {
       super(props);
       this.dispatch = props.dispatch;
       this._config = WrappedComponent.getConfig() || {};
+      // console.log(WrappedComponent.prototype);
+      // super.componentWillReceiveProps = (nextProps) => {
+      //   console.log("nextProps,,,,,", nextProps);
+      // };
     }
-
+    // componentWillReceiveProps(nextProps) {
+    //   // if (nextProps.location !== this.props.location) {
+    //   //   // navigated!
+    //   // }
+    //   console.log(nextProps);
+    // }
+    // static getDerivedStateFromProps(nextProps) {
+    //   console.log("-----", nextProps);
+    //   return true;
+    // }
     async componentDidMount() {
       this.dispatch(
         globalActions.route.currentPage({

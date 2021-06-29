@@ -9,7 +9,7 @@ import { globalActions } from "@common/redux";
 class Home extends Component {
   constructor(props) {
     super(props);
-    console.log("home-props", props);
+    // console.log("home-props", props);
   }
 
   static getConfig() {
@@ -59,7 +59,7 @@ export default connect(
         dispatch(model.action.changeName("dsfds"));
       },
       goTo() {
-        dispatch(globalActions.navigate.goto({ url: "/home2" }));
+        dispatch(globalActions.navigate.goto({ url: "/home/home2" }));
       },
     };
   }

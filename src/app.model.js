@@ -6,8 +6,6 @@ const model = {
   name: "app",
   // 初始state状态
   state: {
-    isNeedPermission: false /** 是否需要菜单-路由权限控制，根据页面路由判断是否具有权限；优先取页面路由中配置，若无配置，则取全局app中配置 */,
-    isNeedLogin: false /** 是否需要所有页面强制登录；优先取页面路由中配置，若无配置，则取全局app中配置 */,
     language: localStorage.getItem("language") || "zh-CN",
     languages: [
       {

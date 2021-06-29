@@ -22,7 +22,7 @@ class ContentErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return <div>页面渲染出错</div>;
+      return <div className='content'>页面渲染出错</div>;
     }
     return this.props.children;
   }

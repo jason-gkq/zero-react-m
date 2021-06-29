@@ -8,7 +8,6 @@ import {
 } from "redux-saga/effects";
 import axios from "axios";
 import platform from "platform";
-import packageJson from "../../../package.json";
 
 import staticActions from "./rootAction";
 import { getEnv } from "./rootSelector";
@@ -29,22 +28,17 @@ const initEnv = function* () {
   const sessionId = parentSessionId;
   const onLunchTime = Date.now();
 
-  Object.assign(env, {
-    parentSessionId,
-    sessionId,
-    onLunchTime,
-    __clientId: clientId,
-    env: process.env.ENV,
-    platformType: process.env.application,
-    module: process.env.publicUrlOrPath
-      .slice(1)
-      .slice(-process.env.publicUrlOrPath.length, -1),
-    serviceUrl: process.env.SERVICE_URL,
-    cdnUrl: process.env.CDN_URL,
-    appCode: process.env.APP_CODE,
-    isNeedPermission: false /** 是否需要菜单-路由权限控制，根据页面路由判断是否具有权限；优先取页面路由中配置，若无配置，则取全局app中配置 */,
-    isNeedLogin: false /** 是否需要所有页面强制登录；优先取页面路由中配置，若无配置，则取全局app中配置  */,
-  });
+  Object.assign(
+    env,
+    {
+      parentSessionId,
+      sessionId,
+      onLunchTime,
+      __clientId: clientId,
+      platformType: process.env.application,
+    },
+    process.env.productConfig
+  );
 
   yield put(staticActions.env.setEnv({ ...env }));
 };
@@ -65,7 +59,7 @@ const initSystem = function* () {
   } = window;
   const platformInfo = platform.parse(navigatorInfo.userAgent);
   let system = {
-    author: packageJson.author,
+    author: processEnv.author,
     platform: platformInfo.name,
     winWidth: innerWidth || documentInfo.body.clientWidth,
     winHeight: innerHeight || screenInfo.availHeight,
@@ -88,7 +82,6 @@ const initSystem = function* () {
       projectMain: processEnv.npm_package_main,
       projectType: processEnv.npm_package_type,
       publicUrlOrPath: processEnv.publicUrlOrPath,
-      homepage: processEnv.npm_package_homepage,
     },
     /**
      * 项目启动时location信息
@@ -165,7 +158,10 @@ const redirect = function* ({ payload: { url, params = {}, options = {} } }) {
   return;
 };
 
-const reLaunch = function* ({ payload: { url, params = {}, options = {} } }) {};
+const reLaunch = function* ({ payload: { url, params = {}, options = {} } }) {
+  navigate.redirect({ url, params, options });
+  return;
+};
 
 const test = function* ({ payload }) {
   axios

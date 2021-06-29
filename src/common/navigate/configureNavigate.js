@@ -1,23 +1,16 @@
 import { createBrowserHistory } from "history";
-import { cookieStorage, localStorage } from "../cache";
+// import { cookieStorage, localStorage } from "../cache";
 
 /**
  * 暂不放入缓存
  */
 // let navigateHistory = []; //localStorage.get("navigateHistory") || [];
 
-// history
-// componentWillReceiveProps(nextProps) {
-//   if (nextProps.location !== this.props.location) {
-//     // navigated!
-//   }
-// }
-
 class configureNavigate {
   constructor() {
     this.history = createBrowserHistory();
     this.maxHistoryLength = history.length;
-    this.rootModelName = "lcbtest";
+    this.rootModelName = process.env.productConfig.appName;
     this.initHistory(this.history.location);
   }
 
