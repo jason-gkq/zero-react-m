@@ -35,7 +35,7 @@ class Home extends Component {
         {/* <PageContent/> */}
         <div className={styles.testContainer}>
           <div onClick={this.props.addVoucher} className={styles.containerDiv}>
-            我是一个home
+            我是一个homedfdfsdsd
           </div>
           <div onClick={this.props.goTo} className={styles.containerDiv}>
             我是一个很多字div{" "}
@@ -55,7 +55,6 @@ export default connect(
   (dispatch) => {
     return {
       addVoucher() {
-        // store.dispatch(store.globalActions.test());
         dispatch(model.action.changeName("dsfds"));
       },
       goTo() {

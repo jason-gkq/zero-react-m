@@ -6,7 +6,7 @@ import {
   injectAsyncReducer,
   removeAsyncReducer,
   sagaMiddleware,
-  // store,
+  globalActions,
 } from "./configureStore";
 
 export const isObject = (obj) =>
@@ -115,11 +115,13 @@ const createSagaFromMap = (map, actions, selectors) => {
         yield takeEvery(item[0], item[1], {
           $action: actions,
           $selector: selectors,
+          $globalAction: globalActions,
         });
       } else {
         yield takeLatest(item[0], item[1], {
           $action: actions,
           $selector: selectors,
+          $globalAction: globalActions,
         });
       }
     }
@@ -145,7 +147,7 @@ export default function createDucks({
   name,
   state = {},
   initialize = false,
-  cache = true,
+  cache = false,
   actions: actionMap = {},
   reducers: reducerMap = {},
   sagas: sagaMap = {},

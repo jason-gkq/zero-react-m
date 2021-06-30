@@ -1,8 +1,8 @@
-import attachModel from "./attachModel";
+import RegisterModel from "./registerModel";
 import { globalActions } from "../redux";
 
 export default (model) => (WrappedComponent) => {
-  @attachModel(model)
+  @RegisterModel(model)
   class PageComponent extends WrappedComponent {
     constructor(props) {
       super(props);

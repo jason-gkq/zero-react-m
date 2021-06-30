@@ -62,7 +62,11 @@ export function removeAsyncReducer(name) {
   store.replaceReducer(createReducer(asyncReducers));
 }
 
-store.globalActions = staticActions;
+let globalActions = staticActions;
+
+export function injectGlobalActions(actions) {
+  Object.assign(globalActions, actions);
+}
 
 store.subscribe(function (...data) {
   // console.log(
@@ -73,4 +77,4 @@ store.subscribe(function (...data) {
   // 在这里更新你的视图
 });
 
-export { store, sagaMiddleware, batchActions };
+export { store, sagaMiddleware, globalActions, batchActions };

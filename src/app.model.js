@@ -1,7 +1,7 @@
 import usaImg from "@assets/img/usa.svg";
 import chinaImg from "@assets/img/china.svg";
-
-const model = {
+import { createModel } from "@src/common/redux";
+const model = createModel({
   // model名称，view层用于提取state的key，需要保证唯一
   name: "app",
   // 初始state状态
@@ -38,6 +38,6 @@ const model = {
     },
   },
   sagas: {},
-};
+});
 
 export default model;

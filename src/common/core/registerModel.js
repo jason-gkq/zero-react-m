@@ -1,11 +1,9 @@
-import React, { PureComponent } from "react";
-// import Config from './PageConfig';
+import React from "react";
 import { connect } from "react-redux";
-// import { action as globalAction } from '../Redux';
 
-export default (model) => (Component) => {
+export default (model) => (WrappedComponent) => {
   // 实例级别model的情况
-  class TargetComponent extends Component {
+  class TargetComponent extends WrappedComponent {
     constructor(props) {
       super(props);
 
@@ -62,13 +60,11 @@ export default (model) => (Component) => {
 
   if (!model) {
     console.log("attatchModel/没有model");
-    return connect()(TargetComponent);
+    return connect((state) => state)(TargetComponent);
   }
 
-  @connect((state) => ({
-    // $pageStatus: model.selector.getState(state).pageStatus,
-  }))
-  class ComponentWithModel extends PureComponent {
+  @connect((state) => state)
+  class ComponentWithModel extends React.Component {
     constructor(props) {
       super(props);
       model.runSaga();
@@ -104,6 +100,7 @@ export default (model) => (Component) => {
           })
         );
       } else {
+        model.cancelSaga();
         // if (!Object.values(Config.routes).includes(pageId)) {
         // 	model.cancelSaga();
         // }

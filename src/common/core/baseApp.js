@@ -4,41 +4,26 @@
  * 3. 初始化语言包
  * 4. 定义项目入口 sdfsd
  */
-import React, { lazy } from "react";
-import {
-  // BrowserRouter,
-  Router,
-  // HashRouter,
-  Switch,
-  // Route,
-  // Redirect,
-} from "react-router-dom";
+import React from "react";
+import { Router, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import { createModel, store } from "../redux";
-import { history, generateRoute } from "../navigate";
-import { setAxiosBase } from "../net";
-
 import { Layout } from "../components";
-import "../style/index.less";
+import RegisterApp from "./registerApp";
 
-window.addEventListener("resize", function () {
-  // if(window.innerWidth <= 800) {
-  //     div.style.display = 'none';
-  // } else {
-  //     div.style.display = 'block';
-  // }
-});
 export default (appModel) => (WrappedComponent) => {
-  const model = createModel(appModel);
-  Object.assign(store.globalActions, model.action);
-  setAxiosBase();
-  // 设置axios拦截器
+  @RegisterApp(appModel)
   class AppComponent extends WrappedComponent {
     constructor(props) {
       super(props);
-      store.dispatch(store.globalActions.env.initEnv());
-      store.dispatch(store.globalActions.system.initSystem());
+      this.onLunch = this.onLunch.bind(this);
+      this.onLunch();
+    }
+
+    onLunch() {
+      if (super.onLunch) {
+        super.onLunch(this.props.$onLunchPayload);
+      }
     }
 
     componentDidMount() {
@@ -52,14 +37,14 @@ export default (appModel) => (WrappedComponent) => {
         super.componentWillUnmount();
       }
     }
+
     render() {
-      const routes = generateRoute();
       return (
-        <Provider store={store}>
+        <Provider store={this.props.$store}>
           <Layout>
             {/* <BrowserRouter basename='/lcbtest'> */}
-            <Router history={history}>
-              <Switch>{routes}</Switch>
+            <Router history={this.props.$history}>
+              <Switch>{this.props.$routes}</Switch>
             </Router>
             {/* </BrowserRouter> */}
           </Layout>

@@ -12,6 +12,9 @@ class configureNavigate {
     this.maxHistoryLength = history.length;
     this.rootModelName = process.env.productConfig.appName;
     this.initHistory(this.history.location);
+    // this.history.listen((location) => {
+    //   console.log("location....>>>", data);
+    // });
   }
 
   initHistory(location) {
