@@ -1,14 +1,14 @@
-import RegisterModel from "./registerModel";
+import RegisterPage from "./registerPage";
 import { globalActions } from "../redux";
 
-export default (model) => (WrappedComponent) => {
-  @RegisterModel(model)
-  class PageComponent extends WrappedComponent {
+export default (pageModel) => (WrappedComponent) => {
+  @RegisterPage(pageModel)
+  class BasePageComponent extends WrappedComponent {
     constructor(props) {
       super(props);
       this.dispatch = props.dispatch;
       this._config = WrappedComponent.getConfig() || {};
-      // console.log(WrappedComponent.prototype);
+      console.log(WrappedComponent.prototype, "BasePageComponent", props);
       // super.componentWillReceiveProps = (nextProps) => {
       //   console.log("nextProps,,,,,", nextProps);
       // };
@@ -23,7 +23,7 @@ export default (model) => (WrappedComponent) => {
     //   console.log("-----", nextProps);
     //   return true;
     // }
-    async componentDidMount() {
+    componentDidMount() {
       this.dispatch(
         globalActions.route.currentPage({
           pageId: this._config.pageId,
@@ -38,5 +38,5 @@ export default (model) => (WrappedComponent) => {
       return super.render();
     }
   }
-  return PageComponent;
+  return BasePageComponent;
 };

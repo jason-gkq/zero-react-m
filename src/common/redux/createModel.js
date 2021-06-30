@@ -189,7 +189,7 @@ export default function createDucks({
       this._sagaTask.cancel();
       this._sagaTask = null;
       // if (__DEV__) {
-      // 	console.log(`saga of ${name} has been canceled`);
+      console.log(`saga of ${name} has been canceled`);
       // }
     },
   };

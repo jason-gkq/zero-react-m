@@ -4,14 +4,14 @@ import { setAxiosBase } from "../net";
 import { history, generateRoute } from "../navigate";
 import "../style/index.less";
 
-export default (model) => (WrappedComponent) => {
+export default (appModel) => (WrappedComponent) => {
   class RegisterAppComponent extends React.Component {
     constructor(props) {
       super(props);
       /**
        * 合并app中的action进入全局action
        */
-      injectGlobalActions(model.action);
+      injectGlobalActions(appModel.action);
       /**
        * 初始化项目环境变量
        */
@@ -44,10 +44,10 @@ export default (model) => (WrappedComponent) => {
       /**
        * 运行app中 saga
        */
-      if (model.initialize) {
-        store.dispatch(model.actions.initState());
+      if (appModel.initialize) {
+        store.dispatch(appModel.actions.initState());
       }
-      model.runSaga();
+      appModel.runSaga();
     }
 
     componentDidMount() {
@@ -63,26 +63,24 @@ export default (model) => (WrappedComponent) => {
       });
       // 使用setTimeout解决跳转页面短暂空白问题
       setTimeout(() => {
-        if (model.actions.didMount) {
-          store.dispatch(model.actions.didMount(this.state.$onLunchPayload));
+        if (appModel.actions.didMount) {
+          store.dispatch(appModel.actions.didMount(this.state.$onLunchPayload));
         }
       }, 0);
     }
 
     componentWillUnmount() {
       // window.removeEventListener("resize");
-      if (model.actions.willUnmount) {
+      if (appModel.actions.willUnmount) {
         store.dispatch(
-          model.actions.willUnmount({
+          appModel.actions.willUnmount({
             done: () => {
-              if (!Object.values(Config.routes).includes(pageId)) {
-                model.cancelSaga();
-              }
+              appModel.cancelSaga();
             },
           })
         );
       } else {
-        model.cancelSaga();
+        appModel.cancelSaga();
       }
     }
     render() {
@@ -90,7 +88,7 @@ export default (model) => (WrappedComponent) => {
         <WrappedComponent
           {...this.state}
           $store={store}
-          $model={model}
+          $model={appModel}
           $history={history}
         />
       );
