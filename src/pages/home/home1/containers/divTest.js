@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import DivTest from "../components/divTest";
+import DivTest from "../components/DivTest";
 
 export default connect(
   (state, { $model }) => {
