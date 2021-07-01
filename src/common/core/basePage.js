@@ -6,25 +6,11 @@ export default (pageModel) => (WrappedComponent) => {
   class BasePageComponent extends WrappedComponent {
     constructor(props) {
       super(props);
-      this.dispatch = props.dispatch;
       this._config = WrappedComponent.getConfig() || {};
-      console.log(WrappedComponent.prototype, "BasePageComponent", props);
-      // super.componentWillReceiveProps = (nextProps) => {
-      //   console.log("nextProps,,,,,", nextProps);
-      // };
     }
-    // componentWillReceiveProps(nextProps) {
-    //   // if (nextProps.location !== this.props.location) {
-    //   //   // navigated!
-    //   // }
-    //   console.log(nextProps);
-    // }
-    // static getDerivedStateFromProps(nextProps) {
-    //   console.log("-----", nextProps);
-    //   return true;
-    // }
+
     componentDidMount() {
-      this.dispatch(
+      this.props.dispatch(
         globalActions.route.currentPage({
           pageId: this._config.pageId,
           title: this._config.name,
@@ -34,7 +20,16 @@ export default (pageModel) => (WrappedComponent) => {
         super.componentDidMount();
       }
     }
+
+    componentWillUnmount() {
+      if (super.componentWillUnmount) {
+        super.componentWillUnmount();
+      }
+    }
+
     render() {
+      const { $pageStatus } = this.props;
+      console.log($pageStatus);
       return super.render();
     }
   }

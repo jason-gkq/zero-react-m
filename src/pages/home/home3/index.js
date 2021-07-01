@@ -31,6 +31,7 @@ class Home extends Component {
   }
 
   render() {
+    const { dispatch } = this.props;
     return (
       <div>
         {/* <PageContent/> */}
@@ -41,7 +42,14 @@ class Home extends Component {
           <div onClick={this.props.goTo} className={styles.containerDiv}>
             我是一个很多字div{" "}
           </div>
-          <div className={styles.containerDiv}>我是一个更多字而且第三个div</div>
+          <div
+            onClick={() => {
+              dispatch(globalActions.navigate.goback());
+            }}
+            className={styles.containerDiv}
+          >
+            我是一个更多字而且第三个div
+          </div>
         </div>
       </div>
     );

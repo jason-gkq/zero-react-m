@@ -1,25 +1,46 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { injectAsyncReducer, store, globalActions } from "../redux";
+
 export default (pageModel) => (WrappedComponent) => {
   // 实例级别model的情况
-  @connect((state) => state)
+  // @connect((state) => ({
+  //   $pageStatus: pageModel.selectors.getState(state).pageStatus,
+  // }))
+  // @connect((state) => state)
+  // class TargetComponent extends WrappedComponent {
+  //   constructor(props) {
+  //     super(props);
+  //   }
+  // }
+
+  @connect((state) => ({
+    $pageStatus: pageModel.selectors.getState(state).pageStatus,
+  }))
+  // @connect()
   class RegisterPageComponent extends React.Component {
     constructor(props) {
       super(props);
+
       const { dispatch } = this.props;
       if (!pageModel) {
         return;
       }
+      // if (!store.asyncReducers[pageModel.name]) {
+      //   injectAsyncReducer(pageModel.name, pageModel.reducers);
+      // }
       if (pageModel.initialize) {
         dispatch(pageModel.actions.initState());
       }
-      console.log("this.props", this.props);
+
       pageModel.runSaga();
     }
 
     componentDidMount() {
       // TODO: 登录、权限 判断
+      // pv 埋点
+      // console.log(WrappedComponent.getConfig());
       if (!pageModel) {
         return;
       }
@@ -32,11 +53,19 @@ export default (pageModel) => (WrappedComponent) => {
       }, 0);
     }
 
+    // static getDerivedStateFromProps(...data) {
+    //   console.log("-----", data);
+    //   return true;
+    // }
+
     componentWillUnmount() {
       if (!pageModel) {
         return;
       }
       const { dispatch } = this.props;
+      if (pageModel.cache === false) {
+        pageModel.removeReducer();
+      }
       if (pageModel.actions.willUnmount) {
         dispatch(
           pageModel.actions.willUnmount({
@@ -49,9 +78,14 @@ export default (pageModel) => (WrappedComponent) => {
         pageModel.cancelSaga();
       }
     }
+
     render() {
       return (
-        <WrappedComponent dispatch={this.props.dispatch} $model={pageModel} />
+        <WrappedComponent
+          {...this.props}
+          $model={pageModel}
+          $globalActions={globalActions}
+        />
       );
     }
   }

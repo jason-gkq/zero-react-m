@@ -10,8 +10,9 @@ import { globalActions } from "@common/redux";
 class Home extends Component {
   constructor(props) {
     super(props);
+    // console.log("home2-ownProps", props);
   }
-
+  // static model = model;
   static getConfig() {
     return {
       pageId: "10011",
@@ -30,6 +31,7 @@ class Home extends Component {
   }
 
   render() {
+    const { dispatch } = this.props;
     return (
       <div>
         {/* <PageContent/> */}
@@ -40,7 +42,14 @@ class Home extends Component {
           <div onClick={this.props.goTo} className={styles.containerDiv}>
             我是asdfasdfdiv{" "}
           </div>
-          <div className={styles.containerDiv}>我是一个更多字而且第三个div</div>
+          <div
+            onClick={() => {
+              dispatch(globalActions.navigate.goback());
+            }}
+            className={styles.containerDiv}
+          >
+            我是一个更多字而且第三个div
+          </div>
         </div>
       </div>
     );
@@ -50,7 +59,7 @@ class Home extends Component {
 
 export default connect(
   (state, ownProps) => {
-    // console.log("home2-ownProps", ownProps);
+    // console.log("home2-ownProps", state["Home2"], ownProps);
     return state;
   },
   (dispatch) => {

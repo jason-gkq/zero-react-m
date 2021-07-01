@@ -113,15 +113,15 @@ const createSagaFromMap = (map, actions, selectors) => {
       const item = map[i];
       if (item[2]) {
         yield takeEvery(item[0], item[1], {
-          $action: actions,
-          $selector: selectors,
-          $globalAction: globalActions,
+          $actions: actions,
+          $selectors: selectors,
+          $globalActions: globalActions,
         });
       } else {
         yield takeLatest(item[0], item[1], {
-          $action: actions,
-          $selector: selectors,
-          $globalAction: globalActions,
+          $actions: actions,
+          $selectors: selectors,
+          $globalActions: globalActions,
         });
       }
     }
@@ -147,7 +147,7 @@ export default function createDucks({
   name,
   state = {},
   initialize = false,
-  cache = false,
+  cache = true,
   actions: actionMap = {},
   reducers: reducerMap = {},
   sagas: sagaMap = {},
@@ -158,7 +158,12 @@ export default function createDucks({
 
   const sliceAction = createActionsFromMap(actionMap, name);
   const sliceSelector = toLocalSelectors(selectors, (state) => state[name]);
-  let sliceReducer = createReducerFromMap(reducerMap, sliceAction, state, name);
+  let sliceReducer = createReducerFromMap(
+    reducerMap,
+    sliceAction,
+    Object.assign({ pageStatus: "success" }, state),
+    name
+  );
   const sliceSaga = createSagaFromMap(sagaMap, sliceAction, sliceSelector);
 
   injectAsyncReducer(name, sliceReducer);
@@ -167,9 +172,9 @@ export default function createDucks({
     name,
     initialize,
     cache,
-    selectors,
+    selectors: sliceSelector,
     actions: sliceAction,
-    // reducers: sliceReducer,
+    reducers: sliceReducer,
     removeReducer() {
       removeAsyncReducer(name);
       // if (__DEV__) {

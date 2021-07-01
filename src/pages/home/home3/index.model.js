@@ -14,7 +14,7 @@ export default createModel({
     },
   },
   sagas: {
-    *didMount() {
+    *didMount({}) {
       console.log("pages/home/index.model.js/saga/didMount");
     },
   },
