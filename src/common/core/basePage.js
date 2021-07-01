@@ -29,7 +29,7 @@ export default (pageModel) => (WrappedComponent) => {
 
     render() {
       const { $pageStatus } = this.props;
-      console.log($pageStatus);
+      // console.log($pageStatus);
       return super.render();
     }
   }

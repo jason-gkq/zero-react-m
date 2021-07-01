@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import * as styles from "./index.less";
 import { BasePage } from "@common/core";
 import model from "./index.model";
-
-// import { globalActions } from "@common/redux";
 
 import DivTest from "./containers/divTest";
 @BasePage(model)
@@ -37,19 +33,3 @@ class Home extends Component {
   }
 }
 export default Home;
-
-// export default connect(
-//   (state) => {
-//     return state;
-//   },
-//   (dispatch) => {
-//     return {
-//       addVoucher() {
-//         dispatch(model.action.changeName("dsfds"));
-//       },
-//       goTo() {
-//         dispatch(globalActions.navigate.goto({ url: "/home/home2" }));
-//       },
-//     };
-//   }
-// )(Home);
