@@ -12,10 +12,10 @@ export default connect(
         dispatch($model.actions.setState({ pageStatus: "cccccc" }));
       },
       goTo() {
-        dispatch($globalActions.navigate.goto({ url: "/home/home2" }));
+        dispatch($globalActions.navigate.goTo({ url: "/home/home2" }));
       },
       goBack() {
-        dispatch($globalActions.navigate.goback());
+        dispatch($globalActions.navigate.goBack());
       },
     };
   }

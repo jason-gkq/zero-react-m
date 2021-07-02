@@ -44,7 +44,7 @@ class Home extends Component {
           </div>
           <div
             onClick={() => {
-              dispatch(globalActions.navigate.goback());
+              dispatch(globalActions.navigate.goBack());
             }}
             className={styles.containerDiv}
           >
@@ -66,7 +66,7 @@ export default connect(
         dispatch(model.action.changeName("dsfds"));
       },
       goTo() {
-        dispatch(globalActions.navigate.goto({ url: "/home/home1" }));
+        dispatch(globalActions.navigate.goTo({ url: "/home/home1" }));
       },
     };
   }
