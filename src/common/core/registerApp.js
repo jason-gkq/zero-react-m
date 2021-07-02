@@ -1,6 +1,5 @@
 import React from "react";
 import { store, injectGlobalActions, globalActions } from "../redux";
-import { setAxiosBase } from "../net";
 import { history, generateRoute } from "../navigate";
 import "../style/index.less";
 
@@ -20,10 +19,6 @@ export default (appModel) => (WrappedComponent) => {
        * 初始化项目运行环境信息
        */
       store.dispatch(globalActions.system.initSystem());
-      /**
-       * 设置axios拦截器
-       */
-      setAxiosBase();
       /**
        * 初始化路由，并获取对应路由列表
        */

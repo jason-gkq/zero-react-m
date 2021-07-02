@@ -27,6 +27,11 @@ let interceptorsFlag = true;
  */
 const CancelToken = axios.CancelToken;
 /**
+ * 初始化公共参数
+ */
+let commonData = {};
+
+/**
  * 执行取消重复请求操作
  * @param {*} key
  * @param {*} isRequest
@@ -54,30 +59,46 @@ const getRequestIdentify = (config, isReuest = false) => {
   return encodeURIComponent(url + JSON.stringify(data));
 };
 /**
+ * 初始化公共参数
+ */
+const initCommonData = (env) => {
+  commonData = {
+    appCode: env.appCode,
+    version: env.version,
+    __cleintId: env.__clientId,
+    parentSessionId: env.parentSessionId,
+    sessionId: env.sessionId,
+  };
+  env.appId && (commonData["appId"] = env.appId);
+  env.groupId && (commonData["groupId"] = env.groupId);
+  env.groupType && (commonData["groupType"] = env.groupType);
+};
+/**
+ * 更新公共参数
+ * @param {*} param0
+ */
+export const setCommonData = ({
+  SERVICE_URL: baseURL,
+  appCode,
+  groupId,
+  groupType,
+}) => {
+  if (baseURL && !["prod", "pre"].includes(process.env.productConfig.ENV)) {
+    axios.defaults.baseURL = baseURL;
+  }
+  appCode && (commonData.appCode = appCode);
+  groupId && (commonData.groupId = groupId);
+  groupType && (commonData.groupType = groupType);
+};
+/**
  * 获取请求公共参数
  * @returns
  */
 const getCommonData = () => {
-  // console.log(">>>>>>>>.", store.getState());
-  let commonData = {
+  return Object.assign(commonData, {
     __requestId: guid(),
-    appCode: process.env.APP_CODE,
     token: cookieStorage.getItem("token"),
-    version: process.env.VERSION,
-    __cleintId: clientId,
-  };
-  if (process.env.APP_ID) {
-    commonData["appId"] = process.env.APP_ID;
-  }
-  const groupId = cookieStorage.getItem("groupId");
-  if (groupId) {
-    commonData["groupId"] = groupId;
-  }
-  const groupType = cookieStorage.getItem("groupType");
-  if (groupType) {
-    commonData["groupType"] = groupType;
-  }
-  return commonData;
+  });
 };
 
 /**
@@ -248,13 +269,14 @@ export function setAxiosToken(token) {
 /**
  * 设置请求基本参数
  */
-export function setAxiosBase() {
+export function setAxiosBase(env) {
   /**
    * 重复注册拦截器
    */
   if (interceptorsFlag) {
+    initCommonData(env);
     interceptorsFlag = false;
-    axios.defaults.baseURL = process.env.SERVICE_URL;
+    axios.defaults.baseURL = env.SERVICE_URL && process.env.SERVICE_URL;
     axios.defaults.headers.post["Accept"] = "*/*";
     axios.defaults.headers.post["Content-Type"] =
       "application/json; charset=utf-8";

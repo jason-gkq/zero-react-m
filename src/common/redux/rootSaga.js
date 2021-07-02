@@ -17,6 +17,8 @@ import { guid } from "../utils";
 
 import { navigate } from "../navigate";
 
+import { setCommonData, setAxiosBase } from "../net";
+
 const initEnv = function* () {
   const env = yield select(getEnv);
   let clientId = cookieStorage.getItem("__clientId");
@@ -35,12 +37,26 @@ const initEnv = function* () {
       sessionId,
       onLunchTime,
       __clientId: clientId,
+      version: process.env.VERSION,
       platformType: process.env.application,
     },
     process.env.productConfig
   );
-
+  /**
+   * 设置axios拦截器
+   */
+  setAxiosBase(env);
   yield put(staticActions.env.setEnv({ ...env }));
+};
+
+const setAppCode = function* (appCode) {
+  setCommonData({ appCode });
+  yield put(staticActions.env.setEnv({ appCode }));
+};
+
+const setServiceUrl = function* (SERVICE_URL) {
+  setCommonData({ SERVICE_URL });
+  yield put(staticActions.env.setEnv({ SERVICE_URL }));
 };
 
 const initSystem = function* () {
@@ -187,12 +203,13 @@ export default function* staticSagas() {
    */
   yield takeLatest(staticActions.system.initSystem, initSystem);
   yield takeLatest(staticActions.env.initEnv, initEnv);
-
+  yield takeLatest(staticActions.env.setAppCode, setAppCode);
+  yield takeLatest(staticActions.env.setServiceUrl, setServiceUrl);
   /**
    * 路由
    */
-  yield takeLatest(staticActions.navigate.goto, goTo);
-  yield takeLatest(staticActions.navigate.goback, goBack);
+  yield takeLatest(staticActions.navigate.goTo, goTo);
+  yield takeLatest(staticActions.navigate.goBack, goBack);
   yield takeLatest(staticActions.navigate.redirect, redirect);
   yield takeLatest(staticActions.navigate.reLaunch, reLaunch);
 

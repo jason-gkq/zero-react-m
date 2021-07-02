@@ -1,1 +1,6 @@
-export { setAxiosToken, setAxiosBase, instance } from "./defaultAxios";
+export {
+  setAxiosToken,
+  setAxiosBase,
+  setCommonData,
+  instance,
+} from "./defaultAxios";
