@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import { injectAsyncReducer, store, globalActions } from "../redux";
 
+// import { getThemeContext } from "./themeContext";
+
 export default (pageModel) => (WrappedComponent) => {
   // 实例级别model的情况
   // @connect((state) => ({
@@ -36,6 +38,10 @@ export default (pageModel) => (WrappedComponent) => {
 
       pageModel.runSaga();
     }
+
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //   console.log("sdfsdf", this.context);
+    // }
 
     componentDidMount() {
       // TODO: 登录、权限 判断
@@ -89,6 +95,6 @@ export default (pageModel) => (WrappedComponent) => {
       );
     }
   }
-
+  // RegisterPageComponent.contextType = getThemeContext();
   return RegisterPageComponent;
 };

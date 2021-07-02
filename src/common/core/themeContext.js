@@ -37,3 +37,5 @@ export const setThemeContext = (theme) => {
     toggleTheme: () => {},
   });
 };
+
+export const getThemeContext = () => ThemeContext;
