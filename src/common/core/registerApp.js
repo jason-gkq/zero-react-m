@@ -1,6 +1,7 @@
 import React from "react";
 import { store, injectGlobalActions, globalActions } from "../redux";
 import { history, generateRoute } from "../navigate";
+import { ThemeContext, themes } from "./themeContext";
 import "../style/index.less";
 
 export default (appModel) => (WrappedComponent) => {
@@ -32,9 +33,13 @@ export default (appModel) => (WrappedComponent) => {
           return onLunchPayload;
         }, onLunchPayload);
       }
+      const { env } = store.getState();
       this.state = {
         $onLunchPayload: onLunchPayload,
         $routes: generateRoute(),
+        $theme: {
+          theme: env.theme || "",
+        },
       };
       /**
        * 运行app中 saga
@@ -57,11 +62,11 @@ export default (appModel) => (WrappedComponent) => {
         // }
       });
       // 使用setTimeout解决跳转页面短暂空白问题
-      setTimeout(() => {
-        if (appModel.actions.didMount) {
-          store.dispatch(appModel.actions.didMount(this.state.$onLunchPayload));
-        }
-      }, 0);
+      // setTimeout(() => {
+      if (appModel.actions.didMount) {
+        store.dispatch(appModel.actions.didMount(this.state.$onLunchPayload));
+      }
+      // }, 0);
     }
 
     componentWillUnmount() {

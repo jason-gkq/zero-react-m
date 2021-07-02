@@ -1,6 +1,8 @@
+import { createModel } from "@src/common/redux";
+import { put, call } from "redux-saga/effects";
 import usaImg from "@assets/img/usa.svg";
 import chinaImg from "@assets/img/china.svg";
-import { createModel } from "@src/common/redux";
+
 const model = createModel({
   // model名称，view层用于提取state的key，需要保证唯一
   name: "app",
@@ -37,7 +39,12 @@ const model = createModel({
       }
     },
   },
-  sagas: {},
+  sagas: {
+    *didMount({ $actions, $globalActions }) {
+      // console.log("pages/home/index.model.js/saga/didMount");
+      yield put($globalActions.env.changeTheme({ theme: "B" }));
+    },
+  },
 });
 
 export default model;

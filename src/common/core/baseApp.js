@@ -9,6 +9,8 @@ import { Router, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import { Layout } from "../components";
+import { ThemeContext } from "./themeContext";
+
 import RegisterApp from "./registerApp";
 
 export default (appModel) => (WrappedComponent) => {
@@ -16,14 +18,6 @@ export default (appModel) => (WrappedComponent) => {
   class AppComponent extends WrappedComponent {
     constructor(props) {
       super(props);
-      this.onLunch = this.onLunch.bind(this);
-      this.onLunch();
-    }
-
-    onLunch() {
-      if (super.onLunch) {
-        super.onLunch(this.props.$onLunchPayload);
-      }
     }
 
     componentDidMount() {
@@ -39,15 +33,18 @@ export default (appModel) => (WrappedComponent) => {
     }
 
     render() {
+      const { $store, $history, $routes, $theme } = this.props;
       return (
-        <Provider store={this.props.$store}>
-          <Layout>
-            {/* <BrowserRouter basename='/lcbtest'> */}
-            <Router history={this.props.$history}>
-              <Switch>{this.props.$routes}</Switch>
-            </Router>
-            {/* </BrowserRouter> */}
-          </Layout>
+        <Provider store={$store}>
+          <ThemeContext.Provider value={$theme}>
+            <Layout>
+              {/* <BrowserRouter basename='/lcbtest'> */}
+              <Router history={$history}>
+                <Switch>{$routes}</Switch>
+              </Router>
+              {/* </BrowserRouter> */}
+            </Layout>
+          </ThemeContext.Provider>
         </Provider>
       );
     }

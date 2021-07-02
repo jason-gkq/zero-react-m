@@ -9,8 +9,9 @@ export default connect(
   (dispatch, { $model, $globalActions }) => {
     return {
       addVoucher() {
-        document.documentElement.style.setProperty("--theme-color", "red");
+        // document.documentElement.style.setProperty({ "--theme-color": "red" });
         dispatch($model.actions.setState({ pageStatus: "cccccc" }));
+        dispatch($globalActions.env.changeTheme({ theme: "C" }));
       },
       goTo() {
         dispatch($globalActions.navigate.goTo({ url: "/home/home2" }));

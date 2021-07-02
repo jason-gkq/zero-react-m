@@ -19,6 +19,8 @@ import { navigate } from "../navigate";
 
 import { setCommonData, setAxiosBase } from "../net";
 
+import { themes, injectTheme, setThemeContext } from "../core/themeContext";
+
 const initEnv = function* () {
   const env = yield select(getEnv);
   let clientId = cookieStorage.getItem("__clientId");
@@ -26,6 +28,7 @@ const initEnv = function* () {
     clientId = guid();
     cookieStorage.setItem("__clientId", clientId, Infinity);
   }
+  // console.log(document.documentElement.style);
   const parentSessionId = guid();
   const sessionId = parentSessionId;
   const onLunchTime = Date.now();
@@ -46,15 +49,36 @@ const initEnv = function* () {
    * 设置axios拦截器
    */
   setAxiosBase(env);
+  updateStyle(env.theme || "A");
   yield put(staticActions.env.setEnv({ ...env }));
 };
 
-const setAppCode = function* (appCode) {
+const updateStyle = (theme) => {
+  if (!themes[theme]) {
+    return;
+  }
+  setThemeContext(theme);
+  const themeInfo = themes[theme];
+  Object.keys(themeInfo).forEach((key) => {
+    document.documentElement.style.setProperty(key, themeInfo[key]);
+  });
+};
+
+const injectThemes = function* ({ payload: { themes } }) {
+  injectTheme(themes);
+};
+
+const changeTheme = function* ({ payload: { theme } }) {
+  updateStyle(theme);
+  yield put(staticActions.env.setEnv({ theme }));
+};
+
+const setAppCode = function* ({ payload: { appCode } }) {
   setCommonData({ appCode });
   yield put(staticActions.env.setEnv({ appCode }));
 };
 
-const setServiceUrl = function* (SERVICE_URL) {
+const setServiceUrl = function* ({ payload: { SERVICE_URL } }) {
   setCommonData({ SERVICE_URL });
   yield put(staticActions.env.setEnv({ SERVICE_URL }));
 };
@@ -203,6 +227,8 @@ export default function* staticSagas() {
    */
   yield takeLatest(staticActions.system.initSystem, initSystem);
   yield takeLatest(staticActions.env.initEnv, initEnv);
+  yield takeLatest(staticActions.env.changeTheme, changeTheme);
+  yield takeLatest(staticActions.env.injectThemes, injectThemes);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);
   yield takeLatest(staticActions.env.setServiceUrl, setServiceUrl);
   /**
