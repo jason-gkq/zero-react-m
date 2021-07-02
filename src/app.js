@@ -1,5 +1,5 @@
 import React from "react";
-// import "./app.css"; RegisterApp,
+// import "./app.css"; RegisterApp, sd
 import "./app.less";
 import { BaseApp } from "@common/core";
 import model from "./app.model";

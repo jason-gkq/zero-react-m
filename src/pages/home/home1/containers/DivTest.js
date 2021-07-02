@@ -9,6 +9,7 @@ export default connect(
   (dispatch, { $model, $globalActions }) => {
     return {
       addVoucher() {
+        document.documentElement.style.setProperty("--theme-color", "red");
         dispatch($model.actions.setState({ pageStatus: "cccccc" }));
       },
       goTo() {
