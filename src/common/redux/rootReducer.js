@@ -69,8 +69,22 @@ const route = handleActions(
   },
   {}
 );
+
+const user = handleActions(
+  {
+    [staticActions.user.setUser](state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+  },
+  {}
+);
+
 export default {
   system,
   env,
   route,
+  user,
 };

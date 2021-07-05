@@ -7,6 +7,7 @@ export default (pageModel) => (WrappedComponent) => {
     constructor(props) {
       super(props);
       this._config = WrappedComponent.getConfig() || {};
+      // console.log("basePage-props>>>", props);
     }
 
     componentDidMount() {
@@ -16,6 +17,13 @@ export default (pageModel) => (WrappedComponent) => {
           title: this._config.name,
         })
       );
+      /**
+       * 前置执行 didMount 方法；
+       */
+      const { dispatch } = this.props;
+      if (pageModel.actions.didMount) {
+        dispatch(pageModel.actions.didMount(this.props.location.state));
+      }
       if (super.componentDidMount) {
         super.componentDidMount();
       }

@@ -1,7 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { injectAsyncReducer, store, globalActions } from "../redux";
+import {
+  injectAsyncReducer,
+  store,
+  globalActions,
+  globalSelectors,
+} from "../redux";
 
 // import { getThemeContext } from "./themeContext";
 
@@ -17,18 +22,39 @@ export default (pageModel) => (WrappedComponent) => {
   //   }
   // }
 
-  @connect((state) => ({
-    $pageStatus: pageModel.selectors.getState(state).pageStatus,
-  }))
+  @connect((state) => {
+    const $pageStatus = pageModel.selectors.getState(state).pageStatus;
+    const pageConfig = WrappedComponent.getConfig();
+    let $isNeedLogin = globalSelectors.getEnv(state).isNeedLogin;
+    let $isNeedPermission = globalSelectors.getEnv(state).isNeedPermission;
+
+    if (Reflect.has(pageConfig, "isNeedLogin")) {
+      $isNeedLogin = pageConfig.isNeedLogin;
+    }
+    if (Reflect.has(pageConfig, "isNeedPermission")) {
+      $isNeedPermission = pageConfig.isNeedPermission;
+    }
+    return {
+      $pageStatus,
+      $isNeedLogin,
+      $isNeedPermission,
+    };
+  })
   // @connect()
   class RegisterPageComponent extends React.Component {
     constructor(props) {
       super(props);
 
-      const { dispatch } = this.props;
+      // const { dispatch } = this.props;
+      // const { $isNeedLogin, $isNeedPermission, dispatch } = this.props;
+      // if ($isNeedLogin) {
+      //   dispatch(globalActions.navigate.redirect({ url: "/index/index" }));
+      //   return;
+      // }
       if (!pageModel) {
         return;
       }
+
       // if (!store.asyncReducers[pageModel.name]) {
       //   injectAsyncReducer(pageModel.name, pageModel.reducers);
       // }
@@ -45,18 +71,19 @@ export default (pageModel) => (WrappedComponent) => {
 
     componentDidMount() {
       // TODO: 登录、权限 判断
+
       // pv 埋点
-      // console.log(WrappedComponent.getConfig());
+      console.log("RegisterPageComponent-props>>>>", this.props);
       if (!pageModel) {
         return;
       }
       // 使用setTimeout解决跳转页面短暂空白问题
-      setTimeout(() => {
-        const { dispatch } = this.props;
-        if (pageModel.actions.didMount) {
-          dispatch(pageModel.actions.didMount(this.props.location.state));
-        }
-      }, 0);
+      // setTimeout(() => {
+      //   const { dispatch } = this.props;
+      //   if (pageModel.actions.didMount) {
+      //     dispatch(pageModel.actions.didMount(this.props.location.state));
+      //   }
+      // }, 0);
     }
 
     // static getDerivedStateFromProps(...data) {

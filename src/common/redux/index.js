@@ -9,3 +9,5 @@ export {
 } from "./configureStore";
 
 export { getEnv, getSystem, getRoute } from "./rootSelector";
+
+export * as globalSelectors from "./rootSelector";

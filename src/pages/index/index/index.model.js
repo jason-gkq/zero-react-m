@@ -1,7 +1,7 @@
 import { createModel } from "@src/common/redux";
 
 export default createModel({
-  name: "Home",
+  name: "Index",
   state: {
     systemName: "小程序",
   },
@@ -15,7 +15,7 @@ export default createModel({
   },
   sagas: {
     *didMount() {
-      console.log("pages/home/index.model.js/saga/didMount");
+      console.log("pages/index/index.model.js/saga/didMount");
     },
   },
   selector: {},

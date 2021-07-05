@@ -24,6 +24,11 @@ const staticActions = {
     REDIRECT: void 0,
     REPLACE: void 0,
   },
+  USER: {
+    SET_USER: void 0,
+    LOGIN: void 0,
+    LOGOUT: void 0,
+  },
   SHARE: void 0,
   TEST: void 0,
 };
