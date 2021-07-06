@@ -6,7 +6,8 @@
  *    yield call([obj, obj.method], arg1, arg2, ...) // 如同 obj.method(arg1, arg2 ...)
  * apply 提供了另外一种调用的方式
  *    yield apply(obj, obj.method, [arg1, arg2, ...])
- *
+ * cps 表示的是延续传递风格
+ *    const content = yield cps(readFile, '/path/to/file')
  * all 自动执行
  */
 import {
