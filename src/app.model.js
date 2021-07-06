@@ -42,7 +42,7 @@ const model = createModel({
   sagas: {
     *didMount({ $actions, $globalActions }) {
       // console.log("pages/home/index.model.js/saga/didMount");
-      yield put($globalActions.env.changeTheme({ theme: "B" }));
+      // yield put($globalActions.env.changeTheme({ theme: "A" }));
     },
   },
 });

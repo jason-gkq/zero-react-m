@@ -11,12 +11,6 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     componentDidMount() {
-      this.props.dispatch(
-        globalActions.route.currentPage({
-          pageId: this._config.pageId,
-          title: this._config.name,
-        })
-      );
       /**
        * 前置执行 didMount 方法；
        */

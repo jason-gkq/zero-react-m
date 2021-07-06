@@ -12,14 +12,7 @@ export default (appModel) => (WrappedComponent) => {
        * 合并app中的action进入全局action
        */
       injectGlobalActions(appModel.action);
-      /**
-       * 初始化项目环境变量
-       */
-      store.dispatch(globalActions.env.initEnv());
-      /**
-       * 初始化项目运行环境信息
-       */
-      store.dispatch(globalActions.system.initSystem());
+
       /**
        * 初始化路由，并获取对应路由列表
        */

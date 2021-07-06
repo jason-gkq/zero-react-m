@@ -1,6 +1,18 @@
+/**
+ * takeEvery 多个实例同时启动
+ * takeLatest 只执行这个任务是最后被启动的那个，之前的这个任务会被自动取消
+ * put
+ * call  call 同样支持调用对象方法，你可以使用以下形式，为调用的函数提供一个 this 上下文
+ *    yield call([obj, obj.method], arg1, arg2, ...) // 如同 obj.method(arg1, arg2 ...)
+ * apply 提供了另外一种调用的方式
+ *    yield apply(obj, obj.method, [arg1, arg2, ...])
+ *
+ * all 自动执行
+ */
 import {
   all,
   put,
+  fork,
   call,
   select,
   takeLatest,
@@ -19,7 +31,12 @@ import { navigate } from "../navigate";
 
 import { setCommonData, setAxiosBase } from "../net";
 
-import { themes, injectTheme, setThemeContext } from "../core/themeContext";
+import {
+  themes,
+  injectTheme,
+  setThemeContext,
+  currentTheme,
+} from "../core/themeContext";
 
 const initEnv = function* () {
   const env = yield select(getEnv);
@@ -49,19 +66,9 @@ const initEnv = function* () {
    * 设置axios拦截器
    */
   setAxiosBase(env);
-  updateStyle(env.theme || "A");
+  // updateStyle(env.theme || "A");
+  yield call(changeTheme, { payload: { theme: env.theme || "A" } });
   yield put(staticActions.env.setEnv({ ...env }));
-};
-
-const updateStyle = (theme) => {
-  if (!themes[theme]) {
-    return;
-  }
-  setThemeContext(theme);
-  const themeInfo = themes[theme];
-  Object.keys(themeInfo).forEach((key) => {
-    document.documentElement.style.setProperty(key, themeInfo[key]);
-  });
 };
 
 const injectThemes = function* ({ payload: { themes } }) {
@@ -69,7 +76,17 @@ const injectThemes = function* ({ payload: { themes } }) {
 };
 
 const changeTheme = function* ({ payload: { theme } }) {
-  updateStyle(theme);
+  if (!themes[theme]) {
+    return;
+  }
+  if (theme === currentTheme) {
+    return;
+  }
+  setThemeContext(theme);
+  const themeInfo = themes[theme];
+  Object.keys(themeInfo).forEach((key) => {
+    document.documentElement.style.setProperty(key, themeInfo[key]);
+  });
   yield put(staticActions.env.setEnv({ theme }));
 };
 
@@ -203,6 +220,10 @@ const reLaunch = function* ({ payload: { url, params = {}, options = {} } }) {
   return;
 };
 
+const login = function* ({ payload }) {};
+
+const logout = function* ({ payload }) {};
+
 const test = function* ({ payload }) {
   axios
     .post(`gateway/manage/common/api/auth/queryUserAuth`, {
@@ -225,8 +246,9 @@ export default function* staticSagas() {
   /**
    * 系统信息初始化
    */
-  yield takeLatest(staticActions.system.initSystem, initSystem);
-  yield takeLatest(staticActions.env.initEnv, initEnv);
+  yield all([initSystem(), initEnv()]);
+  // yield takeLatest(staticActions.system.initSystem, initSystem);
+  // yield takeLatest(staticActions.env.initEnv, initEnv);
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
   yield takeLatest(staticActions.env.injectThemes, injectThemes);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);
@@ -238,9 +260,13 @@ export default function* staticSagas() {
   yield takeLatest(staticActions.navigate.goBack, goBack);
   yield takeLatest(staticActions.navigate.redirect, redirect);
   yield takeLatest(staticActions.navigate.reLaunch, reLaunch);
+  /**
+   * 用户
+   */
+  yield takeLatest(staticActions.user.login, login);
+  yield takeLatest(staticActions.user.logout, logout);
 
   yield takeLatest(staticActions.test, test);
-  // yield all(rootSagas);
 }
 
 // 用于缓存所有effects函数
