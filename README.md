@@ -1,8 +1,168 @@
-# zero-react-pc
+## 指南
+### 项目启动
+```js
+npm install;
+npm start;
+```
+本地访问
+```js
+http://localhost:8080/
+```
 
-just a demo
+## 框架
+### 目录结构
 
-## 项目配置文件
+新增页面目录结构示例：
+```js
+// pages/home/index
+- home
+  - conponents
+    - DivTest.js
+  - containers
+    - DivTest.js
+  - index.less
+  - index.model.js
+  - index.js
+```
+**说明**
+- `index.js` 页面入口文件，代码示例：
+```js
+import React, { Component } from "react"; 
+import { BasePage } from "@common/core"; 
+import model from "./index.model"; 
+
+import DivTest from "./containers/DivTest";
+@BasePage(model) // 必须
+class Home extends Component {
+  constructor(props) {
+    super(props);
+  }
+  // 页面头部信息配置
+  static getConfig() {
+    return {
+      pageId: "10011",
+      name: "home",
+      barSettings: {
+        title: { text: "首页示例" },
+        leftItems: [{ type: 1 }],
+        rightItems: [
+          {
+            text: "保存",
+            onPress: "$saveMessage",
+          },
+        ],
+      },
+    };
+  }
+
+  render() {
+    const { $model, $globalActions } = this.props; 
+    return <DivTest $model={$model} $globalActions={$globalActions} />;
+  }
+}
+export default Home;
+```
+- `index.model.js`用于处理页面逻辑，包括初始化的页面数据，接口请求，数据更新处理等。示例代码如下：
+```js
+import { createModel } from "@src/common/redux";
+import { put, call } from "redux-saga/effects";
+
+export default createModel({
+  name: "Home", // 存在store里的节点名
+  state: { // 页面所需的数据字段
+    systemName: "小程序",
+    pageStatus: "hhh",
+  },
+  reducers: { //更新数据
+    changeName(state, { payload }) {
+      return {
+        ...state,
+        systemName: payload,
+      };
+    },
+  },
+  sagas: { // 一些异步操作、复杂逻辑处理
+    *didMount({ $actions }) {
+      console.log("pages/home/index.model.js/saga/didMount");
+      yield put($actions.setState({ pageStatus: "234324" }));
+    },
+  },
+  selectors: {}, // 从store里的提取数据
+});
+```
+- `index.less`页面样式
+- `conponents/DivTest.js` 页面的纯展示组件，不做多余逻辑处理
+- `containers/DivTest.js` 页面的状态组件，用于View和Store的联接
+
+## API
+### 基础
+- 环境
+  - `globalActions.env.setEnv`
+  - `globalActions.env.initEnv`
+
+- 对接
+  - `globalActions.env.setAppCode`
+  - `globalActions.env.setServiceUrl`
+
+- 主题
+  - `globalActions.env.changeTheme`
+  - `globalActions.env.injectThemes`
+
+- 页面信息
+  -  `globalActions.route.setRoute`
+  -  `globalActions.route.currentPage`
+### 路由
+- `globalActions.navigate.goTo({ url: "/home/home1" })`
+- `globalActions.navigate.goBack`
+- `globalActions.navigate.reLaunch`
+- `globalActions.navigate.redirect`
+- `globalActions.navigate.replace`
+
+## 组件
+### 基础组件
+- Button
+- Alert
+- Badge
+- Toast
+- Modal
+- Picker
+- DatePicker
+- Calendar
+- Swiper
+- Drawer
+- Popover
+- Loading
+
+
+### 业务组件
+- 店铺信息组件 StoreInfo
+- 登录组件 OathLogin
+- 技术支持 TechSupport
+- Loading
+- PageLoading
+- Share
+- 选品牌-车型
+- 选年款
+- 客服组
+- 打电话
+- 支付
+- 订单结果
+- 公众号
+- Tab
+
+
+---
+指南：启动、配置项（登录，权限，TabBar配置）、打包命令
+
+框架： 开发规范、目录结构规范、核心功能引入规范、common和pages页面模块导入导出规范;
+
+组件：基础组件、业务组件
+
+API：页面跳转、设置主题、接口请求、缓存cache、环境、路由，appCode切换、请求地址切换、转发、
+
+---
+
+### 项目配置文件
 
 - .gitignore 忽略不提交的 git 文件
 - .prettierrc.json prettier 的规则编辑，扩展规则，可以不进行配置，使用默认配置
@@ -242,11 +402,5 @@ const App = (
   </Layout>
 </PersistGate>;
 
-
 @BasePage
-
-
-
-
-
 ```
