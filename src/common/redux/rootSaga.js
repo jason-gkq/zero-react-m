@@ -71,6 +71,22 @@ const initEnv = function* () {
   yield put(staticActions.env.setEnv({ ...env }));
 };
 
+const currentUser = function* () {
+  try {
+    const user = yield axios.post(`/gateway/user/currentUser`);
+    user['isLogin'] = false;
+    if(user && user.user && user.user.mobile){
+      user['isLogin'] = true;
+    }
+    user['mobile'] = user.user && user.user.mobile;
+    cookieStorage.setItem("token",user.token, Infinity, cookieStorage.getDomain())
+    yield put(staticActions.user.setUser(user));
+  } catch (error) {
+    cookieStorage.removeItem("token",'', cookieStorage.getDomain())
+    yield put(staticActions.user.setUser({isLogin: false}));
+  }
+}
+
 const injectThemes = function* ({ payload: { themes } }) {
   injectTheme(themes);
 };
@@ -247,6 +263,7 @@ export default function* staticSagas() {
    * 系统信息初始化
    */
   yield all([initSystem(), initEnv()]);
+  yield all([currentUser()]);
   // yield takeLatest(staticActions.system.initSystem, initSystem);
   // yield takeLatest(staticActions.env.initEnv, initEnv);
   yield takeLatest(staticActions.env.changeTheme, changeTheme);

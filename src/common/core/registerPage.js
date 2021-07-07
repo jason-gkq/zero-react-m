@@ -9,11 +9,6 @@ import {
 } from "../redux";
 
 export default (pageModel) => (WrappedComponent) => {
-  // 实例级别model的情况
-  // @connect((state) => ({
-  //   $pageStatus: pageModel.selectors.getState(state).pageStatus,
-  // }))
-  // @connect((state) => state)
   class TargetComponent extends WrappedComponent {
     constructor(props) {
       super(props);
@@ -21,21 +16,21 @@ export default (pageModel) => (WrappedComponent) => {
 
     // TODO: 登录、权限 判断
     componentDidMount() {
-      const { $isNeedLogin, $isNeedPermission, dispatch } = this.props;
-      if ($isNeedLogin) {
-        dispatch(globalActions.navigate.redirect({ url: "/index/index" }));
+      const { $isNeedLogin, $isNeedPermission, dispatch, isLogin } = this.props;
+      // 需要登录
+      if ($isNeedLogin && !isLogin) {
+        dispatch(globalActions.navigate.redirect({ url: "/login/index" }));
         return;
       }
-
       super.componentDidMount();
     }
   }
 
   @connect((state) => {
-    const $pageStatus = pageModel.selectors.getState(state).pageStatus;
+    const { pageStatus }= pageModel.selectors.getState(state);
+    const {isNeedLogin, isNeedPermission} = globalSelectors.getState(state)
+    const { isLogin }= globalSelectors.getUser(state);
     const pageConfig = WrappedComponent.getConfig();
-    let $isNeedLogin = globalSelectors.getEnv(state).isNeedLogin;
-    let $isNeedPermission = globalSelectors.getEnv(state).isNeedPermission;
 
     if (Reflect.has(pageConfig, "isNeedLogin")) {
       $isNeedLogin = pageConfig.isNeedLogin;
@@ -44,9 +39,10 @@ export default (pageModel) => (WrappedComponent) => {
       $isNeedPermission = pageConfig.isNeedPermission;
     }
     return {
-      $pageStatus,
-      $isNeedLogin,
-      $isNeedPermission,
+      $pageStatus: pageStatus,
+      $isNeedLogin: isNeedLogin,
+      $isNeedPermission: isNeedPermission,
+      isLogin
     };
   })
   // @connect()

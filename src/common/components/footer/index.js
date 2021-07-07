@@ -39,7 +39,9 @@ class Footer extends Component {
   render() {
     return (
       <FooterErrorBoundary>
-        <div className='footer'>footer</div>
+        <div className='footer'>
+          footer
+        </div>
       </FooterErrorBoundary>
     );
   }

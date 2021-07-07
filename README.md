@@ -93,7 +93,15 @@ export default createModel({
 - `index.less`页面样式
 - `conponents/DivTest.js` 页面的纯展示组件，不做多余逻辑处理
 - `containers/DivTest.js` 页面的状态组件，用于View和Store的联接
+---
+### 登录流程
+1. RegisterApp/componentDidMount 根据currentUser判断是否有用户信息，确定isLogin状态，isLogin = false 去调登录接口
+2. NetWork层接口返回904、907状态也走登录流程（先loginOut 再Login）
+3. 登录状态标识：根据 ’用户user信息+ mobile 信息‘
 
+
+
+---
 ## API
 ### 基础
 - 环境

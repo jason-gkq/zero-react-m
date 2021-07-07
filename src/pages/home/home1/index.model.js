@@ -5,7 +5,6 @@ export default createModel({
   name: "Home",
   state: {
     systemName: "小程序",
-    pageStatus: "hhh",
   },
   reducers: {
     changeName(state, { payload }) {
@@ -18,7 +17,7 @@ export default createModel({
   sagas: {
     *didMount({ $actions }) {
       console.log("pages/home/index.model.js/saga/didMount");
-      yield put($actions.setState({ pageStatus: "234324" }));
+      // yield put($actions.setState({ pageStatus: "234324" }));
     },
   },
   selectors: {},

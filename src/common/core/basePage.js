@@ -7,7 +7,6 @@ export default (pageModel) => (WrappedComponent) => {
     constructor(props) {
       super(props);
       this._config = WrappedComponent.getConfig() || {};
-      // console.log("basePage-props>>>", props);
     }
 
     componentDidMount() {
@@ -15,9 +14,13 @@ export default (pageModel) => (WrappedComponent) => {
        * 前置执行 didMount 方法；
        */
       const { dispatch } = this.props;
+      if(!pageModel) { return; }
+      // setTimeout(() => {
       if (pageModel.actions.didMount) {
-        dispatch(pageModel.actions.didMount(this.props.location.state));
+        /* TODO 传入页面options 即可： this.props.location.state */
+        dispatch(pageModel.actions.didMount(this.props.location.state || {}));
       }
+      // }, 0);
       if (super.componentDidMount) {
         super.componentDidMount();
       }
@@ -30,8 +33,6 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     render() {
-      const { $pageStatus } = this.props;
-      // console.log($pageStatus);
       return super.render();
     }
   }

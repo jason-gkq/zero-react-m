@@ -27,19 +27,16 @@ class HeaderErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <div className={styles.headerContent}>
-              <div className={styles.headerContentBtns}>
-                <img src={backBlack} className={styles.headerIcon} />
-              </div>
-              <div className={styles.headerContentTitle}>乐车邦</div>
-              <div
-                className={[styles.headerContentBtns, styles.headerRight]}
-              ></div>
+        <div className={styles.header}>
+          <div className={styles.headerContent}>
+            <div className={styles.headerContentLeft}>
+              <img src={backBlack} className={styles.headerIcon} />
             </div>
+            <div className={styles.headerContentTitle}>乐车邦</div>
+            <div
+              className={[styles.headerContentRight]}
+            ></div>
           </div>
-          <div className={styles.headerPlaceholder}></div>
         </div>
       );
     }
@@ -50,27 +47,22 @@ class HeaderErrorBoundary extends Component {
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: props.currentPage.title,
-    };
+    this.state = {};
   }
   render() {
-    const { title } = this.state;
+    const { title } = this.props.currentPage;
     return (
       <HeaderErrorBoundary>
-        <div className={styles.container}>
-          <div className={styles.header}>
+        <div className={styles.header}>
             <div className={styles.headerContent}>
-              <div className={styles.headerContentBtns}>
+              <div className={styles.headerContentLeft}>
                 <img src={backBlack} className={styles.headerIcon} />
               </div>
-              <div className={styles.headerContentTitle}>{title}</div>
+              <div className={[styles.headerContentTitle, styles.showDots]}>{title}</div>
               <div
-                className={[styles.headerContentBtns, styles.headerRight]}
+                className={[styles.headerContentRight]}
               ></div>
             </div>
-          </div>
-          <div className={styles.headerPlaceholder}></div>
         </div>
       </HeaderErrorBoundary>
     );

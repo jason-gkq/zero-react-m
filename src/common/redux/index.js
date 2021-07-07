@@ -10,4 +10,11 @@ export {
 
 export { getEnv, getSystem, getRoute } from "./rootSelector";
 
-export * as globalSelectors from "./rootSelector";
+
+import * as globalSelectors from "./rootSelector";
+
+export {globalSelectors};
+
+export function injectGlobalSelectors(selectors) {
+  Object.assign(globalSelectors, selectors);
+}

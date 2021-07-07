@@ -10,6 +10,13 @@
 import axios, { Cancel } from "axios";
 import { guid, cloneDeep } from "@common/utils/util";
 import cookieStorage from "../cache/cookieStorage";
+import navigate from "../navigate/configureNavigate";
+
+/* 不跳转登录页面白名单 */
+const loginWhiteListUrl = [
+  '/gateway/user/currentUser',
+  '/gateway/user/smsLogin'
+]
 
 // import { store } from "@common/redux/store";
 /**
@@ -173,8 +180,10 @@ const responseHandler = (resp) => {
       status,
     });
   }
-  if ([904, 907, 8800111].includes(statusCode)) {
-    // 登录
+  let url = resp.config.url
+  if ([904, 907, 8800111].includes(statusCode) && !loginWhiteListUrl.includes(url)) {
+    // 登录跳转，注意排除loginWhiteListUrl
+    navigate.goTo({url: '/login/index'})
   }
   let result = {
     msg: "服务器内部错误",
@@ -276,7 +285,7 @@ export function setAxiosBase(env) {
   if (interceptorsFlag) {
     initCommonData(env);
     interceptorsFlag = false;
-    axios.defaults.baseURL = env.SERVICE_URL && process.env.SERVICE_URL;
+    axios.defaults.baseURL = env.SERVICE_URL || process.env.SERVICE_URL;
     axios.defaults.headers.post["Accept"] = "*/*";
     axios.defaults.headers.post["Content-Type"] =
       "application/json; charset=utf-8";

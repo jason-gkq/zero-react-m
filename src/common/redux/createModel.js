@@ -161,7 +161,8 @@ export default function createDucks({
   let sliceReducer = createReducerFromMap(
     reducerMap,
     sliceAction,
-    Object.assign({ pageStatus: "success" }, state),
+    state,
+    // Object.assign({ pageStatus: "success" }, state),
     name
   );
   const sliceSaga = createSagaFromMap(sagaMap, sliceAction, sliceSelector);

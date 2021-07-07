@@ -1,5 +1,5 @@
 import React from "react";
-import { store, injectGlobalActions, globalActions } from "../redux";
+import { store, injectGlobalActions, injectGlobalSelectors } from "../redux";
 import { history, generateRoute } from "../navigate";
 import { ThemeContext, themes } from "./themeContext";
 import "../style/index.less";
@@ -11,8 +11,8 @@ export default (appModel) => (WrappedComponent) => {
       /**
        * 合并app中的action进入全局action
        */
-      injectGlobalActions(appModel.action);
-
+      injectGlobalActions(appModel.actions);
+      injectGlobalSelectors(appModel.selectors);
       /**
        * 初始化路由，并获取对应路由列表
        */

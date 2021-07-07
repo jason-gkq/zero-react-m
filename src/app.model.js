@@ -8,39 +8,14 @@ const model = createModel({
   name: "app",
   // 初始state状态
   state: {
-    language: localStorage.getItem("language") || "zh-CN",
-    languages: [
-      {
-        key: "en-US",
-        title: "English",
-        flag: usaImg,
-      },
-      {
-        key: "zh-CN",
-        title: "中文",
-        flag: chinaImg,
-      },
-    ],
+    isNeedLogin: false,
+    isNeedPermission: false
   },
   reducers: {
-    setLanguage: (state, action) => {
-      const { language } = action.payload || {};
-      const flag = state.languages.find((item) => {
-        return item.key === language;
-      });
-      if (language && flag) {
-        localStorage.setItem("language", language);
-        return {
-          ...state,
-          language,
-        };
-      } else {
-        return state;
-      }
-    },
   },
   sagas: {
     *didMount({ $actions, $globalActions }) {
+      //TODO 项目启动 = appOnLaunch
       // console.log("pages/home/index.model.js/saga/didMount");
       // yield put($globalActions.env.changeTheme({ theme: "A" }));
     },
