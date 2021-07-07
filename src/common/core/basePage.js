@@ -7,6 +7,20 @@ export default (pageModel) => (WrappedComponent) => {
       super(props);
     }
 
+    // static getDerivedStateFromError(error) {
+    //   // 更新 state 使下一次渲染可以显示降级 UI
+    //   return { hasError: true };
+    // }
+
+    // componentDidCatch(error, info) {
+    //   // "组件堆栈" 例子:
+    //   //   in ComponentThatThrows (created by App)
+    //   //   in ErrorBoundary (created by App)
+    //   //   in div (created by App)
+    //   //   in App
+    //   logComponentStackToMyService(info.componentStack);
+    // }
+
     componentDidMount() {
       /**
        * 前置执行 didMount 方法；
