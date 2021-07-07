@@ -2,6 +2,11 @@ import { createModel } from "@src/common/redux";
 
 export default createModel({
   name: "Index",
+  config: {
+    pageId: "10011",
+    title: "Index",
+    isNeedLogin: false,
+  },
   state: {
     systemName: "小程序",
   },

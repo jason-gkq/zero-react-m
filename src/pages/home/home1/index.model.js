@@ -3,6 +3,12 @@ import { put, call } from "redux-saga/effects";
 
 export default createModel({
   name: "Home",
+  config: {
+    pageId: "10011",
+    title: "home1",
+    isNeedLogin: true,
+    isNeedPermission: false, // 如无权限，则无需配置
+  },
   state: {
     systemName: "小程序",
   },

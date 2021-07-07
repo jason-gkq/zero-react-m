@@ -6,13 +6,13 @@ import chinaImg from "@assets/img/china.svg";
 const model = createModel({
   // model名称，view层用于提取state的key，需要保证唯一
   name: "app",
+  isGlobal: true,
   // 初始state状态
   state: {
     isNeedLogin: false,
-    isNeedPermission: false
+    isNeedPermission: false,
   },
-  reducers: {
-  },
+  reducers: {},
   sagas: {
     *didMount({ $actions, $globalActions }) {
       //TODO 项目启动 = appOnLaunch

@@ -12,23 +12,6 @@ class Home extends Component {
     super(props);
   }
 
-  static getConfig() {
-    return {
-      pageId: "10011",
-      name: "index",
-      barSettings: {
-        title: { text: "修改名片" },
-        leftItems: [{ type: 1 }],
-        rightItems: [
-          {
-            text: "保存",
-            onPress: "$saveMessage",
-          },
-        ],
-      },
-    };
-  }
-
   render() {
     return (
       <div>

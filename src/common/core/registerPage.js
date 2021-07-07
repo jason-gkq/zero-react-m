@@ -1,12 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import {
-  injectAsyncReducer,
-  store,
-  globalActions,
-  globalSelectors,
-} from "../redux";
+import { store, globalActions, globalSelectors } from "../redux";
 
 export default (pageModel) => (WrappedComponent) => {
   class TargetComponent extends WrappedComponent {
@@ -27,22 +22,24 @@ export default (pageModel) => (WrappedComponent) => {
   }
 
   @connect((state) => {
-    const { pageStatus }= pageModel.selectors.getState(state);
-    const {isNeedLogin, isNeedPermission} = globalSelectors.getState(state)
-    const { isLogin }= globalSelectors.getUser(state);
-    const pageConfig = WrappedComponent.getConfig();
+    const { pageStatus } = pageModel.selectors.getState(state);
+    let {
+      isNeedLogin: $isNeedLogin,
+      isNeedPermission: $isNeedPermission,
+    } = globalSelectors.getApp(state);
+    const { isLogin } = globalSelectors.getUser(state);
 
-    if (Reflect.has(pageConfig, "isNeedLogin")) {
-      $isNeedLogin = pageConfig.isNeedLogin;
+    if (Reflect.has(pageModel.config, "isNeedLogin")) {
+      $isNeedLogin = pageModel.config.isNeedLogin;
     }
-    if (Reflect.has(pageConfig, "isNeedPermission")) {
-      $isNeedPermission = pageConfig.isNeedPermission;
+    if (Reflect.has(pageModel.config, "isNeedPermission")) {
+      $isNeedPermission = pageModel.config.isNeedPermission;
     }
     return {
       $pageStatus: pageStatus,
-      $isNeedLogin: isNeedLogin,
-      $isNeedPermission: isNeedPermission,
-      isLogin
+      $isNeedLogin,
+      $isNeedPermission,
+      isLogin,
     };
   })
   // @connect()
@@ -66,11 +63,10 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     componentDidMount() {
-      const pageConfig = WrappedComponent.getConfig();
       this.props.dispatch(
         globalActions.route.currentPage({
-          pageId: pageConfig.pageId,
-          title: pageConfig.name,
+          pageId: pageModel.config.pageId,
+          title: pageModel.config.title,
         })
       );
       // pv 埋点

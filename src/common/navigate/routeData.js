@@ -36,14 +36,14 @@ export default {
       ),
     },
   ],
-  common: [
+  conmmon: [
     {
       path: "/lcbtest/login/index",
       component: React.lazy(() =>
         import(
-          /* webpackChunkName: 'login' */ /* webpackMode: 'lazy' */ "@src/common/pages/login/index"
+          /* webpackChunkName: 'index' */ /* webpackMode: 'lazy' */ "@src/common/pages/login/index"
         )
       ),
     },
-  ]
+  ],
 };

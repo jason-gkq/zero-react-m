@@ -9,7 +9,6 @@ import {
 } from "redux-batched-actions";
 import createSagaMiddleware from "redux-saga";
 
-import staticActions from "./rootAction";
 import staticReducers from "./rootReducer";
 import staticSagas from "./rootSaga";
 
@@ -62,12 +61,6 @@ export function removeAsyncReducer(name) {
   store.replaceReducer(createReducer(asyncReducers));
 }
 
-let globalActions = staticActions;
-
-export function injectGlobalActions(actions) {
-  Object.assign(globalActions, actions);
-}
-
 store.subscribe(function (...data) {
   // console.log(
   //   "store_0 has been updated. Latest store state:",
@@ -77,4 +70,4 @@ store.subscribe(function (...data) {
   // 在这里更新你的视图
 });
 
-export { store, sagaMiddleware, globalActions, batchActions };
+export { store, sagaMiddleware, batchActions };

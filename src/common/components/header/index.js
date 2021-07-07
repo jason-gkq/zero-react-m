@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { getRoute } from "../../redux";
+import { globalSelectors } from "../../redux";
 import * as styles from "./index.less";
 import backBlack from "@assets/img/back-black.svg";
 
@@ -33,9 +33,7 @@ class HeaderErrorBoundary extends Component {
               <img src={backBlack} className={styles.headerIcon} />
             </div>
             <div className={styles.headerContentTitle}>乐车邦</div>
-            <div
-              className={[styles.headerContentRight]}
-            ></div>
+            <div className={[styles.headerContentRight]}></div>
           </div>
         </div>
       );
@@ -54,15 +52,15 @@ class Header extends Component {
     return (
       <HeaderErrorBoundary>
         <div className={styles.header}>
-            <div className={styles.headerContent}>
-              <div className={styles.headerContentLeft}>
-                <img src={backBlack} className={styles.headerIcon} />
-              </div>
-              <div className={[styles.headerContentTitle, styles.showDots]}>{title}</div>
-              <div
-                className={[styles.headerContentRight]}
-              ></div>
+          <div className={styles.headerContent}>
+            <div className={styles.headerContentLeft}>
+              <img src={backBlack} className={styles.headerIcon} />
             </div>
+            <div className={[styles.headerContentTitle, styles.showDots]}>
+              {title}
+            </div>
+            <div className={[styles.headerContentRight]}></div>
+          </div>
         </div>
       </HeaderErrorBoundary>
     );
@@ -71,7 +69,7 @@ class Header extends Component {
 
 export default connect(
   (state) => {
-    const { currentPage = {} } = getRoute(state);
+    const { currentPage = {} } = globalSelectors.getRoute(state);
     return { currentPage };
   },
   (dispatch) => {

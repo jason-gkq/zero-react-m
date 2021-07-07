@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { getRoute } from "../../redux";
+import { globalSelectors } from "../../redux";
 import * as styles from "./index.less";
 
 class FooterErrorBoundary extends Component {
@@ -39,9 +39,7 @@ class Footer extends Component {
   render() {
     return (
       <FooterErrorBoundary>
-        <div className='footer'>
-          footer
-        </div>
+        <div className='footer'>footer</div>
       </FooterErrorBoundary>
     );
   }
@@ -49,7 +47,7 @@ class Footer extends Component {
 
 export default connect(
   (state) => {
-    const { currentPage = {} } = getRoute(state);
+    const { currentPage = {} } = globalSelectors.getRoute(state);
     return { currentPage };
   },
   (dispatch) => {

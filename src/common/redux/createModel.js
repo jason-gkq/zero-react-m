@@ -6,8 +6,10 @@ import {
   injectAsyncReducer,
   removeAsyncReducer,
   sagaMiddleware,
-  globalActions,
 } from "./configureStore";
+
+import { globalActions, injectGlobalActions } from "./rootAction";
+import { globalSelectors, injectGlobalSelectors } from "./rootSelector";
 
 export const isObject = (obj) =>
   Object.prototype.toString.call(obj) === "[object Object]";
@@ -81,15 +83,17 @@ export const createReducerFromMap = (map, actions, initialState) => {
   return handleActions(map, initialState);
 };
 
-const toLocalSelectors = (selectors, getState) =>
+// getState
+const toLocalSelectors = (selectors, defaultSelectors) =>
   Object.entries(selectors).reduce(
     (result, [key, selector]) => {
-      result[key] = createSelector(getState, selector);
+      result[key] = createSelector(...defaultSelectors, selector);
       return result;
     },
-    {
-      getState,
-    }
+    defaultSelectors
+    // {
+    //   getState,
+    // }
   );
 
 const createSagaFromMap = (map, actions, selectors) => {
@@ -116,12 +120,14 @@ const createSagaFromMap = (map, actions, selectors) => {
           $actions: actions,
           $selectors: selectors,
           $globalActions: globalActions,
+          $globalSelectors: globalSelectors,
         });
       } else {
         yield takeLatest(item[0], item[1], {
           $actions: actions,
           $selectors: selectors,
           $globalActions: globalActions,
+          $globalSelectors: globalSelectors,
         });
       }
     }
@@ -146,8 +152,10 @@ const fillActionMap = (actionMap, map) => {
 export default function createDucks({
   name,
   state = {},
+  config = {},
   initialize = false,
   cache = true,
+  isGlobal = false,
   actions: actionMap = {},
   reducers: reducerMap = {},
   sagas: sagaMap = {},
@@ -157,22 +165,35 @@ export default function createDucks({
   fillActionMap(actionMap, sagaMap);
 
   const sliceAction = createActionsFromMap(actionMap, name);
-  const sliceSelector = toLocalSelectors(selectors, (state) => state[name]);
+
+  const defaultSelectors = {};
+  if (isGlobal) {
+    defaultSelectors[`get${name.replace(/^\S/, (s) => s.toUpperCase())}`] = (
+      state
+    ) => state[name];
+  } else {
+    defaultSelectors["getState"] = (state) => state[name];
+  }
+  const sliceSelector = toLocalSelectors(selectors, defaultSelectors);
   let sliceReducer = createReducerFromMap(
     reducerMap,
     sliceAction,
     state,
-    // Object.assign({ pageStatus: "success" }, state),
+    isGlobal ? state : Object.assign({ pageStatus: "success" }, state),
     name
   );
   const sliceSaga = createSagaFromMap(sagaMap, sliceAction, sliceSelector);
 
   injectAsyncReducer(name, sliceReducer);
-
+  if (isGlobal) {
+    injectGlobalActions(sliceAction);
+    injectGlobalSelectors(sliceSelector);
+  }
   return {
     name,
     initialize,
     cache,
+    config,
     selectors: sliceSelector,
     actions: sliceAction,
     reducers: sliceReducer,

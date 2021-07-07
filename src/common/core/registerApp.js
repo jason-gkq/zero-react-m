@@ -1,18 +1,13 @@
 import React from "react";
-import { store, injectGlobalActions, injectGlobalSelectors } from "../redux";
+import { store } from "../redux";
 import { history, generateRoute } from "../navigate";
-import { ThemeContext, themes } from "./themeContext";
+// import { ThemeContext, themes } from "./themeContext";
 import "../style/index.less";
 
 export default (appModel) => (WrappedComponent) => {
   class RegisterAppComponent extends React.Component {
     constructor(props) {
       super(props);
-      /**
-       * 合并app中的action进入全局action
-       */
-      injectGlobalActions(appModel.actions);
-      injectGlobalSelectors(appModel.selectors);
       /**
        * 初始化路由，并获取对应路由列表
        */

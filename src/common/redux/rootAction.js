@@ -32,7 +32,14 @@ const staticActions = {
   SHARE: void 0,
   TEST: void 0,
 };
-export default createActions(staticActions, {
+
+export const globalActions = createActions(staticActions, {
   // prefix: "global",
   // namespace: ".",
 });
+
+export default globalActions;
+
+export function injectGlobalActions(actions) {
+  Object.assign(globalActions, actions);
+}
