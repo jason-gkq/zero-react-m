@@ -39,7 +39,7 @@ export default connect(
     return {
       addVoucher() {
         // store.dispatch(store.globalActions.test());
-        dispatch(model.action.changeName("dsfds"));
+        // dispatch(model.action.changeName("dsfds"));
       },
       goTo() {
         dispatch(globalActions.navigate.goTo({ url: "/home/home1" }));

@@ -20,47 +20,19 @@
 ## 指南
 
 ### 项目启动
-
-**[代码获取](https://github.com/jason-gkq/zero-react-m)**
-
-安装依赖包
-
-```
-yarn install
+```shell
+npm install;
+npm start;
 ```
 
-更新依赖包
-
+本地访问
+```js
+http://localhost:8080/
 ```
-yarn upgrade --lastest
+
+更新包
+```shell
 yarn upgrade zero-react-scripts@0.2.17
-```
-
-本地开发
-
-```sh
-yarn start
-```
-
-访问：`http://localhost:8080/`
-
-打包
-
-```sh
-
-yarn build:dev  // 开发环境打包
-
-yarn build:uat  // 测试环境打包
-
-yarn build:pre  // 堡垒打包
-
-yarn build:prod  // 生产打包
-```
-
-格式化代码
-
-```
-  yarn prettier --write src/index.js
 ```
 
 ## 框架
@@ -113,10 +85,14 @@ import { put, call } from "redux-saga/effects";
 
 export default createModel({
   name: "Home", // 存在store里的节点名
-  // 页面头部信息配置
-  config: {},
-  state: {
-    // 页面所需的数据字段
+  config:{
+    pageId:'',
+    pageTitle:'',
+    pageStatus: 'success'
+    isNeedLogin: false,
+    isNeedpermission: false,
+  },
+  state: { // 页面所需的数据字段
     systemName: "小程序",
     pageStatus: "hhh",
   },
@@ -142,7 +118,24 @@ export default createModel({
 
 - `index.less`页面样式
 - `conponents/DivTest.js` 页面的纯展示组件，不做多余逻辑处理
-- `containers/DivTest.js` 页面的状态组件，用于 View 和 Store 的联接
+- `containers/DivTest.js` 页面的状态组件，用于View和Store的联接
+---
+### 登录流程
+1. RegisterApp/componentDidMount 根据currentUser判断是否有用户信息，确定isLogin状态，isLogin = false 去调登录接口
+2. NetWork层接口返回904、907状态也走登录流程（先loginOut 再Login）
+3. 登录状态标识：根据 ’用户user信息+ mobile 信息‘
+
+### 全局store信息：通过isGloable配置
+- user
+- car
+- store
+- location
+- subscribtion
+- inviteInfo
+
+- agentInfo
+- ad
+
 
 ---
 
