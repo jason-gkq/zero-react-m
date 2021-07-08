@@ -178,9 +178,7 @@ export default function createDucks({
   let sliceReducer = createReducerFromMap(
     reducerMap,
     sliceAction,
-    state,
-    isGlobal ? state : Object.assign({ pageStatus: "success" }, state),
-    name
+    isGlobal ? state : Object.assign({ pageStatus: "success" }, state)
   );
   const sliceSaga = createSagaFromMap(sagaMap, sliceAction, sliceSelector);
 
