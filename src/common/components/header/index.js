@@ -1,80 +1,79 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { globalSelectors } from "../../redux";
-import * as styles from "./index.less";
-import backBlack from "@assets/img/back-black.svg";
+import { globalSelectors, globalActions, store } from '../../redux';
+import * as styles from './index.less';
+import backBlack from '@assets/img/back-black.svg';
+import { NavBar, Text } from '@common/components';
 
 class HeaderErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
+	constructor(props) {
+		super(props);
+		this.state = { hasError: false };
+	}
 
-  static getDerivedStateFromError(error) {
-    // 更新 state 使下一次渲染能够显示降级后的 UI
-    return { hasError: true };
-  }
+	static getDerivedStateFromError(error) {
+		// 更新 state 使下一次渲染能够显示降级后的 UI
+		return { hasError: true };
+	}
 
-  componentDidCatch(error, errorInfo) {
-    // this.setState({
-    //   error,
-    //   errorInfo,
-    // });
-    // logErrorToMyService(error, errorInfo);
-  }
+	componentDidCatch(error, errorInfo) {
+		// this.setState({
+		//   error,
+		//   errorInfo,
+		// });
+		// logErrorToMyService(error, errorInfo);
+	}
 
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className={styles.header}>
-          <div className={styles.headerContent}>
-            <div className={styles.headerContentLeft}>
-              <img src={backBlack} className={styles.headerIcon} />
-            </div>
-            <div className={styles.headerContentTitle}>乐车邦</div>
-            <div className={[styles.headerContentRight]}></div>
-          </div>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
+	render() {
+		if (this.state.hasError) {
+			return (
+				<NavBar
+					mode="light"
+					icon={
+            <img src={backBlack} className="back-icon" />}
+					// onLeftClick={() => console.log('onLeftClick')}
+					rightContent={<Text>设置</Text>}
+				>
+					hasError
+				</NavBar>
+			);
+		}
+		return this.props.children;
+	}
 }
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  render() {
-    const { title } = this.props.currentPage;
-    return (
-      <HeaderErrorBoundary>
-        <div className={styles.header}>
-          <div className={styles.headerContent}>
-            <div className={styles.headerContentLeft}>
-              <img src={backBlack} className={styles.headerIcon} />
-            </div>
-            <div className={[styles.headerContentTitle, styles.showDots]}>
-              {title}
-            </div>
-            <div className={[styles.headerContentRight]}></div>
-          </div>
-        </div>
-      </HeaderErrorBoundary>
-    );
-  }
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+	render() {
+		const { title } = this.props.currentPage;
+		return (
+			<HeaderErrorBoundary>
+				<NavBar
+					mode="light"
+					icon={<img src={backBlack} className="back-icon" />}
+					// onLeftClick={() => this.props.onBackAction()}
+				>
+					{title}
+				</NavBar>
+			</HeaderErrorBoundary>
+		);
+	}
 }
 
 export default connect(
-  (state) => {
-    const { currentPage = {} } = globalSelectors.getRoute(state);
-    return { currentPage };
-  },
-  (dispatch) => {
-    return {
-      dispatch,
-    };
-  }
+	(state) => {
+		const { currentPage = {} } = globalSelectors.getRoute(state);
+		return { currentPage };
+	},
+	(dispatch) => {
+		return {
+			// onBackAction(){
+      //   dispatch(globalActions.navigate.goTo({ url: "/home/home2" }))
+      // }
+		};
+	}
 )(Header);

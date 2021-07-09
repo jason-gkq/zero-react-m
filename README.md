@@ -173,7 +173,11 @@ export default createModel({
 ## 组件
 
 ### 基础组件
-
+basic
+- View
+- ScrollView
+- Swiper
+- Text
 - Button
 - Alert
 - Badge
@@ -181,10 +185,16 @@ export default createModel({
 - Modal
 - Picker
 - DatePicker
-- Calendar
-- Swiper
+- Calendar 
+- WingBlank 两翼留白
+- WhiteSpace 上下留白
+- NavNar 导航栏
+- Popover 气泡
+- Tabs 标签页
+- Checkbox 复选框
+- List
+
 - Drawer
-- Popover
 - Loading
 
 ### 业务组件

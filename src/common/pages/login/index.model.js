@@ -9,6 +9,11 @@ export default createModel({
     systemName: "小程序",
     pageStatus: "loading",
   },
+  config: {
+    pageId: "10011",
+    title: "登录",
+    isNeedLogin: false,
+  },
   reducers: {},
   sagas: {
     *didMount({ $actions }) {

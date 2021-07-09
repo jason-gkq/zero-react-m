@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "classnames": "^2.3.1",
     "core-js": "3",
     "platform": "^1.3.6",
     "react": "^17.0.2",
@@ -44,6 +45,7 @@
     "redux-thunk": "~2.3.0",
     "require": "^2.4.20",
     "reselect": "^4.0.0",
+    "rmc-tabs": "^1.2.29",
     "web-vitals": "^1.1.1",
     "zero-react-scripts": "0.2.17"
   },
