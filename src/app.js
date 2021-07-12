@@ -1,10 +1,8 @@
 import React from "react";
-// import "./app.css"; RegisterApp, sd
-import "./app.less";
 import { BaseApp } from "@common/core";
 import model from "./app.model";
+import "./app.less";
 
-// @RegisterApp(model)
 @BaseApp(model)
 class App extends React.Component {
   constructor(props) {
