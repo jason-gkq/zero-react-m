@@ -7,7 +7,7 @@ import model from "./index.model";
 import { globalActions } from "@common/redux";
 
 @BasePage(model)
-class Home extends Component {
+class Index extends Component {
   constructor(props) {
     super(props);
   }
@@ -46,4 +46,4 @@ export default connect(
       },
     };
   }
-)(Home);
+)(Index);
