@@ -8,7 +8,7 @@
  * https://blog.csdn.net/qiushisoftware/article/details/80158593
  */
 import axios, { Cancel } from "axios";
-import { guid, cloneDeep } from "@common/utils/util";
+import { guid, cloneDeep } from "@/common/utils/util";
 import cookieStorage from "../cache/cookieStorage";
 import navigate from "../navigate/configureNavigate";
 
@@ -18,7 +18,7 @@ const loginWhiteListUrl = [
   '/gateway/user/smsLogin'
 ]
 
-// import { store } from "@common/redux/store";
+// import { store } from "@/common/redux/store";
 /**
  * 用户clientId
  */

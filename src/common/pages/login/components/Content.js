@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, WingBlank, WhiteSpace, NavBar, Flex, Tabs, Badge } from '@common/components';
-import backBlack from '@assets/img/back-black.svg';
+// import { Text,Button, WingBlank, WhiteSpace, NavBar, Flex, Tabs, Badge, Checkbox } from '@/common/components';
+import { Text, PageLoading, Loading} from '@/common/components';
+import {Button, WingBlank, WhiteSpace, NavBar, Flex, Tabs, Badge, Checkbox } from 'antd-mobile';
+import backBlack from '@/assets/img/back-black.svg';
 
 const styles = {
 	backgroundColor: 'blue',
@@ -21,6 +23,7 @@ export default (props) => {
 	const { onLoginAction, mobile } = props;
 	return (
 		<div className="psl-page-content">
+			{/* <PageLoading></PageLoading> */}
 			<Text>Text</Text>
 			<WhiteSpace height={50}>WhiteSpace</WhiteSpace>
 			<WhiteSpace height={10} style={styles} />
@@ -34,9 +37,9 @@ export default (props) => {
 			<div className="psl-tel-wrap clearfix fix-content">
 				<input className="psl-tel" type="tel" placeholder="请输入手机号" value={mobile} />
 			</div>
-			<button className="login-btn" onClick={onLoginAction}>
+			<Button className="login-btn" onClick={onLoginAction}>
 				登录
-			</button>
+			</Button>
 
 			<NavBar
 				mode="light"
@@ -96,10 +99,12 @@ export default (props) => {
 					Content of third tab
 				</div>
 			</Tabs>
+			<Button>Checkbox</Button>
 
 			<Badge dot>
 				<span style={{ width: '26px', height: '26px', background: '#ddd', display: 'inline-block' }} />
 			</Badge>
+			<Loading text="努力加载中"></Loading>
 		</div>
 	);
 };

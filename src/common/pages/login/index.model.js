@@ -1,7 +1,7 @@
-import { createModel } from "@src/common/redux";
+import { createModel } from "@/common/redux";
 import { put, call } from "redux-saga/effects";
 import axios from "axios";
-import { cookieStorage } from "@src/common/cache";
+import { cookieStorage } from "@/common/cache";
 
 export default createModel({
   name: "login",

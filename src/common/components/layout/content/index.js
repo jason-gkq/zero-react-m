@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as styles from "./index.less";
+import "./index.less";
 
 class ContentErrorBoundary extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class ContentErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return <div className='content'>页面渲染出错</div>;
+      return <div className='page-content'>页面渲染出错</div>;
     }
     return this.props.children;
   }
@@ -36,7 +36,7 @@ export default class Content extends Component {
   render() {
     return (
       <ContentErrorBoundary>
-        <div className='content'>{this.props.children}</div>
+        <div className='page-content'>{this.props.children}</div>
       </ContentErrorBoundary>
     );
   }

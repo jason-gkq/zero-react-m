@@ -1,4 +1,4 @@
-import { createModel } from "@src/common/redux";
+import { createModel } from "@/common/redux";
 import { put, call } from "redux-saga/effects";
 
 export default createModel({

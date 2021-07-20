@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { globalSelectors, globalActions, store } from '../../redux';
-import * as styles from './index.less';
-import backBlack from '@assets/img/back-black.svg';
-import { NavBar, Text } from '@common/components';
+import { globalSelectors, globalActions, store } from '../../../redux';
+import backBlack from '@/assets/img/back-black.svg';
+import { Text } from '@/common/components';
+import {NavBar} from "antd-mobile"
+
+import './index.less';
+
 
 class HeaderErrorBoundary extends Component {
 	constructor(props) {
@@ -30,8 +33,7 @@ class HeaderErrorBoundary extends Component {
 			return (
 				<NavBar
 					mode="light"
-					icon={
-            <img src={backBlack} className="back-icon" />}
+					icon={<img src={backBlack} className="back-icon" />}
 					// onLeftClick={() => console.log('onLeftClick')}
 					rightContent={<Text>设置</Text>}
 				>
@@ -55,7 +57,7 @@ class Header extends Component {
 				<NavBar
 					mode="light"
 					icon={<img src={backBlack} className="back-icon" />}
-					// onLeftClick={() => this.props.onBackAction()}
+					onLeftClick={() => this.props.onBackAction()}
 				>
 					{title}
 				</NavBar>
@@ -71,9 +73,9 @@ export default connect(
 	},
 	(dispatch) => {
 		return {
-			// onBackAction(){
-      //   dispatch(globalActions.navigate.goTo({ url: "/home/home2" }))
-      // }
+			onBackAction(){
+			  dispatch(globalActions.navigate.goBack())
+			}
 		};
 	}
 )(Header);

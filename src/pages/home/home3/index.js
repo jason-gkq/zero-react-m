@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as styles from "./index.less";
-import { BasePage } from "@common/core";
+import { BasePage } from "@/common/core";
 import model from "./index.model";
 
-import { globalActions } from "@common/redux";
+import { globalActions } from "@/common/redux";
 
 @BasePage(model)
 class Home extends Component {
@@ -34,6 +34,7 @@ class Home extends Component {
             我是一个更多字而且第三个div
           </div>
         </div>
+        <div className="btn border-thin">huhu</div>
       </div>
     );
   }

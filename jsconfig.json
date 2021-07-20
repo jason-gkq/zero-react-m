@@ -6,10 +6,10 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@assets/*": ["public/assets/*"],
-      "@src/*": ["src/*"],
-      "@common": ["src/common"],
-      "@common/*": ["src/common/*"]
+      "@/assets/*": ["public/assets/*"],
+      "@/src/*": ["src/*"],
+      "@/common": ["src/common"],
+      "@/common/*": ["src/common/*"]
     }
   },
   "exclude": ["node_modules", "dist", "dest"]

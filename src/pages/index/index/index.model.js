@@ -1,4 +1,4 @@
-import { createModel } from "@src/common/redux";
+import { createModel } from "@/common/redux";
 
 export default createModel({
   name: "Index",
