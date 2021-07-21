@@ -12,6 +12,43 @@ const model = createModel({
     isNeedLogin: false,
     isNeedPermission: false,
   },
+  config:{
+    tabBar: {
+      barTintColor: '#fff', //tabbar 背景色
+      unselectedTintColor: '#000', //未选中的字体颜色
+      tintColor: '#fa5a4b', //选中的字体颜色
+      list: [
+        {
+          title: '首页',
+          key: 'home',
+          selectedIcon: '',
+          icon: '',
+          pagePath: "/lcbtest/index/index"
+        },
+        {
+          title: '4S店',
+          key: 'store',
+          selectedIcon: '',
+          icon: '',
+          pagePath: "/lcbtest/index/index"
+        },
+        {
+          title: '4S保养',
+          key: 'baoyang',
+          selectedIcon: '',
+          icon: '',
+          pagePath: "/lcbtest/index/index"
+        },
+        {
+          title: '我的',
+          key: 'my',
+          selectedIcon: '',
+          icon: '',
+          pagePath: "/lcbtest/index/index"
+        },
+      ],
+    }
+  },
   reducers: {},
   sagas: {
     *didMount({ $actions, $globalActions }) {

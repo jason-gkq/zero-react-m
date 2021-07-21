@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import { globalSelectors, globalActions, store } from '../../../redux';
 import backBlack from '@/assets/img/back-black.svg';
 import { Text } from '@/common/components';
-import {NavBar} from "antd-mobile"
+import { NavBar } from 'antd-mobile';
 
 import './index.less';
-
 
 class HeaderErrorBoundary extends Component {
 	constructor(props) {
@@ -54,13 +53,15 @@ class Header extends Component {
 		const { title } = this.props.currentPage;
 		return (
 			<HeaderErrorBoundary>
-				<NavBar
-					mode="light"
-					icon={<img src={backBlack} className="back-icon" />}
-					onLeftClick={() => this.props.onBackAction()}
-				>
-					{title}
-				</NavBar>
+				<div className="page-header">
+					<NavBar
+						mode="light"
+						icon={<img src={backBlack} className="back-icon" />}
+						onLeftClick={() => this.props.onBackAction()}
+					>
+						{title}
+					</NavBar>
+				</div>
 			</HeaderErrorBoundary>
 		);
 	}
@@ -73,9 +74,9 @@ export default connect(
 	},
 	(dispatch) => {
 		return {
-			onBackAction(){
-			  dispatch(globalActions.navigate.goBack())
-			}
+			onBackAction() {
+				dispatch(globalActions.navigate.goBack());
+			},
 		};
 	}
 )(Header);

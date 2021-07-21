@@ -7,12 +7,14 @@ export default createModel({
   name: "login",
   state: {
     systemName: "小程序",
-    pageStatus: "loading",
+    pageStatus: "loading"
   },
   config: {
     pageId: "10011",
     title: "登录",
     isNeedLogin: false,
+    hideHeader: true,
+    hideTabBar: true
   },
   reducers: {},
   sagas: {

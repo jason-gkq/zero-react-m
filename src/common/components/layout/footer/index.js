@@ -33,47 +33,54 @@ class FooterErrorBoundary extends Component {
 	}
 }
 
-const tabBar = {
-	barTintColor: '#fff', //tabbar 背景色
-	unselectedTintColor: '#000', //未选中的字体颜色
-	tintColor: '#fa5a4b', //选中的字体颜色
-	list: [{
-		title: '首页',
-		key: 'home',
-		selectedIcon: '',
-		icon: ''
-	},{
-		title: '4S店',
-		key: 'store',
-		selectedIcon: '',
-		icon: ''
-	},{
-		title: '4S保养',
-		key: 'baoyang',
-		selectedIcon: '',
-		icon: ''
-	},{
-		title: '我的',
-		key: 'my',
-		selectedIcon: '',
-		icon: ''
-	}
-],
-};
+// const tabBar = {
+// 	barTintColor: '#fff', //tabbar 背景色
+// 	unselectedTintColor: '#000', //未选中的字体颜色
+// 	tintColor: '#fa5a4b', //选中的字体颜色
+// 	list: [
+// 		{
+// 			title: '首页',
+// 			key: 'home',
+// 			selectedIcon: '',
+// 			icon: '',
+// 		},
+// 		{
+// 			title: '4S店',
+// 			key: 'store',
+// 			selectedIcon: '',
+// 			icon: '',
+// 		},
+// 		{
+// 			title: '4S保养',
+// 			key: 'baoyang',
+// 			selectedIcon: '',
+// 			icon: '',
+// 		},
+// 		{
+// 			title: '我的',
+// 			key: 'my',
+// 			selectedIcon: '',
+// 			icon: '',
+// 		},
+// 	],
+// };
 
 class Footer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			tabBar: props.appConfig.tabBar,
 			selectedTab: 'redTab',
 			hidden: false, // 是否隐藏TabBar
 		};
 	}
 
 	render() {
+		const tabBar = this.state.tabBar
+		console.log('99999',this.state.tabBar)
 		return (
 			<FooterErrorBoundary>
-				<div className="page-footer">
+				<div className="page-bottom">
 					<TabBar
 						unselectedTintColor={tabBar.unselectedTintColor}
 						tintColor={tabBar.tintColor}
