@@ -19,18 +19,17 @@ import {
   takeLatest,
   takeEvery,
 } from "redux-saga/effects";
-import axios from "axios";
 import platform from "platform";
 
 import staticActions from "./rootAction";
 import { getEnv } from "./rootSelector";
 
-import { cookieStorage } from "../cache";
+import { cookieStorage, storage } from "../cache";
 import { guid } from "../utils";
 
 import { navigate } from "../navigate";
 
-import { setCommonData, setAxiosBase } from "../net";
+import { setCommonData, setAxiosBase, httpsClient } from "../net";
 
 import {
   themes,
@@ -41,10 +40,10 @@ import {
 
 const initEnv = function* () {
   const env = yield select(getEnv);
-  let clientId = cookieStorage.getItem("__clientId");
+  let clientId = storage.getStorageSync("__clientId");
   if (!clientId) {
     clientId = guid();
-    cookieStorage.setItem("__clientId", clientId, Infinity);
+    storage.setStorageSync("__clientId", clientId, Infinity);
   }
   // console.log(document.documentElement.style);
   const parentSessionId = guid();
@@ -60,6 +59,7 @@ const initEnv = function* () {
       __clientId: clientId,
       version: process.env.VERSION,
       platformType: process.env.application,
+      theme: "A",
     },
     process.env.productConfig
   );
@@ -67,32 +67,16 @@ const initEnv = function* () {
    * 设置axios拦截器
    */
   setAxiosBase(env);
-  // updateStyle(env.theme || "A");
-  yield call(changeTheme, { payload: { theme: env.theme || "A" } });
+  yield call(changeTheme, { payload: { theme: env.theme } });
   yield put(staticActions.env.setEnv({ ...env }));
 };
-
-const currentUser = function* () {
-  try {
-    const user = yield axios.post(`/gateway/user/currentUser`);
-    user['isLogin'] = false;
-    if(user && user.user && user.user.mobile){
-      user['isLogin'] = true;
-    }
-    user['mobile'] = user.user && user.user.mobile;
-    cookieStorage.setItem("token",user.token, Infinity, cookieStorage.getDomain())
-    yield put(staticActions.user.setUser(user));
-  } catch (error) {
-    cookieStorage.removeItem("token",'', cookieStorage.getDomain())
-    yield put(staticActions.user.setUser({isLogin: false}));
-  }
-}
 
 const injectThemes = function* ({ payload: { themes } }) {
   injectTheme(themes);
 };
 
 const changeTheme = function* ({ payload: { theme } }) {
+  // const {theme} = yield select(getEnv);
   if (!themes[theme]) {
     return;
   }
@@ -237,26 +221,73 @@ const reLaunch = function* ({ payload: { url, params = {}, options = {} } }) {
   return;
 };
 
-const login = function* ({ payload }) {};
+const login = function* ({ payload }) {
+  try {
+    const user = yield httpsClient.post(`gateway/user/smsLogin`, {
+      mobile: "13800000000",
+      code: "1111",
+    });
+    user["isLogin"] = true;
+    user["mobile"] = user.user && user.user.mobile;
+    yield put(staticActions.user.setUser(user));
+  } catch (error) {
+    yield put(staticActions.user.setUser({ isLogin: false }));
+  }
+};
+
+const loginSuccess = function* ({ payload }) {};
 
 const logout = function* ({ payload }) {};
 
-const test = function* ({ payload }) {
-  axios
-    .post(`gateway/manage/common/api/auth/queryUserAuth`, {
-      groupId: 58,
-      groupType: 2,
-      groupKey: "2|58",
-      ...payload,
-    })
-    .then((resp) => {
-      console.log("queryUserAuth:resp::", resp);
-      return Promise.resolve(resp);
-    })
-    .catch((e) => {
-      console.log("queryUserAuth:e::", e);
-      return null;
-    });
+const checkLogin = function* () {
+  try {
+    const { isNeedPermission } = yield select(getEnv);
+    if (!isNeedPermission) {
+      const user = yield httpsClient.post(`gateway/user/currentUser`);
+      user["isLogin"] = false;
+      if (user && user.user && user.user.mobile) {
+        user["isLogin"] = true;
+      }
+      user["mobile"] = user.user && user.user.mobile;
+      yield put(staticActions.user.setUser(user));
+    } else {
+      const {
+        factoryInfoRespList,
+        groupInfo,
+        groupInfoResp,
+        menus,
+        roles,
+        routerRules,
+        user,
+      } = yield httpsClient.post(
+        `gateway/manage/common/api/auth/queryUserAuth`
+      );
+      user["isLogin"] = false;
+      if (user && user.user && user.user.mobile) {
+        user["isLogin"] = true;
+      }
+      user["mobile"] = user.user && user.user.mobile;
+
+      yield put(
+        staticActions.route.setRoute({
+          menus,
+        })
+      );
+      yield put(
+        staticActions.shop.setShop({
+          shopList: roles,
+          shopInfo: groupInfo,
+          groupInfoResp,
+          factoryInfoRespList,
+        })
+      );
+      yield put(staticActions.user.setUser(user));
+    }
+    yield put(staticActions.env.setEnv({ status: true }));
+  } catch (error) {
+    yield put(staticActions.user.setUser({ isLogin: false }));
+    yield put(staticActions.env.setEnv({ status: true }));
+  }
 };
 
 export default function* staticSagas() {
@@ -264,9 +295,8 @@ export default function* staticSagas() {
    * 系统信息初始化
    */
   yield all([initSystem(), initEnv()]);
-  yield all([currentUser()]);
-  // yield takeLatest(staticActions.system.initSystem, initSystem);
-  // yield takeLatest(staticActions.env.initEnv, initEnv);
+  yield all([checkLogin()]);
+
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
   yield takeLatest(staticActions.env.injectThemes, injectThemes);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);
@@ -283,8 +313,6 @@ export default function* staticSagas() {
    */
   yield takeLatest(staticActions.user.login, login);
   yield takeLatest(staticActions.user.logout, logout);
-
-  yield takeLatest(staticActions.test, test);
 }
 
 // 用于缓存所有effects函数

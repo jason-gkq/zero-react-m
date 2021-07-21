@@ -8,15 +8,15 @@
  * https://blog.csdn.net/qiushisoftware/article/details/80158593
  */
 import axios, { Cancel } from "axios";
-import { guid, cloneDeep } from "@/common/utils/util";
+import { guid, cloneDeep } from "../utils/util";
 import cookieStorage from "../cache/cookieStorage";
 import navigate from "../navigate/configureNavigate";
 
 /* 不跳转登录页面白名单 */
 const loginWhiteListUrl = [
-  '/gateway/user/currentUser',
-  '/gateway/user/smsLogin'
-]
+  "/gateway/user/currentUser",
+  "/gateway/user/smsLogin",
+];
 
 // import { store } from "@/common/redux/store";
 /**
@@ -116,7 +116,7 @@ const getCommonData = () => {
 const getXRequestInfo = (data) => {
   let baseInfo = "";
   let xRequestInfo = Object.entries(data).reduce((baseInfo, [key, value]) => {
-    return baseInfo ? `${baseInfo};${key}:${value}` : `${key}:${value}`;
+    return baseInfo ? `${baseInfo};${key}=${value}` : `${key}=${value}`;
   }, baseInfo);
   return xRequestInfo;
 };
@@ -180,10 +180,13 @@ const responseHandler = (resp) => {
       status,
     });
   }
-  let url = resp.config.url
-  if ([904, 907, 8800111].includes(statusCode) && !loginWhiteListUrl.includes(url)) {
+  let url = resp.config.url;
+  if (
+    [904, 907, 8800111].includes(statusCode) &&
+    !loginWhiteListUrl.includes(url)
+  ) {
     // 登录跳转，注意排除loginWhiteListUrl
-    navigate.goTo({url: '/login/index'})
+    navigate.goTo({ url: "/login/index" });
   }
   let result = {
     msg: "服务器内部错误",

@@ -29,6 +29,9 @@ const staticActions = {
     LOGIN: void 0,
     LOGOUT: void 0,
   },
+  SHOP: {
+    SET_SHOP: void 0,
+  },
   SHARE: void 0,
   TEST: void 0,
 };
@@ -40,6 +43,16 @@ export const globalActions = createActions(staticActions, {
 
 export default globalActions;
 
-export function injectGlobalActions(actions) {
-  Object.assign(globalActions, actions);
+export function injectGlobalActions(actions, name = null) {
+  if (name) {
+    globalActions[name] = actions;
+    return;
+  }
+  if (actions) {
+    Object.keys(actions).forEach((key) => {
+      if (!globalActions[key]) {
+        globalActions[key] = actions[key];
+      }
+    });
+  }
 }
