@@ -50,14 +50,17 @@ class Header extends Component {
 		this.state = {};
 	}
 	render() {
-		const { title } = this.props.currentPage;
+		const {
+			isTabBar,
+			currentPage: { title },
+		} = this.props;
 		return (
 			<HeaderErrorBoundary>
 				<div className="page-header">
 					<NavBar
 						mode="light"
-						icon={<img src={backBlack} className="back-icon" />}
-						onLeftClick={() => this.props.onBackAction()}
+						icon={isTabBar ? null : <img src={backBlack} className="back-icon" />}
+						onLeftClick={() => !isTabBar && this.props.onBackAction()}
 					>
 						{title}
 					</NavBar>

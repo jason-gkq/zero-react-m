@@ -11,7 +11,7 @@ import { ThemeContext } from "./themeContext";
 import { PageLoading } from '@/common/components';
 import RegisterApp from "./registerApp";
 
-const AppPage = lazy(() => import(/* webpackChunkName: 'app' */ '../components/layout/layout'));
+const AppPage = lazy(() => import(/* webpackChunkName: 'app' */ '../components/layout'));
 
 export default (appModel) => (WrappedComponent) => {
   @RegisterApp(appModel)
@@ -62,18 +62,18 @@ export default (appModel) => (WrappedComponent) => {
     }
 
     renderContent() {
-      const { $routes } = this.props;
+      const { $routes, $history } = this.props;
       const { status } = this.state;
       switch (status) {
         case "loading":
-          return <div>Loading...</div>;
+          return <PageLoading/>;
         case "error":
           return <div>网络异常</div>;
         default:
           return (
             <Switch>
               <Route path='/lcbtest'>
-                <AppPage $routes={$routes} appConfig={appModel.config} />
+                <AppPage $routes={$routes} $history={$history} appConfig={appModel.config} />
               </Route>
             </Switch>
           );

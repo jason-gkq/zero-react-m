@@ -10866,10 +10866,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zero-react-scripts@0.2.20:
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/zero-react-scripts/-/zero-react-scripts-0.2.20.tgz#73fc875046ea116cc0ba568bc3356dbd4e76b16e"
-  integrity sha512-cgAw1Al5Hrsepwz6eQc2TEgaf24iYC8RxSA+79LEuqeSf4WIeukqe/gbNcVNSseHRLzxpL8mH1sMnLcnmUwYPA==
+zero-react-scripts@0.2.23:
+  version "0.2.23"
+  resolved "https://registry.yarnpkg.com/zero-react-scripts/-/zero-react-scripts-0.2.23.tgz#624891de2e5b54c2bcb8e551d3c65616e7491b46"
+  integrity sha512-VvnFAwRlVvs7eQ4j667RTDhrbVi5ddqT+UdRZ8NFdFR5mxX+luISz69HQJOQpCZ/7SheoV5jFX7SX309/04GoA==
   dependencies:
     "@babel/cli" "^7.13.14"
     "@babel/core" "^7.13.14"
@@ -10900,6 +10900,7 @@ zero-react-scripts@0.2.20:
     add-asset-html-webpack-plugin "^3.2.0"
     babel-loader "^8.1.0"
     babel-plugin-add-module-exports "^1.0.4"
+    babel-plugin-import "^1.13.3"
     babel-plugin-macros "2.8.0"
     babel-plugin-transform-react-remove-prop-types "0.4.24"
     bfj "^7.0.2"

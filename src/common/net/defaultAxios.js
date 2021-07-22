@@ -18,7 +18,7 @@ const loginWhiteListUrl = [
   "/gateway/user/smsLogin",
 ];
 
-// import { store } from "@/common/redux/store";
+import { store } from "@/common/redux";
 /**
  * 用户clientId
  */
@@ -180,13 +180,17 @@ const responseHandler = (resp) => {
       status,
     });
   }
+  const pathname = store.getState().system.onLunchLocation.pathname
+  console.log('----Axios-----',navigate)
   let url = resp.config.url;
   if (
     [904, 907, 8800111].includes(statusCode) &&
     !loginWhiteListUrl.includes(url)
   ) {
     // 登录跳转，注意排除loginWhiteListUrl
-    navigate.goTo({ url: "/login/index" });
+    navigate.redirect({ url: "/lcbtest/common/login/index", params:{
+      to: pathname
+    }});
   }
   let result = {
     msg: "服务器内部错误",

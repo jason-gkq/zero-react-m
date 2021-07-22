@@ -5,7 +5,7 @@ export default createModel({
   name: "Home",
   config: {
     pageId: "10011",
-    title: "home1",
+    title: "我的",
     isNeedLogin: false,
     isNeedPermission: false, // 如无权限，则无需配置
   },

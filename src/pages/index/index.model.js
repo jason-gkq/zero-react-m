@@ -4,8 +4,9 @@ export default createModel({
   name: "Index",
   config: {
     pageId: "10011",
-    title: "Index",
-    isNeedLogin: false,
+    title: "首页",
+    isNeedLogin: true,
+    hideHeader: true
   },
   state: {
     systemName: "小程序",

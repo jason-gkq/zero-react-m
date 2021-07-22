@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { globalSelectors } from '../../../redux';
+import { globalSelectors, globalActions } from '../../../redux';
 // import { TabBar } from '@/common/components';
 import { TabBar } from 'antd-mobile';
 import './index.less';
@@ -32,52 +32,24 @@ class FooterErrorBoundary extends Component {
 		return this.props.children;
 	}
 }
-
-// const tabBar = {
-// 	barTintColor: '#fff', //tabbar 背景色
-// 	unselectedTintColor: '#000', //未选中的字体颜色
-// 	tintColor: '#fa5a4b', //选中的字体颜色
-// 	list: [
-// 		{
-// 			title: '首页',
-// 			key: 'home',
-// 			selectedIcon: '',
-// 			icon: '',
-// 		},
-// 		{
-// 			title: '4S店',
-// 			key: 'store',
-// 			selectedIcon: '',
-// 			icon: '',
-// 		},
-// 		{
-// 			title: '4S保养',
-// 			key: 'baoyang',
-// 			selectedIcon: '',
-// 			icon: '',
-// 		},
-// 		{
-// 			title: '我的',
-// 			key: 'my',
-// 			selectedIcon: '',
-// 			icon: '',
-// 		},
-// 	],
-// };
-
 class Footer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			tabBar: props.appConfig.tabBar,
-			selectedTab: 'redTab',
+			selectedTab: props.appConfig.tabBar.list[0].key,
 			hidden: false, // 是否隐藏TabBar
 		};
 	}
 
 	render() {
-		const tabBar = this.state.tabBar
-		console.log('99999',this.state.tabBar)
+		const tabBar = this.state.tabBar;
+		const {
+			isTabBar
+		} = this.props;
+		if (!isTabBar) {
+			return null;
+		}
 		return (
 			<FooterErrorBoundary>
 				<div className="page-bottom">
@@ -117,6 +89,7 @@ class Footer extends Component {
 										this.setState({
 											selectedTab: tabBarItem.key,
 										});
+										this.props.barAction(tabBarItem);
 									}}
 								></TabBar.Item>
 							);
@@ -131,11 +104,14 @@ class Footer extends Component {
 export default connect(
 	(state) => {
 		const { currentPage = {} } = globalSelectors.getRoute(state);
-		return { currentPage };
+		const env = globalSelectors.getEnv(state);
+		return { currentPage, appName: env.appName };
 	},
 	(dispatch) => {
 		return {
-			dispatch,
+			barAction(tabBarItem) {
+				dispatch(globalActions.navigate.goTo({ url: tabBarItem.pagePath }));
+			},
 		};
 	}
 )(Footer);

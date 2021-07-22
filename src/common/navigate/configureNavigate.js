@@ -43,8 +43,11 @@ class configureNavigate {
     // if (String(url).startsWith(`/${rootModelName}`)) {
     const urlArr = String(url).split("?");
     const pathname = urlArr[0]
-      ? `/${this.rootModelName}${urlArr[0]}`
-      : `/${this.rootModelName}/index`;
+      ? `${urlArr[0]}`
+      : `/index/index`;
+    // const pathname = urlArr[0]
+    //   ? `/${this.rootModelName}${urlArr[0]}`
+    //   : `/${this.rootModelName}/index`;
     const state = params || {};
     const search = urlArr[1] || "";
     if (urlArr[1]) {
