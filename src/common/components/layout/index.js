@@ -26,7 +26,7 @@ class Layout extends React.Component {
 		const path = $history.location.pathname;
 		let arr = [];
 		tabBar.list.map((item) => {
-			arr.push(item.pagePath);
+			arr.push(`/${appName}` + item.pagePath);
 		});
 		let isTabBar = arr.includes(path);
 		return (

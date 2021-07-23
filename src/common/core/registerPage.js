@@ -4,29 +4,10 @@ import { connect } from 'react-redux';
 import { globalActions, globalSelectors } from '../redux';
 
 export default (pageModel) => (WrappedComponent) => {
-	class TargetComponent extends WrappedComponent {
-		constructor(props) {
-			super(props);
-		}
-
-		// TODO: 登录、权限 判断
-		componentDidMount() {
-			const { $isNeedLogin, $isNeedPermission, dispatch, isLogin, currentPage,location:{pathname} } = this.props;
-			// 需要登录
-			if ($isNeedLogin && !isLogin) {
-				dispatch(globalActions.navigate.redirect({ url: '/lcbtest/common/login/index', params:{
-          to: pathname
-        } }));
-				return;
-			}
-			super.componentDidMount();
-		}
-	}
-
-	@connect((state) => {
+	@connect((state, {location}) => {
 		const { pageStatus } = pageModel.selectors.getState(state);
 		let { isNeedLogin: $isNeedLogin, isNeedPermission: $isNeedPermission } = globalSelectors.app.getState(state);
-		const { isLogin } = globalSelectors.getUser(state);
+		const { isLogin: $isLogin } = globalSelectors.getUser(state);
 
 		if (Reflect.has(pageModel.config, 'isNeedLogin')) {
 			$isNeedLogin = pageModel.config.isNeedLogin;
@@ -34,11 +15,14 @@ export default (pageModel) => (WrappedComponent) => {
 		if (Reflect.has(pageModel.config, 'isNeedPermission')) {
 			$isNeedPermission = pageModel.config.isNeedPermission;
 		}
+    const { pathname: $route, state: $payload = {} } = location;
 		return {
 			$pageStatus: pageStatus,
+      $route,
+      $payload,
 			$isNeedLogin,
 			$isNeedPermission,
-			isLogin
+			$isLogin,
 		};
 	})
 	class RegisterPageComponent extends React.Component {
@@ -46,18 +30,30 @@ export default (pageModel) => (WrappedComponent) => {
 			super(props);
 
 			const {
-				dispatch,
-				location: { pathname: path, state: payload },
+				dispatch, $route, $payload, $isLogin,$isNeedLogin
 			} = this.props;
 			dispatch(
 				globalActions.route.currentPage({
 					pageId: pageModel.config.pageId,
 					title: pageModel.config.title,
-					path,
+          $route,
 					hideHeader: pageModel.config.hideHeader || false,
-					payload,
+					payload: $payload,
 				})
 			);
+
+      if ($isNeedLogin && !$isLogin) {
+        dispatch(
+          globalActions.navigate.goTo({
+            url: $route.endsWith("/common/login/index")
+              ? `/common/login/index?to=${encodeURIComponent("/index/index")}`
+              : `/common/login/index?to=${encodeURIComponent($route)}`,
+            payload: $payload,
+          })
+        );
+        return;
+      }
+
 			if (!pageModel) {
 				return;
 			}
@@ -100,7 +96,7 @@ export default (pageModel) => (WrappedComponent) => {
 
 		render() {
 			return (
-				<TargetComponent
+				<WrappedComponent
 					{...this.props}
 					$model={pageModel}
 					$globalActions={globalActions}

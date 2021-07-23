@@ -7,7 +7,7 @@ export default createModel({
 	name: 'login',
 	state: {
 		systemName: '小程序',
-		pageStatus: 'success',
+		pageStatus: 'loading',
 		navigateUrl: '',
 	},
 	config: {
@@ -15,19 +15,21 @@ export default createModel({
 		title: '登录',
 		isNeedLogin: false,
 		hideHeader: true,
-		hideTabBar: true,
 	},
 	reducers: {},
 	sagas: {
 		*didMount({ $actions }, { payload }) {
-			console.log('-------common.login.didMount:::', payload);
-			if (payload.to) {
-				yield put($actions.setState({ navigateUrl: payload.to }));
-			}
-			// yield put($actions.setState({ pageStatus: "success" }));
+			const { to = '', ...params } = payload;
+			yield put(
+				$actions.setState({
+					navigateUrl: decodeURIComponent(to),
+					pageStatus: 'success',
+					params,
+				})
+			);
 		},
 		*requestSmsCode({ $selectors, $globalActions, $actions }) {
-			const { navigateUrl } = yield select($selectors.getState);
+			const { navigateUrl = '/index/index', params } = yield select($selectors.getState);
 			try {
 				const user = yield axios.post(`gateway/user/smsLogin`, {
 					mobile: '13800000000',
@@ -40,11 +42,8 @@ export default createModel({
 				user['mobile'] = user.user && user.user.mobile;
 				cookieStorage.setItem('token', user.token, Infinity, cookieStorage.getDomain());
 				yield put($globalActions.user.setUser(user));
-				if (navigateUrl) {
-					yield put($globalActions.navigate.redirect({ url: navigateUrl }));
-				} else {
-					yield put($globalActions.navigate.redirect({url: "/lcbtest/index/index"}));
-				}
+
+				yield put($globalActions.navigate.redirect({ url: navigateUrl, payload: params }));
 			} catch (error) {
 				cookieStorage.removeItem('token', '', cookieStorage.getDomain());
 				yield put($globalActions.user.setUser({ isLogin: false }));

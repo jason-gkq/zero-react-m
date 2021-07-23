@@ -39,12 +39,10 @@ export default connect(
   (dispatch) => {
     return {
       addVoucher() {
-        // store.dispatch(store.globalActions.test());
-        // dispatch(model.action.changeName("dsfds"));
-        dispatch(globalActions.navigate.redirect({ url: "/lcbtest/common/login/index" }));
+        dispatch(globalActions.navigate.redirect({ url: "/common/login/index" }));
       },
       goTo() {
-        dispatch(globalActions.navigate.goTo({ url: "/lcbtest/home/home1" }));
+        dispatch(globalActions.navigate.goTo({ url: "/home/home1" }));
       },
     };
   }

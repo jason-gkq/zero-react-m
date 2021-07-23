@@ -21,7 +21,7 @@ const model = createModel({
 					key: 'home',
 					selectedIcon: '',
 					icon: '',
-					pagePath: '/lcbtest/index/index',
+					pagePath: '/index/index',
 				},
 				// {
 				// 	title: '4S店',
@@ -42,7 +42,7 @@ const model = createModel({
 					key: 'my',
 					selectedIcon: '',
 					icon: '',
-					pagePath: '/lcbtest/my/index',
+					pagePath: '/my/index',
 				},
 			],
 		},
