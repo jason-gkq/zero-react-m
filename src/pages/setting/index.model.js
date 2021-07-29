@@ -1,13 +1,13 @@
 import { createModel } from "@/src/zero/redux";
+import { put, call } from "redux-saga/effects";
 
 export default createModel({
-  name: "Home2",
+  name: "Setting",
   config: {
     pageId: "10011",
     barSettings: {
-      title: "home2",
+      title: "设置",
     },
-    isNeedLogin: false,
   },
   state: {
     systemName: "小程序",
@@ -21,12 +21,7 @@ export default createModel({
     },
   },
   sagas: {
-    *didMount({ ...data }, { payload }) {
-      console.log("pages/home/index.model.js/saga/didMount");
-    },
-    *addVer({ ...data }, { payload }) {
-      console.log("payload::11", data, payload);
-    },
+    *didMount({ $actions }) {},
   },
   selectors: {},
 });

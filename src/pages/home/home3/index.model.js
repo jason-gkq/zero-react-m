@@ -1,10 +1,12 @@
-import { createModel } from "@/common/redux";
+import { createModel } from "@/src/zero/redux";
 
 export default createModel({
   name: "Home3",
   config: {
     pageId: "10011",
-    title: "home3",
+    barSettings: {
+      title: "home3",
+    },
     isNeedLogin: false,
   },
   state: {

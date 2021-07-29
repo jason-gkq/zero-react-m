@@ -8,8 +8,8 @@
     "paths": {
       "@/assets/*": ["public/assets/*"],
       "@/src/*": ["src/*"],
-      "@/common": ["src/common"],
-      "@/common/*": ["src/common/*"]
+      "@/common": ["src/zero"],
+      "@/common/*": ["src/zero/*"]
     }
   },
   "exclude": ["node_modules", "dist", "dest"]

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as styles from "./index.less";
-import { BasePage } from "@/common/core";
+import { BasePage } from "@/src/zero/core";
 import model from "./index.model";
-import { PageLoading } from '@/common/components';
+import { PageLoading, Loading, ErrorBoundary } from "@/src/zero/components";
 
-import { globalActions } from "@/common/redux";
+import { globalActions } from "@/src/zero/redux";
 
 @BasePage(model)
 class Index extends Component {
@@ -16,7 +16,11 @@ class Index extends Component {
   render() {
     return (
       <div>
-        {/* <PageLoading/> */}
+        <PageLoading></PageLoading>
+        <Loading></Loading>
+        <ErrorBoundary>
+          <div className={styles.containerDiv}>333</div>
+        </ErrorBoundary>
         <div className={styles.testContainer}>
           <div onClick={this.props.addVoucher} className={styles.containerDiv}>
             去登录页
@@ -39,7 +43,9 @@ export default connect(
   (dispatch) => {
     return {
       addVoucher() {
-        dispatch(globalActions.navigate.redirect({ url: "/common/login/index" }));
+        dispatch(
+          globalActions.navigate.redirect({ url: "/common/login/index" })
+        );
       },
       goTo() {
         dispatch(globalActions.navigate.goTo({ url: "/home/home1" }));

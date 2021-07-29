@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as styles from "./index.less";
-import { BasePage } from "@/common/core";
+import { BasePage } from "@/src/zero/core";
 import model from "./index.model";
 
-import { globalActions } from "@/common/redux";
+import { globalActions } from "@/src/zero/redux";
 
 @BasePage(model)
 class Home extends Component {

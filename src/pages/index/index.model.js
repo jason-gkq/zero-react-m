@@ -1,12 +1,11 @@
-import { createModel } from "@/common/redux";
+import { createModel } from "@/src/zero/redux";
 
 export default createModel({
   name: "Index",
   config: {
     pageId: "10011",
-    title: "首页",
     isNeedLogin: true,
-    hideHeader: true
+    hideHeader: true,
   },
   state: {
     systemName: "小程序",
