@@ -10,6 +10,8 @@ import { Provider } from "react-redux";
 import { View, PageLoading, ErrorBoundary } from "../components";
 import RegisterApp from "./registerApp";
 
+import { AppConfigContext } from "./configureContext";
+
 const AppPage = lazy(() =>
   import(/* webpackChunkName: 'app' */ "../components/layout")
 );
@@ -108,21 +110,23 @@ export default (appModel) => (WrappedComponent) => {
       const { $store, $history } = this.props;
       return (
         <Provider store={$store}>
-          {/* <ThemeContext.Provider value={$theme}> */}
-          <Suspense
-            fallback={
-              <View
-                style={{
-                  height: "100vh",
-                }}
-              >
-                <PageLoading />
-              </View>
-            }
-          >
-            <Router history={$history}>{this.renderContent()}</Router>
-          </Suspense>
-          {/* </ThemeContext.Provider> */}
+          <AppConfigContext.Provider value={appModel.config}>
+            {/* <ThemeContext.Provider value={$theme}> */}
+            <Suspense
+              fallback={
+                <View
+                  style={{
+                    height: "100vh",
+                  }}
+                >
+                  <PageLoading />
+                </View>
+              }
+            >
+              <Router history={$history}>{this.renderContent()}</Router>
+            </Suspense>
+            {/* </ThemeContext.Provider> */}
+          </AppConfigContext.Provider>
         </Provider>
       );
     }
