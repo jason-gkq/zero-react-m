@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button } from "@/common/components";
+import { View, Button } from "@/zero/components";
 import "../index.less";
 
 // import china from "@/assets/img/logo.svg";
@@ -10,27 +10,27 @@ export default (props) => {
   console.log("props------", props);
 
   return (
-    <View className="mi-top-wrap">
-      <View className="mi-top">
+    <View className='mi-top-wrap'>
+      <View className='mi-top'>
         {isLogin ? (
-          <View className="mi-top-cont">
+          <View className='mi-top-cont'>
             {/* 已登录 */}
             {userInfo.faceImageUrl ? (
               <View
-                className="mi-user-photo mi-sex-unman"
+                className='mi-user-photo mi-sex-unman'
                 onClick={() => goAction("user/info", "avatar")}
               >
-                <img className="mi-user-img" src={userInfo.faceImageUrl}></img>
+                <img className='mi-user-img' src={userInfo.faceImageUrl}></img>
               </View>
             ) : (
               <View
-                className="mi-user-photo"
+                className='mi-user-photo'
                 onClick={() => goAction("user/info", "avatar")}
               ></View>
             )}
 
             <View
-              className="mi-user-name show-dots"
+              className='mi-user-name show-dots'
               onClick={() => goAction("user/info")}
             >
               {nickNameOrMoblie}
@@ -55,7 +55,7 @@ export default (props) => {
             </View> */}
           </View>
         ) : (
-          <View className="mi-top-cont">
+          <View className='mi-top-cont'>
             {/* <!-- 未登录 --> */}
             {/* <View
               className="mi-user-photo mi-sex-unman"

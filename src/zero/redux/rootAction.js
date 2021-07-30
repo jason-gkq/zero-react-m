@@ -32,8 +32,6 @@ const staticActions = {
   SHOP: {
     SET_SHOP: void 0,
   },
-  SHARE: void 0,
-  TEST: void 0,
 };
 
 export const globalActions = createActions(staticActions, {

@@ -3,11 +3,16 @@ import Header from "./header";
 import Footer from "./footer";
 import Content from "./content";
 import { PageLoading } from "@/src/zero/components";
-import { Router, Switch, Route } from "react-router-dom";
-import { globalSelectors, globalActions, store } from "../../redux";
+import { Switch } from "react-router-dom";
+import { globalSelectors, globalActions } from "../../redux";
 import { connect } from "react-redux";
 
-class Layout extends React.Component {
+@connect((state) => {
+  const { currentPage = {} } = globalSelectors.getRoute(state);
+  const env = globalSelectors.getEnv(state);
+  return { currentPage, appName: env.appName };
+})
+export default class extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -30,7 +35,7 @@ class Layout extends React.Component {
     });
     let isTabBar = arr.includes(path);
     return (
-      <div className="page-root">
+      <div className='page-root'>
         <Suspense fallback={<PageLoading />}>
           {!hideHeader && <Header isTabBar={isTabBar} />}
           <Content isTabBar={isTabBar}>
@@ -44,14 +49,3 @@ class Layout extends React.Component {
     );
   }
 }
-
-export default connect(
-  (state) => {
-    const { currentPage = {} } = globalSelectors.getRoute(state);
-    const env = globalSelectors.getEnv(state);
-    return { currentPage, appName: env.appName };
-  },
-  (dispatch) => {
-    return {};
-  }
-)(Layout);

@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Content from "../components/Content";
-import { globalSelectors } from "@/common/redux";
+import { globalSelectors } from "@/zero/redux";
 
 export default connect(
   (state, { $model }) => {

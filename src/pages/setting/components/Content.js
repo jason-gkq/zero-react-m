@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button } from "@/common/components";
+import { View, Button } from "@/zero/components";
 import "../index.less";
 
 // import china from "@/assets/img/logo.svg";

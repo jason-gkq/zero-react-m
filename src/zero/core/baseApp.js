@@ -7,8 +7,7 @@
 import React, { Suspense, lazy } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import { ThemeContext } from "./themeContext";
-import { PageLoading } from "@/src/zero/components";
+import { View, PageLoading, ErrorBoundary } from "../components";
 import RegisterApp from "./registerApp";
 
 const AppPage = lazy(() =>
@@ -27,6 +26,8 @@ export default (appModel) => (WrappedComponent) => {
 
     componentDidMount() {
       const { $store, $onLunchPayload } = this.props;
+      const { config } = appModel;
+      $store.dispatch(appModel.actions.setState({ config }));
       const unsubscribe = $store.subscribe(() => {
         const {
           env: { status },
@@ -64,17 +65,34 @@ export default (appModel) => (WrappedComponent) => {
     }
 
     renderContent() {
-      const { $routes, $history } = this.props;
+      const { $routes, $fullRoutes, $history } = this.props;
       const { status } = this.state;
       switch (status) {
         case "loading":
-          return <PageLoading />;
+          return (
+            <View
+              style={{
+                height: "100vh",
+              }}
+            >
+              <PageLoading />
+            </View>
+          );
         case "error":
-          return <div>网络异常</div>;
+          return (
+            <View
+              style={{
+                height: "100vh",
+              }}
+            >
+              <ErrorBoundary msg={"网络异常，请刷新重试"} />
+            </View>
+          );
         default:
           return (
             <Switch>
-              <Route path="/lcbtest">
+              {$fullRoutes}
+              <Route path='/lcbtest'>
                 <AppPage
                   $routes={$routes}
                   $history={$history}
@@ -87,14 +105,24 @@ export default (appModel) => (WrappedComponent) => {
     }
 
     render() {
-      const { $store, $history, $theme } = this.props;
+      const { $store, $history } = this.props;
       return (
         <Provider store={$store}>
-          <ThemeContext.Provider value={$theme}>
-            <Suspense fallback={<PageLoading />}>
-              <Router history={$history}>{this.renderContent()}</Router>
-            </Suspense>
-          </ThemeContext.Provider>
+          {/* <ThemeContext.Provider value={$theme}> */}
+          <Suspense
+            fallback={
+              <View
+                style={{
+                  height: "100vh",
+                }}
+              >
+                <PageLoading />
+              </View>
+            }
+          >
+            <Router history={$history}>{this.renderContent()}</Router>
+          </Suspense>
+          {/* </ThemeContext.Provider> */}
         </Provider>
       );
     }

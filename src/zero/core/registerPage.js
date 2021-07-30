@@ -1,13 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import { globalActions, globalSelectors } from "../redux";
 
 export default (pageModel) => (WrappedComponent) => {
   const mapStateToProps = (state, { location }) => {
     const { pageStatus } = pageModel.selectors.getState(state);
-    let { isNeedLogin: $isNeedLogin, isNeedPermission: $isNeedPermission } =
-      globalSelectors.app.getState(state);
+    let {
+      config: {
+        isNeedLogin: $isNeedLogin,
+        isNeedPermission: $isNeedPermission,
+      },
+    } = globalSelectors.app.getState(state);
+
     const { isLogin: $isLogin } = globalSelectors.getUser(state);
 
     if (Reflect.has(pageModel.config, "isNeedLogin")) {
@@ -16,6 +20,7 @@ export default (pageModel) => (WrappedComponent) => {
     if (Reflect.has(pageModel.config, "isNeedPermission")) {
       $isNeedPermission = pageModel.config.isNeedPermission;
     }
+
     const { pathname: $route, state: $payload = {} } = location;
     return {
       $pageStatus: pageStatus,
@@ -26,20 +31,24 @@ export default (pageModel) => (WrappedComponent) => {
       $isLogin,
     };
   };
-  //   const mapDispatchToProps = (dispatch) => {
-  //     return {};
-  //   };
   @connect(mapStateToProps)
   class RegisterPageComponent extends React.Component {
     constructor(props) {
       super(props);
 
-      const { dispatch, $route, $payload, $isLogin, $isNeedLogin } = this.props;
+      const {
+        dispatch,
+        $route,
+        $payload,
+        $isLogin,
+        $isNeedLogin,
+        $isNeedPermission,
+      } = this.props;
       dispatch(
         globalActions.route.currentPage({
           pageId: pageModel.config.pageId,
           title: pageModel.config.title,
-          $route,
+          route: $route,
           hideHeader: pageModel.config.hideHeader || false,
           payload: $payload,
           barSettings: pageModel.config.barSettings || null,
@@ -48,7 +57,7 @@ export default (pageModel) => (WrappedComponent) => {
       /* 判断登录跳转 */
       if ($isNeedLogin && !$isLogin) {
         dispatch(
-          globalActions.navigate.goTo({
+          globalActions.navigate.redirect({
             url: $route.endsWith("/common/login/index")
               ? `/common/login/index?to=${encodeURIComponent("/index/index")}`
               : `/common/login/index?to=${encodeURIComponent($route)}`,
@@ -57,7 +66,6 @@ export default (pageModel) => (WrappedComponent) => {
         );
         return;
       }
-
       if (!pageModel) {
         return;
       }
@@ -99,9 +107,10 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     render() {
+      const { $isNeedLogin, $isNeedPermission, ...restProps } = this.props;
       return (
         <WrappedComponent
-          {...this.props}
+          {...restProps}
           $model={pageModel}
           $globalActions={globalActions}
           $globalSelectors={globalSelectors}

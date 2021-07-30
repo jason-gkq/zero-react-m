@@ -15,7 +15,7 @@ export default {
       path: "/lcbtest/common/login/index",
       component: React.lazy(() =>
         import(
-          /* webpackChunkName: 'login' */ /* webpackMode: 'lazy' */ "@/src/zero/pages/login"
+          /* webpackChunkName: 'login' */ /* webpackMode: 'lazy' */ "@/common/pages/login"
         )
       ),
     },
@@ -53,7 +53,7 @@ export default {
       path: "/lcbtest/setting/index",
       component: React.lazy(() =>
         import(
-          /* webpackChunkName: 'my' */ /* webpackMode: 'lazy' */ "@/src/pages/setting"
+          /* webpackChunkName: 'setting' */ /* webpackMode: 'lazy' */ "@/src/pages/setting"
         )
       ),
     },

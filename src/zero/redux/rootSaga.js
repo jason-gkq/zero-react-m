@@ -12,6 +12,7 @@
  */
 import {
   all,
+  take,
   put,
   fork,
   call,
@@ -30,22 +31,21 @@ import { guid } from "../utils";
 import { navigate } from "../navigate";
 
 import { setCommonData, setAxiosBase, httpsClient } from "../net";
-
-import {
-  themes,
-  injectTheme,
-  setThemeContext,
-  currentTheme,
-} from "../core/themeContext";
+import { themes } from "../core/themeContext";
 
 const initEnv = function* () {
   const env = yield select(getEnv);
-  let clientId = storage.getStorageSync("__clientId");
+  let clientId = cookieStorage.getItem("__clientId");
   if (!clientId) {
     clientId = guid();
-    storage.setStorageSync("__clientId", clientId, Infinity);
+    cookieStorage.setItem(
+      "__clientId",
+      clientId,
+      Infinity,
+      "/",
+      cookieStorage.getDomain()
+    );
   }
-  // console.log(document.documentElement.style);
   const parentSessionId = guid();
   const sessionId = parentSessionId;
   const onLunchTime = Date.now();
@@ -71,20 +71,12 @@ const initEnv = function* () {
   yield put(staticActions.env.setEnv({ ...env }));
 };
 
-const injectThemes = function* ({ payload: { themes } }) {
-  injectTheme(themes);
-};
-
 const changeTheme = function* ({ payload: { theme } }) {
-  // const {theme} = yield select(getEnv);
   if (!themes[theme]) {
     return;
   }
-  if (theme === currentTheme) {
-    return;
-  }
-  setThemeContext(theme);
   const themeInfo = themes[theme];
+
   Object.keys(themeInfo).forEach((key) => {
     document.documentElement.style.setProperty(key, themeInfo[key]);
   });
@@ -201,45 +193,59 @@ const initSystem = function* () {
 };
 
 // navigate
-const goTo = function* ({ payload: { url, params = {}, options = {} } }) {
-  navigate.goTo({ url, params, options });
-  return;
-};
-
-const goBack = function* ({ payload: { delta, url = "" } = {} }) {
-  navigate.goBack({ delta, url });
-  return;
-};
-
-const redirect = function* ({ payload: { url, params = {}, options = {} } }) {
-  navigate.redirect({ url, params, options });
-  return;
-};
-
-const reLaunch = function* ({ payload: { url, params = {}, options = {} } }) {
-  navigate.redirect({ url, params, options });
-  return;
-};
-
-const login = function* ({ payload }) {
-  try {
-    const user = yield httpsClient.post(`gateway/user/smsLogin`, {
-      mobile: "13800000000",
-      code: "1111",
-    });
-    user["isLogin"] = true;
-    user["mobile"] = user.user && user.user.mobile;
-    yield put(staticActions.user.setUser(user));
-  } catch (error) {
-    yield put(staticActions.user.setUser({ isLogin: false }));
+const goTo = function* () {
+  while (true) {
+    const {
+      payload: { url, payload = {}, options = {} },
+    } = yield take(staticActions.navigate.goTo);
+    navigate.goTo({ url, payload, options });
   }
 };
 
-const loginSuccess = function* ({ payload }) {};
-
-const logout = function* ({ payload }) {
-  console.log("000000");
+const goBack = function* () {
+  while (true) {
+    const { payload: { delta, url = "" } = {} } = yield take(
+      staticActions.navigate.goBack
+    );
+    navigate.goBack({ delta, url });
+  }
 };
+
+const redirect = function* () {
+  while (true) {
+    const {
+      payload: { url, payload = {}, options = {} },
+    } = yield take(staticActions.navigate.redirect);
+    navigate.redirect({ url, payload, options });
+  }
+};
+
+const reLaunch = function* () {
+  while (true) {
+    const {
+      payload: { url, payload = {}, options = {} },
+    } = yield take(staticActions.navigate.reLaunch);
+    navigate.redirect({ url, payload, options });
+  }
+};
+
+// const login = function* ({ payload }) {
+//   try {
+//     const user = yield httpsClient.post(`gateway/user/smsLogin`, {
+//       mobile: "13800000000",
+//       code: "1111",
+//     });
+//     user["isLogin"] = true;
+//     user["mobile"] = user.user && user.user.mobile;
+//     yield put(staticActions.user.setUser(user));
+//   } catch (error) {
+//     yield put(staticActions.user.setUser({ isLogin: false }));
+//   }
+// };
+
+// const loginSuccess = function* ({ payload }) {};
+
+// const logout = function* ({ payload }) {};
 
 const checkLogin = function* () {
   try {
@@ -294,27 +300,27 @@ const checkLogin = function* () {
 
 export default function* staticSagas() {
   /**
+   * 路由
+   */
+  yield fork(goTo);
+  yield fork(goBack);
+  yield fork(redirect);
+  yield fork(reLaunch);
+
+  /**
    * 系统信息初始化
    */
   yield all([initSystem(), initEnv()]);
   yield all([checkLogin()]);
 
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
-  yield takeLatest(staticActions.env.injectThemes, injectThemes);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);
   yield takeLatest(staticActions.env.setServiceUrl, setServiceUrl);
   /**
-   * 路由
-   */
-  yield takeLatest(staticActions.navigate.goTo, goTo);
-  yield takeLatest(staticActions.navigate.goBack, goBack);
-  yield takeLatest(staticActions.navigate.redirect, redirect);
-  yield takeLatest(staticActions.navigate.reLaunch, reLaunch);
-  /**
    * 用户
    */
-  yield takeLatest(staticActions.user.login, login);
-  yield takeLatest(staticActions.user.logout, logout);
+  // yield takeLatest(staticActions.user.login, login);
+  // yield takeLatest(staticActions.user.logout, logout);
 }
 
 // 用于缓存所有effects函数

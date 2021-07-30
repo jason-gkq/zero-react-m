@@ -1,8 +1,7 @@
 import { createModel } from "@/src/zero/redux";
 import { put, call } from "redux-saga/effects";
-import { store, globalActions } from "@/common/redux";
+import { store, globalActions } from "@/zero/redux";
 import backBlack from "@/assets/img/back-black.svg";
-import React from "react";
 
 export default createModel({
   name: "My",

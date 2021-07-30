@@ -66,9 +66,9 @@ home // 页面目录名
 -   `index.js` 页面入口文件，代码示例：
 
 ```js
-import React, { Component } from 'react';
-import { BasePage } from '@common/core';
-import model from './index.model';
+import React, { Component } from "react";
+import { BasePage } from "@/zero/core";
+import model from "./index.model";
 
 import DivTest from './containers/DivTest';
 @BasePage(model) // 必须
