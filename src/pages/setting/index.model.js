@@ -1,5 +1,5 @@
 import { createModel } from "@/src/zero/redux";
-import { put, call } from "redux-saga/effects";
+import { put, call, select } from "redux-saga/effects";
 
 export default createModel({
   name: "Setting",
@@ -22,6 +22,19 @@ export default createModel({
   },
   sagas: {
     *didMount({ $actions }) {},
+    *loginOutAction({
+      $actions,
+      $selectors,
+      $globalActions,
+      $globalSelectors,
+    }) {
+      yield put($globalActions.user.logout());
+      const { isLogin } = yield select($globalSelectors.getUser);
+      // console.log("logout", user);
+      if (!isLogin) {
+        yield put($globalActions.navigate.goBack());
+      }
+    },
   },
   selectors: {},
 });

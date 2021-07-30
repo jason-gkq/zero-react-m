@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import Content from "../components/Content";
+import { globalSelectors } from "@/common/redux";
 
 export default connect(
   (state, { $model }) => {
@@ -8,17 +9,21 @@ export default connect(
   },
   (dispatch, { $model, $globalActions }) => {
     return {
-      addVoucher() {
-        // document.documentElement.style.setProperty({ "--theme-color": "red" });
-        dispatch($model.actions.setState({ pageStatus: "cccccc" }));
-        dispatch($globalActions.env.changeTheme({ theme: "C" }));
+      loginOutAction() {
+        dispatch($model.actions.loginOutAction());
+        // dispatch($globalActions.user.logout());
       },
-      goTo() {
-        dispatch($globalActions.navigate.goTo({ url: "/home/home2" }));
-      },
-      goBack() {
-        dispatch($globalActions.navigate.goBack());
-      },
+      // addVoucher() {
+      //   // document.documentElement.style.setProperty({ "--theme-color": "red" });
+      //   dispatch($model.actions.setState({ pageStatus: "cccccc" }));
+      //   dispatch($globalActions.env.changeTheme({ theme: "C" }));
+      // },
+      // goTo() {
+      //   dispatch($globalActions.navigate.goTo({ url: "/home/home2" }));
+      // },
+      // goBack() {
+      //   dispatch($globalActions.navigate.goBack());
+      // },
     };
   }
 )(Content);

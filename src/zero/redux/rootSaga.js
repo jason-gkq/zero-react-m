@@ -237,7 +237,9 @@ const login = function* ({ payload }) {
 
 const loginSuccess = function* ({ payload }) {};
 
-const logout = function* ({ payload }) {};
+const logout = function* ({ payload }) {
+  console.log("000000");
+};
 
 const checkLogin = function* () {
   try {
