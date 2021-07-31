@@ -5,6 +5,7 @@
 /* 基础组件 */
 export { default as View } from "./View";
 export { default as Text } from "./Text";
+export { default as Image } from "./Image";
 
 import { Button as antButton, InputItem as antInputItem } from "antd-mobile";
 export const Button = antButton;
