@@ -257,8 +257,17 @@ const checkLogin = function* () {
       user["isLogin"] = true;
     }
     user["mobile"] = user.user && user.user.mobile;
+    cookieStorage.setItem(
+      "token",
+      user.token,
+      Infinity,
+      "/",
+      cookieStorage.getDomain()
+    );
+    yield call(storage.setStorageSync, "user", user, Infinity);
     yield put(staticActions.user.setUser(user));
   } catch (error) {
+    yield call(storage.removeStorageSync, "user");
     yield put(staticActions.user.setUser({ isLogin: false }));
   }
   yield put(staticActions.env.setEnv({ status: true }));

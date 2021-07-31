@@ -46,6 +46,7 @@ export default createModel({
           "token",
           user.token,
           Infinity,
+          "/",
           cookieStorage.getDomain()
         );
         yield put($globalActions.user.setUser(user));
