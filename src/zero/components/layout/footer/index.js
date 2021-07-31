@@ -50,7 +50,7 @@ class Footer extends Component {
     }
     return (
       <FooterErrorBoundary>
-        <div className='page-bottom'>
+        <div className='page-footer'>
           <TabBar
             unselectedTintColor={tabBar.unselectedTintColor}
             tintColor={tabBar.tintColor}

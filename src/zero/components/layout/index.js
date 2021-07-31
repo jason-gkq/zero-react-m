@@ -7,6 +7,7 @@ import { globalSelectors, globalActions } from "../../redux";
 import { connect } from "react-redux";
 import { PageLoading, ErrorBoundary } from "../business";
 import { View } from "../basic";
+import "./index.less";
 class LayoutErrorBoundary extends React.Component {
   constructor(props) {
     super(props);

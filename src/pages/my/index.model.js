@@ -22,8 +22,6 @@ export default createModel({
         },
       ],
     },
-    isNeedLogin: false,
-    isNeedPermission: false, // 如无权限，则无需配置
   },
   state: {
     systemName: "小程序",
