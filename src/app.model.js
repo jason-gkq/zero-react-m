@@ -49,8 +49,13 @@ const model = createModel({
   },
   reducers: {},
   sagas: {
-    *didMount({ $actions, $globalActions, $globalSelectors }) {
-      //TODO 项目启动 = appOnLaunch
+    *didMount(
+      { $actions, $selectors, $globalActions, $globalSelectors },
+      { payload: { done, ...option } }
+    ) {
+      if (done) {
+        done();
+      }
     },
   },
 });
