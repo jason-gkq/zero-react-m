@@ -84,12 +84,12 @@ const changeTheme = function* ({ payload: { theme } }) {
 };
 
 const setAppCode = function* ({ payload: { appCode } }) {
-  setCommonData({ appCode });
+  yield call(setCommonData, { appCode });
   yield put(staticActions.env.setEnv({ appCode }));
 };
 
 const setServiceUrl = function* ({ payload: { SERVICE_URL } }) {
-  setCommonData({ SERVICE_URL });
+  yield call(setCommonData, { SERVICE_URL });
   yield put(staticActions.env.setEnv({ SERVICE_URL }));
 };
 
@@ -249,53 +249,17 @@ const reLaunch = function* () {
 
 const checkLogin = function* () {
   try {
-    const { isNeedPermission } = yield select(getEnv);
-    if (!isNeedPermission) {
-      const user = yield httpsClient.post(`gateway/user/currentUser`);
-      user["isLogin"] = false;
-      if (user && user.user && user.user.mobile) {
-        user["isLogin"] = true;
-      }
-      user["mobile"] = user.user && user.user.mobile;
-      yield put(staticActions.user.setUser(user));
-    } else {
-      const {
-        factoryInfoRespList,
-        groupInfo,
-        groupInfoResp,
-        menus,
-        roles,
-        routerRules,
-        user,
-      } = yield httpsClient.post(
-        `gateway/manage/common/api/auth/queryUserAuth`
-      );
-      user["isLogin"] = false;
-      if (user && user.user && user.user.mobile) {
-        user["isLogin"] = true;
-      }
-      user["mobile"] = user.user && user.user.mobile;
-
-      yield put(
-        staticActions.route.setRoute({
-          menus,
-        })
-      );
-      yield put(
-        staticActions.shop.setShop({
-          shopList: roles,
-          shopInfo: groupInfo,
-          groupInfoResp,
-          factoryInfoRespList,
-        })
-      );
-      yield put(staticActions.user.setUser(user));
+    const user = yield call(httpsClient.post, `gateway/user/currentUser`);
+    user["isLogin"] = false;
+    if (user && user.user && user.user.mobile) {
+      user["isLogin"] = true;
     }
-    yield put(staticActions.env.setEnv({ status: true }));
+    user["mobile"] = user.user && user.user.mobile;
+    yield put(staticActions.user.setUser(user));
   } catch (error) {
     yield put(staticActions.user.setUser({ isLogin: false }));
-    yield put(staticActions.env.setEnv({ status: true }));
   }
+  yield put(staticActions.env.setEnv({ status: true }));
 };
 
 export default function* staticSagas() {

@@ -28,8 +28,6 @@ export default (appModel) => (WrappedComponent) => {
 
     componentDidMount() {
       const { $store, $onLunchPayload } = this.props;
-      const { config } = appModel;
-      $store.dispatch(appModel.actions.setState({ config }));
       const unsubscribe = $store.subscribe(() => {
         const {
           env: { status },

@@ -6,11 +6,11 @@ const model = createModel({
   name: "app",
   isGlobal: true,
   // 初始state状态
-  state: {
+  state: {},
+  config: {
+    title: "乐车邦",
     isNeedLogin: false,
     isNeedPermission: false,
-  },
-  config: {
     tabBar: {
       barTintColor: "#fff", //tabbar 背景色
       unselectedTintColor: "#000", //未选中的字体颜色

@@ -24,21 +24,31 @@ export default (pageModel) => (WrappedComponent) => {
 
       const { dispatch, $route, $payload, $isLogin } = this.props;
 
-      let { isNeedLogin } = context;
-      if (Reflect.has(pageModel.config, "isNeedLogin")) {
+      let { isNeedLogin, title } = context;
+
+      if (pageModel.config && Reflect.has(pageModel.config, "isNeedLogin")) {
         isNeedLogin = pageModel.config.isNeedLogin;
       }
-
+      if (pageModel.config && Reflect.has(pageModel.config, "title")) {
+        title = pageModel.config.title;
+      }
+      document.title = title;
+      const { hideHeader = false, barSettings = null, pageId } =
+        pageModel.config || {};
+      if (!pageId) {
+        console.warn(`页面 ${$route} 未配置 pageId，请找数据组申请pageId`);
+      }
       dispatch(
         globalActions.route.currentPage({
-          pageId: pageModel.config.pageId,
-          title: pageModel.config.title,
           route: $route,
-          hideHeader: pageModel.config.hideHeader || false,
           payload: $payload,
-          barSettings: pageModel.config.barSettings || null,
+          title,
+          pageId,
+          hideHeader,
+          barSettings,
         })
       );
+
       /* 判断登录跳转 */
       if (isNeedLogin && !$isLogin) {
         dispatch(
@@ -91,6 +101,7 @@ export default (pageModel) => (WrappedComponent) => {
 
     render() {
       const { ...restProps } = this.props;
+
       return (
         <WrappedComponent
           {...restProps}
