@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button } from "@/zero/components";
+import { View, Button, Image, Text } from "@/zero/components";
 import "../index.less";
 
 // import china from "@/assets/img/logo.svg";
@@ -7,30 +7,33 @@ import "../index.less";
 
 export default (props) => {
   const { isLogin, userInfo, nickNameOrMoblie, goAction } = props;
-  console.log("props------", props);
 
   return (
-    <View className='mi-top-wrap'>
-      <View className='mi-top'>
+    <View className="mi-top-wrap">
+      <View className="mi-top">
         {isLogin ? (
-          <View className='mi-top-cont'>
+          <View className="mi-top-cont">
             {/* 已登录 */}
             {userInfo.faceImageUrl ? (
               <View
-                className='mi-user-photo mi-sex-unman'
+                className="mi-user-photo mi-sex-unman"
                 onClick={() => goAction("user/info", "avatar")}
               >
-                <img className='mi-user-img' src={userInfo.faceImageUrl}></img>
+                <Image
+                  size={60}
+                  className="mi-user-img"
+                  src={userInfo.faceImageUrl}
+                ></Image>
               </View>
             ) : (
               <View
-                className='mi-user-photo'
+                className="mi-user-photo"
                 onClick={() => goAction("user/info", "avatar")}
               ></View>
             )}
 
             <View
-              className='mi-user-name show-dots'
+              className="mi-user-name show-dots"
               onClick={() => goAction("user/info")}
             >
               {nickNameOrMoblie}
@@ -55,18 +58,18 @@ export default (props) => {
             </View> */}
           </View>
         ) : (
-          <View className='mi-top-cont'>
+          <View className="mi-top-cont">
             {/* <!-- 未登录 --> */}
-            {/* <View
+            <View
               className="mi-user-photo mi-sex-unman"
-              onClick="goAction('login', 'avatar')"
+              onClick={goAction("login", "avatar")}
             ></View>
-            <span
+            <Text
               className="mi-click-login vertical-center"
-              onClick="goAction('login', 'login')"
+              onClick={goAction("login", "login")}
             >
               点击登录
-            </span> */}
+            </Text>
           </View>
         )}
       </View>

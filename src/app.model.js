@@ -1,12 +1,15 @@
 import { createModel } from "@/src/zero/redux";
 import { put, call, select } from "redux-saga/effects";
+import { httpsClient } from "@/zero/net";
 
 const model = createModel({
   // model名称，view层用于提取state的key，需要保证唯一
   name: "app",
   isGlobal: true,
   // 初始state状态
-  state: {},
+  state: {
+    myDefaultCar: null,
+  },
   config: {
     title: "乐车邦",
     isNeedLogin: false,
@@ -56,6 +59,17 @@ const model = createModel({
       if (done) {
         done();
       }
+    },
+    *getDefaultCar({ $actions }) {
+      const car = yield httpsClient.post(`gateway/mycar/getMyDefaultCar`, {
+        serviceType: 1,
+        cityId: 10101,
+      });
+      yield put(
+        $actions.setState({
+          myDefaultCar: car,
+        })
+      );
     },
   },
 });
