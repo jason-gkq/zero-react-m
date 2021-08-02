@@ -46,20 +46,6 @@ export default (appModel) => (WrappedComponent) => {
           );
         }
       });
-      // if (appModel.actions.didMount) {
-      //   setTimeout(() => {
-      //     $store.dispatch(
-      //       appModel.actions.didMount({
-      //         ...$onLunchPayload,
-      //         done: () => {
-      //           // this.setState({
-      //           //   status: "success",
-      //           // });
-      //         },
-      //       })
-      //     );
-      //   }, 0);
-      // }
       if (super.componentDidMount) {
         super.componentDidMount();
       }

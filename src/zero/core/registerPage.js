@@ -11,7 +11,7 @@ export default (pageModel) => (WrappedComponent) => {
     const { pathname: $route, state: $payload = {} } = location;
 
     return {
-      $pageStatus: pageStatus,
+      pageStatus,
       $route,
       $payload,
       $isLogin,
@@ -22,8 +22,11 @@ export default (pageModel) => (WrappedComponent) => {
     constructor(props, context) {
       super(props);
 
-      const { dispatch, $route, $payload, $isLogin } = this.props;
+      const { dispatch, $route, $payload, $isLogin, pageStatus } = this.props;
 
+      this.state = {
+        pageStatus,
+      };
       let { isNeedLogin, title } = context;
 
       if (pageModel.config && Reflect.has(pageModel.config, "isNeedLogin")) {
@@ -40,10 +43,10 @@ export default (pageModel) => (WrappedComponent) => {
       }
       dispatch(
         globalActions.route.currentPage({
+          pageId,
+          title,
           route: $route,
           payload: $payload,
-          title,
-          pageId,
           hideHeader,
           barSettings,
         })
@@ -78,6 +81,16 @@ export default (pageModel) => (WrappedComponent) => {
       }
     }
 
+    static getDerivedStateFromError(error) {
+      // 更新 state 使下一次渲染能够显示降级后的 UI
+      return { pageStatus: "error" };
+    }
+
+    componentDidCatch(error, errorInfo) {
+      // 你同样可以将错误日志上报给服务器
+      console.warn("error, errorInfo>>>>", error, errorInfo);
+    }
+
     componentWillUnmount() {
       if (!pageModel) {
         return;
@@ -101,10 +114,11 @@ export default (pageModel) => (WrappedComponent) => {
 
     render() {
       const { ...restProps } = this.props;
-
+      const { pageStatus } = this.state;
       return (
         <WrappedComponent
           {...restProps}
+          $pageStatus={pageStatus}
           $model={pageModel}
           $globalActions={globalActions}
           $globalSelectors={globalSelectors}
