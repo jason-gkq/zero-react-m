@@ -249,6 +249,11 @@ const reLaunch = function* () {
 
 // const logout = function* ({ payload }) {};
 
+const rootLunch = function* () {
+  yield call(checkLogin);
+  yield put(staticActions.env.setEnv({ status: true }));
+};
+
 const checkLogin = function* () {
   try {
     const user = yield call(httpsClient.post, `gateway/user/currentUser`);
@@ -263,7 +268,6 @@ const checkLogin = function* () {
     yield call(storage.removeStorageSync, "user");
     yield put(staticActions.user.setUser({ isLogin: false }));
   }
-  yield put(staticActions.env.setEnv({ status: true }));
 };
 
 export default function* staticSagas() {
@@ -279,7 +283,7 @@ export default function* staticSagas() {
    * 系统信息初始化
    */
   yield all([initSystem(), initEnv()]);
-  yield all([checkLogin()]);
+  yield all([rootLunch()]);
 
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);

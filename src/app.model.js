@@ -1,5 +1,7 @@
-import { createModel } from "@/src/zero/redux";
-import { put, call, select } from "redux-saga/effects";
+import { createModel } from "@/zero/redux";
+// import { httpsClient } from "@/zero/net";
+// import { storage, cookieStorage } from "@/zero/cache";
+// import { put, call, select } from "redux-saga/effects";
 
 const model = createModel({
   // model名称，view层用于提取state的key，需要保证唯一
@@ -53,6 +55,10 @@ const model = createModel({
       { $actions, $selectors, $globalActions, $globalSelectors },
       { payload: { done, ...option } }
     ) {
+      /**
+       * option 启动参数
+       * done 不可删除
+       */
       if (done) {
         done();
       }
