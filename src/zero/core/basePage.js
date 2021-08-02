@@ -1,6 +1,6 @@
 import React from "react";
 import RegisterPage from "./registerPage";
-import { ErrorBoundary } from "../components";
+import { PageLoading, ErrorBoundary } from "../components";
 
 export default (pageModel) => (WrappedComponent) => {
   @RegisterPage(pageModel)
@@ -35,12 +35,15 @@ export default (pageModel) => (WrappedComponent) => {
     }
 
     render() {
-      console.log("$pageStatus>>>>", this.props.$pageStatus);
       const { $pageStatus } = this.props;
-      if ($pageStatus === "error") {
-        return <ErrorBoundary msg={"页面渲染失败，请刷新重试"} />;
+      switch ($pageStatus) {
+        case "loading":
+          return <PageLoading />;
+        case "error":
+          return <ErrorBoundary msg={"页面渲染失败，请刷新重试"} />;
+        default:
+          return super.render();
       }
-      return super.render();
     }
   }
   return BasePageComponent;
