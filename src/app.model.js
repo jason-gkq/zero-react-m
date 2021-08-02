@@ -56,6 +56,10 @@ const model = createModel({
       { $actions, $selectors, $globalActions, $globalSelectors },
       { payload: { done, ...option } }
     ) {
+      /**
+       * option 启动参数
+       * done 不可删除
+       */
       if (done) {
         done();
       }
