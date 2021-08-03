@@ -33,6 +33,8 @@ import { navigate } from "../navigate";
 import { setCommonData, setAxiosBase, httpsClient } from "../net";
 import { themes } from "../core/themeContext";
 
+import { Toast } from "../components/index";
+
 const initEnv = function* () {
   const env = yield select(getEnv);
   let clientId = cookieStorage.getItem("__clientId");
@@ -282,6 +284,21 @@ const checkLogin = function* () {
   }
 };
 
+export const toastCall = function* (method, { payload }) {
+  console.log("------", [Toast, method]);
+
+  if (method === "hide") {
+    yield call([Toast, method]);
+  } else {
+    // 优先展示alert
+    // if (alertVisable) {
+    //   return;
+    // }
+    const { content, duration, onClose, mask } = payload;
+    yield call([Toast, method], content, duration, onClose, mask);
+  }
+};
+
 export default function* staticSagas() {
   /**
    * 路由
@@ -301,6 +318,14 @@ export default function* staticSagas() {
   yield takeLatest(staticActions.env.changeTheme, changeTheme);
   yield takeLatest(staticActions.env.setAppCode, setAppCode);
   yield takeLatest(staticActions.env.setServiceUrl, setServiceUrl);
+
+  // toast
+  yield takeLatest(staticActions.toast.success, toastCall, "success");
+  yield takeLatest(staticActions.toast.fail, toastCall, "fail");
+  yield takeLatest(staticActions.toast.info, toastCall, "info");
+  yield takeLatest(staticActions.toast.loading, toastCall, "loading");
+  yield takeLatest(staticActions.toast.offline, toastCall, "offline");
+  yield takeLatest(staticActions.toast.hide, toastCall, "hide");
   /**
    * 用户
    */

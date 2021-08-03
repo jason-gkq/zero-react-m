@@ -35,6 +35,7 @@ export default connect(
         dispatch($globalActions.env.changeTheme({ theme: "C" }));
       },
       goAction(url) {
+        // dispatch($globalActions.toast.info("test"));
         dispatch($globalActions.navigate.goTo({ url }));
       },
       goBack() {

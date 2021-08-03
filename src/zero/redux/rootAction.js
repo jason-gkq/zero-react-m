@@ -1,5 +1,12 @@
 import { createActions } from "redux-actions";
 
+const toastPayload = (content, duration = 2, onClose, mask = false) => ({
+  content,
+  duration,
+  onClose,
+  mask,
+});
+
 const staticActions = {
   SYSTEM: {
     SET_SYSTEM: void 0,
@@ -31,6 +38,14 @@ const staticActions = {
   },
   SHOP: {
     SET_SHOP: void 0,
+  },
+  TOAST: {
+    SUCCESS: toastPayload,
+    FAIL: toastPayload,
+    INFO: toastPayload,
+    LOADING: toastPayload,
+    OFFLINE: toastPayload,
+    HIDE: void 0,
   },
 };
 
