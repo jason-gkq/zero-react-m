@@ -27,7 +27,7 @@ export default (pageModel) => (WrappedComponent) => {
       this.state = {
         hasError: false,
       };
-      let { isNeedLogin, title } = context;
+      let { isNeedLogin, title, tabBar } = context;
 
       if (pageModel.config && Reflect.has(pageModel.config, "isNeedLogin")) {
         isNeedLogin = pageModel.config.isNeedLogin;
@@ -36,11 +36,13 @@ export default (pageModel) => (WrappedComponent) => {
         title = pageModel.config.title;
       }
       document.title = title;
-      const {
-        hideHeader = false,
-        barSettings = null,
-        pageId,
-      } = pageModel.config || {};
+      const { hideHeader = false, barSettings = null, pageId } =
+        pageModel.config || {};
+
+      let isTabBar = this.getIsTabBar(tabBar, $route);
+      let currentTabBarList = tabBar.list.find((item) => {
+        return item.pagePath === $route;
+      });
       if (!pageId) {
         console.warn(`页面 ${$route} 未配置 pageId，请找数据组申请pageId`);
       }
@@ -52,6 +54,8 @@ export default (pageModel) => (WrappedComponent) => {
           payload: $payload,
           hideHeader,
           barSettings,
+          isTabBar,
+          selectedTabBarKey: (currentTabBarList && currentTabBarList.key) || "",
         })
       );
       /* 判断登录跳转 */
@@ -75,6 +79,14 @@ export default (pageModel) => (WrappedComponent) => {
       }
 
       pageModel.runSaga();
+    }
+
+    getIsTabBar(tabBar, $route) {
+      let arr = [];
+      ((tabBar && tabBar.list) || []).map((item) => {
+        arr.push(item.pagePath);
+      });
+      return arr.includes($route);
     }
 
     componentDidMount() {

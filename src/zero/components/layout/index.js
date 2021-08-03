@@ -23,19 +23,10 @@ export default class extends React.Component {
   static contextType = AppConfigContext;
 
   render() {
-    console.log("0000", this.props);
-
     const {
       $routes,
-      appName,
-      currentPage: { hideHeader, route },
+      currentPage: { hideHeader, isTabBar },
     } = this.props;
-    const { tabBar } = this.context;
-    let arr = [];
-    ((tabBar && tabBar.list) || []).map((item) => {
-      arr.push(`/${appName}` + item.pagePath);
-    });
-    let isTabBar = arr.includes(route);
     return (
       <View className="page-root">
         <Suspense fallback={<PageLoading />}>

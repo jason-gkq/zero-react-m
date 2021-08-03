@@ -15,6 +15,11 @@ import { AppConfigContext } from "../../../core/configureContext";
   (dispatch) => {
     return {
       barAction(tabBarItem) {
+        dispatch(
+          globalActions.route.currentPage({
+            selectedTabBarKey: tabBarItem.key,
+          })
+        );
         dispatch(globalActions.navigate.goTo({ url: tabBarItem.pagePath }));
       },
     };
@@ -26,7 +31,6 @@ export default class extends Component {
     const { tabBar } = context;
     this.state = {
       tabBar,
-      selectedTab: tabBar.list[0].key,
       hidden: false, // 是否隐藏TabBar
     };
   }
@@ -35,7 +39,10 @@ export default class extends Component {
 
   render() {
     const tabBar = this.state.tabBar;
-    const { isTabBar } = this.props;
+    const {
+      isTabBar,
+      currentPage: { selectedTabBarKey },
+    } = this.props;
     if (!isTabBar) {
       return null;
     }
@@ -72,11 +79,8 @@ export default class extends Component {
                     }}
                   />
                 }
-                selected={this.state.selectedTab === tabBarItem.key} //是否选中
+                selected={selectedTabBarKey === tabBarItem.key} //是否选中
                 onPress={() => {
-                  this.setState({
-                    selectedTab: tabBarItem.key,
-                  });
                   this.props.barAction(tabBarItem);
                 }}
               ></TabBar.Item>

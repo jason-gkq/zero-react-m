@@ -61,9 +61,13 @@ const route = handleActions(
       };
     },
     [staticActions.route.currentPage](state, { payload }) {
+      const obj = {
+        ...state.currentPage,
+        ...payload,
+      };
       return {
         ...state,
-        currentPage: { ...payload },
+        currentPage: { ...obj },
       };
     },
   },
@@ -73,9 +77,9 @@ const route = handleActions(
 const user = handleActions(
   {
     [staticActions.user.setUser](state, { payload }) {
-      if (!payload.isLogin) return { isLogin: false };
+      // if (!payload.isLogin) return { isLogin: false };
       return {
-        ...state,
+        // ...state,
         ...payload,
       };
     },
