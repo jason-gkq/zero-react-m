@@ -6,8 +6,8 @@ import "../index.less";
 // import logo from "@/assets/img/logo.jpg";
 
 export default (props) => {
-  const { loginOutAction } = props;
-  return (
-    <View>{/* <Button onClick={loginOutAction}>退出登录</Button> */}</View>
-  );
+  // return (
+  //   <View>{/* <Button onClick={loginOutAction}>退出登录</Button> */}</View>
+  // );
+  return "";
 };

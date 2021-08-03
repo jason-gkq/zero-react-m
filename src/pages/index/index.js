@@ -11,8 +11,14 @@ class Home extends Component {
   }
 
   render() {
-    const { $model, $globalActions } = this.props;
-    return <Content $model={$model} $globalActions={$globalActions} />;
+    const { $model, $globalActions, $globalSelectors } = this.props;
+    return (
+      <Content
+        $model={$model}
+        $globalActions={$globalActions}
+        $globalSelectors={$globalSelectors}
+      />
+    );
   }
 }
 export default Home;

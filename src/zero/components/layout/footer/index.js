@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { globalSelectors, globalActions } from "../../../redux";
-// import { TabBar } from '@/zero/components';
-import { TabBar } from "antd-mobile";
+import { TabBar, View } from "../../index";
 import "./index.less";
 import { AppConfigContext } from "../../../core/configureContext";
 
@@ -41,7 +40,7 @@ export default class extends Component {
       return null;
     }
     return (
-      <div className='page-footer'>
+      <View className="page-footer">
         <TabBar
           unselectedTintColor={tabBar.unselectedTintColor}
           tintColor={tabBar.tintColor}
@@ -54,7 +53,7 @@ export default class extends Component {
                 title={tabBarItem.title}
                 key={tabBarItem.key}
                 icon={
-                  <div
+                  <View
                     style={{
                       width: "25px",
                       height: "25px",
@@ -64,7 +63,7 @@ export default class extends Component {
                   />
                 }
                 selectedIcon={
-                  <div
+                  <View
                     style={{
                       width: "25px",
                       height: "25px",
@@ -84,7 +83,7 @@ export default class extends Component {
             );
           })}
         </TabBar>
-      </div>
+      </View>
     );
   }
 }

@@ -10,7 +10,7 @@ export default connect(
   (dispatch, { $model, $globalActions }) => {
     return {
       loginOutAction() {
-        dispatch($model.actions.loginOutAction());
+        // dispatch($model.actions.loginOutAction());
         // dispatch($globalActions.user.logout());
       },
       // addVoucher() {

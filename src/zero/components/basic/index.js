@@ -11,7 +11,9 @@ import {
   Button as antButton,
   InputItem as antInputItem,
   Toast as antToast,
+  TabBar as antTabBar,
 } from "antd-mobile";
 export const Button = antButton;
 export const InputItem = antInputItem;
 export const AntToast = antToast;
+export const TabBar = antTabBar;
