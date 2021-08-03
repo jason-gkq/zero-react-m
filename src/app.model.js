@@ -9,6 +9,7 @@ const model = createModel({
   // 初始state状态
   state: {
     myDefaultCar: null,
+    cityInfo: null,
   },
   config: {
     title: "乐车邦",

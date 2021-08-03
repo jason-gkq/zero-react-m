@@ -12,28 +12,18 @@ export default {
   ],
   common: [
     {
+      path: "/lcbtest/common/car/edit/index",
+      component: React.lazy(() =>
+        import(
+          /* webpackChunkName: 'edit' */ /* webpackMode: 'lazy' */ "@/common/pages/car/edit"
+        )
+      ),
+    },
+    {
       path: "/lcbtest/common/login/index",
       component: React.lazy(() =>
         import(
           /* webpackChunkName: 'login' */ /* webpackMode: 'lazy' */ "@/common/pages/login"
-        )
-      ),
-    },
-  ],
-  home: [
-    {
-      path: "/lcbtest/home/home2/index",
-      component: React.lazy(() =>
-        import(
-          /* webpackChunkName: 'home2' */ /* webpackMode: 'lazy' */ "@/src/pages/home/home2"
-        )
-      ),
-    },
-    {
-      path: "/lcbtest/home/home3/index",
-      component: React.lazy(() =>
-        import(
-          /* webpackChunkName: 'home3' */ /* webpackMode: 'lazy' */ "@/src/pages/home/home3"
         )
       ),
     },
@@ -43,17 +33,23 @@ export default {
       path: "/lcbtest/my/index",
       component: React.lazy(() =>
         import(
-          /* webpackChunkName: 'my' */ /* webpackMode: 'lazy' */ "@/src/pages/my"
+          /* webpackChunkName: 'my' */ /* webpackMode: 'lazy' */ "@/src/pages/my/my"
         )
       ),
     },
-  ],
-  setting: [
     {
-      path: "/lcbtest/setting/index",
+      path: "/lcbtest/my/user/info/index",
       component: React.lazy(() =>
         import(
-          /* webpackChunkName: 'setting' */ /* webpackMode: 'lazy' */ "@/src/pages/setting"
+          /* webpackChunkName: 'info' */ /* webpackMode: 'lazy' */ "@/src/pages/my/user/info"
+        )
+      ),
+    },
+    {
+      path: "/lcbtest/my/user/set/index",
+      component: React.lazy(() =>
+        import(
+          /* webpackChunkName: 'set' */ /* webpackMode: 'lazy' */ "@/src/pages/my/user/set"
         )
       ),
     },

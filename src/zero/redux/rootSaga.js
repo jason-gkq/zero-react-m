@@ -250,7 +250,14 @@ const reLaunch = function* () {
 
 // const loginSuccess = function* ({ payload }) {};
 
-// const logout = function* ({ payload }) {};
+const takeLogout = function* () {
+  while (true) {
+    yield take(staticActions.user.logout);
+    yield call(httpsClient.post, `gateway/user/logout`);
+    yield put(staticActions.user.setUser({ isLogin: false }));
+    navigate.goBack();
+  }
+};
 
 const rootLunch = function* () {
   yield call(checkLogin);
@@ -267,6 +274,8 @@ const checkLogin = function* () {
     user["mobile"] = user.user && user.user.mobile;
     yield call(storage.setStorageSync, "user", user, Infinity);
     yield put(staticActions.user.setUser(user));
+
+    yield put(staticActions.app.getDefaultCar());
   } catch (error) {
     yield call(storage.removeStorageSync, "user");
     yield put(staticActions.user.setUser({ isLogin: false }));
@@ -281,6 +290,7 @@ export default function* staticSagas() {
   yield fork(goBack);
   yield fork(redirect);
   yield fork(reLaunch);
+  yield fork(takeLogout);
 
   /**
    * 系统信息初始化

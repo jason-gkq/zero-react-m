@@ -1,7 +1,7 @@
 import { createModel } from "@/src/zero/redux";
 
 export default createModel({
-  name: "Index",
+  name: "index",
   config: {
     pageId: "10011",
     isNeedLogin: true,

@@ -42,7 +42,8 @@ export default createModel({
           user["isLogin"] = true;
         }
         user["mobile"] = user.user && user.user.mobile;
-        cookieStorage.setItem(
+        yield call(
+          cookieStorage.setItem,
           "token",
           user.token,
           Infinity,
@@ -50,7 +51,7 @@ export default createModel({
           cookieStorage.getDomain()
         );
         yield put($globalActions.user.setUser(user));
-
+        yield put($globalActions.app.getDefaultCar());
         yield put(
           $globalActions.navigate.redirect({
             url: navigateUrl,

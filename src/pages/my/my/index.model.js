@@ -4,9 +4,10 @@ import { store, globalActions } from "@/zero/redux";
 import backBlack from "@/assets/img/back-black.svg";
 
 export default createModel({
-  name: "My",
+  name: "my",
   config: {
     pageId: "10011",
+    isNeedLogin: false,
     barSettings: {
       title: "我的",
       right: [
@@ -16,7 +17,7 @@ export default createModel({
           onClick: () => {
             console.log("shezhihihzihi", store);
             store.dispatch(
-              globalActions.navigate.goTo({ url: "/setting/index" })
+              globalActions.navigate.goTo({ url: "/my/user/set/index" })
             );
           },
         },

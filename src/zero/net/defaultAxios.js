@@ -13,10 +13,7 @@ import cookieStorage from "../cache/cookieStorage";
 import navigate from "../navigate/configureNavigate";
 
 /* 不跳转登录页面白名单 */
-const loginWhiteListUrl = [
-  "/gateway/user/currentUser",
-  "/gateway/user/smsLogin",
-];
+const loginWhiteListUrl = ["gateway/user/currentUser", "gateway/user/smsLogin"];
 
 /**
  * 正在进行中的请求
@@ -173,10 +170,12 @@ const responseHandler = (resp) => {
     });
   }
   let url = resp.config.url;
+
   if (
     [904, 907, 8800111].includes(statusCode) &&
     !loginWhiteListUrl.includes(url)
   ) {
+    console.log("url----", loginWhiteListUrl.includes(url));
     // 登录跳转，注意排除loginWhiteListUrl
     const location =
       navigate.navigateHistory.length > 0

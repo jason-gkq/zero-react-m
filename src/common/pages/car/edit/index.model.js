@@ -2,11 +2,11 @@ import { createModel } from "@/src/zero/redux";
 import { put, call, select } from "redux-saga/effects";
 
 export default createModel({
-  name: "Setting",
+  name: "common/car/edit",
   config: {
     pageId: "10011",
     barSettings: {
-      title: "设置",
+      title: "我的车",
     },
   },
   state: {
@@ -29,11 +29,11 @@ export default createModel({
       $globalSelectors,
     }) {
       yield put($globalActions.user.logout());
-      const { isLogin } = yield select($globalSelectors.getUser);
-      // console.log("logout", user);
-      if (!isLogin) {
-        yield put($globalActions.navigate.goBack());
-      }
+      // const { isLogin } = yield select($globalSelectors.getUser);
+      // console.log("logout", isLogin);
+      // if (!isLogin) {
+      //   yield put($globalActions.navigate.goBack());
+      // }
     },
   },
   selectors: {},

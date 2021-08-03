@@ -36,8 +36,11 @@ export default (pageModel) => (WrappedComponent) => {
         title = pageModel.config.title;
       }
       document.title = title;
-      const { hideHeader = false, barSettings = null, pageId } =
-        pageModel.config || {};
+      const {
+        hideHeader = false,
+        barSettings = null,
+        pageId,
+      } = pageModel.config || {};
       if (!pageId) {
         console.warn(`页面 ${$route} 未配置 pageId，请找数据组申请pageId`);
       }
@@ -51,7 +54,6 @@ export default (pageModel) => (WrappedComponent) => {
           barSettings,
         })
       );
-
       /* 判断登录跳转 */
       if (isNeedLogin && !$isLogin) {
         dispatch(

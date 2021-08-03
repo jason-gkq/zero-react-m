@@ -6,8 +6,7 @@ import "../index.less";
 // import logo from "@/assets/img/logo.jpg";
 
 export default (props) => {
-  const { isLogin, userInfo, nickNameOrMoblie, goAction } = props;
-
+  const { isLogin, userInfo, nickNameOrMoblie, goAction, carFullName } = props;
   return (
     <View className="mi-top-wrap">
       <View className="mi-top">
@@ -17,7 +16,7 @@ export default (props) => {
             {userInfo.faceImageUrl ? (
               <View
                 className="mi-user-photo mi-sex-unman"
-                onClick={() => goAction("user/info", "avatar")}
+                onClick={() => goAction("/my/user/info/index")}
               >
                 <Image
                   size={60}
@@ -28,45 +27,46 @@ export default (props) => {
             ) : (
               <View
                 className="mi-user-photo"
-                onClick={() => goAction("user/info", "avatar")}
+                onClick={() => goAction("/my/user/info/index")}
               ></View>
             )}
 
             <View
               className="mi-user-name show-dots"
-              onClick={() => goAction("user/info")}
+              onClick={() => goAction("/my/user/info/index")}
             >
               {nickNameOrMoblie}
             </View>
-            {/* <template v-if="carFullName">
+            {carFullName ? (
               <View
                 className="mi-car-info show-dots"
-                onClick="editDefaultCar()"
+                onClick={() => goAction("/common/car/edit/index")}
               >
-                {{ carFullName }}
+                {carFullName}
               </View>
-            </template>
-            <View
-              v-else
-              className="mi-add-car flex-center-wrap"
-              onClick="goAction('/webapp/car/info?serviceType=1', 'addCar')"
-            >
-              <svg className="svg mi-add-icon">
-                <use xlink:href="/my/asset/src/style/sprite.svg#add"></use>
-              </svg>
-              <span>添加爱车</span>
-            </View> */}
+            ) : (
+              <View
+                className="mi-add-car flex-center-wrap"
+                onClick={() => goAction()}
+              >
+                <Image className="mi-add-icon"></Image>
+                {/* <svg className="svg mi-add-icon">
+                  <use xlink:href="/my/asset/src/style/sprite.svg#add"></use>
+                </svg> */}
+                <Text>添加爱车</Text>
+              </View>
+            )}
           </View>
         ) : (
           <View className="mi-top-cont">
             {/* <!-- 未登录 --> */}
             <View
               className="mi-user-photo mi-sex-unman"
-              onClick={goAction("login", "avatar")}
+              onClick={() => goAction("/common/login/index")}
             ></View>
             <Text
               className="mi-click-login vertical-center"
-              onClick={goAction("login", "login")}
+              onClick={() => goAction("/common/login/index")}
             >
               点击登录
             </Text>

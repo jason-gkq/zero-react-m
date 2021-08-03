@@ -73,6 +73,7 @@ const route = handleActions(
 const user = handleActions(
   {
     [staticActions.user.setUser](state, { payload }) {
+      if (!payload.isLogin) return { isLogin: false };
       return {
         ...state,
         ...payload,
