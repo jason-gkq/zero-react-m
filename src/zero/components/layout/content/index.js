@@ -1,43 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
+import { View } from "../../basic";
 import "./index.less";
 
-class ContentErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    // 更新 state 使下一次渲染能够显示降级后的 UI
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    // this.setState({
-    //   error,
-    //   errorInfo,
-    // });
-    // logErrorToMyService(error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <div className='page-content'>页面渲染出错</div>;
-    }
-    return this.props.children;
-  }
-}
-
-export default class Content extends Component {
+export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   render() {
-    return (
-      <ContentErrorBoundary>
-        <div className='page-content'>{this.props.children}</div>
-      </ContentErrorBoundary>
-    );
+    return <View className='page-content'>{this.props.children}</View>;
   }
 }

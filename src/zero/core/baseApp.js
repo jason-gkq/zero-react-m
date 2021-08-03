@@ -90,11 +90,7 @@ export default (appModel) => (WrappedComponent) => {
             <Switch>
               {$fullRoutes}
               <Route path={`/${appName}`}>
-                <AppPage
-                  $routes={$routes}
-                  $history={$history}
-                  appConfig={appModel.config}
-                />
+                <AppPage $routes={$routes} $history={$history} />
               </Route>
             </Switch>
           );
