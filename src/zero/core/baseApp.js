@@ -62,7 +62,7 @@ export default (appModel) => (WrappedComponent) => {
     }
 
     renderContent() {
-      const { $routes, $fullRoutes, $history } = this.props;
+      const { $routes, $fullRoutes } = this.props;
       const { status, appName } = this.state;
       switch (status) {
         case "loading":
@@ -90,7 +90,7 @@ export default (appModel) => (WrappedComponent) => {
             <Switch>
               {$fullRoutes}
               <Route path={`/${appName}`}>
-                <AppPage $routes={$routes} $history={$history} />
+                <AppPage $routes={$routes} />
               </Route>
             </Switch>
           );

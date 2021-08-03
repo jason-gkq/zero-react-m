@@ -11,9 +11,9 @@ import "./index.less";
 import { AppConfigContext } from "../../core/configureContext";
 
 @connect((state) => {
-  const { currentPage = {}, location } = globalSelectors.getRoute(state);
+  const { currentPage = {} } = globalSelectors.getRoute(state);
   const env = globalSelectors.getEnv(state);
-  return { currentPage, appName: env.appName, location };
+  return { currentPage, appName: env.appName };
 })
 export default class extends React.Component {
   constructor(props) {
@@ -23,21 +23,21 @@ export default class extends React.Component {
   static contextType = AppConfigContext;
 
   render() {
+    console.log("0000", this.props);
+
     const {
       $routes,
-      $history,
       appName,
-      currentPage: { hideHeader },
+      currentPage: { hideHeader, route },
     } = this.props;
     const { tabBar } = this.context;
-    const path = $history.location.pathname;
     let arr = [];
     ((tabBar && tabBar.list) || []).map((item) => {
       arr.push(`/${appName}` + item.pagePath);
     });
-    let isTabBar = arr.includes(path);
+    let isTabBar = arr.includes(route);
     return (
-      <View className='page-root'>
+      <View className="page-root">
         <Suspense fallback={<PageLoading />}>
           {!hideHeader && <Header isTabBar={isTabBar} />}
           <Content isTabBar={isTabBar}>
