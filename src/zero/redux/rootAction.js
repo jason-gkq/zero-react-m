@@ -7,6 +7,12 @@ const toastPayload = (content, duration = 2, onClose, mask = false) => ({
   mask,
 });
 
+const alertPayload = (title, message, btns = [{ text: "确定" }]) => ({
+  title,
+  message,
+  btns,
+});
+
 const staticActions = {
   SYSTEM: {
     SET_SYSTEM: void 0,
@@ -46,6 +52,10 @@ const staticActions = {
     LOADING: toastPayload,
     OFFLINE: toastPayload,
     HIDE: void 0,
+  },
+  ALERT: {
+    SHOW: alertPayload,
+    PRESS: void 0,
   },
 };
 

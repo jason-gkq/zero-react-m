@@ -33,7 +33,7 @@ import { navigate } from "../navigate";
 import { setCommonData, setAxiosBase, httpsClient } from "../net";
 import { themes } from "../core/themeContext";
 
-import { Toast } from "../components/index";
+import { Toast, Modal } from "../components/index";
 
 const initEnv = function* () {
   const env = yield select(getEnv);
@@ -285,8 +285,6 @@ const checkLogin = function* () {
 };
 
 export const toastCall = function* (method, { payload }) {
-  console.log("------", [Toast, method]);
-
   if (method === "hide") {
     yield call([Toast, method]);
   } else {
@@ -297,6 +295,29 @@ export const toastCall = function* (method, { payload }) {
     const { content, duration, onClose, mask } = payload;
     yield call([Toast, method], content, duration, onClose, mask);
   }
+};
+
+export const alertPromise = (title, message, btns) => {
+  return new Promise(function (resolve) {
+    Modal.alert(
+      title,
+      message,
+      btns.map((btn) => {
+        return {
+          text: btn.text,
+          onClick: () => resolve(btn),
+        };
+      })
+    );
+  }).catch((err) => {
+    console.log("eee", err);
+  });
+};
+
+export const alertShow = function* ({ payload: { title, message, btns } }) {
+  yield call(alertPromise, title, message, btns);
+  // yield call(delay, 500);
+  // yield put(action.alert.press(btn));
 };
 
 export default function* staticSagas() {
@@ -326,6 +347,8 @@ export default function* staticSagas() {
   yield takeLatest(staticActions.toast.loading, toastCall, "loading");
   yield takeLatest(staticActions.toast.offline, toastCall, "offline");
   yield takeLatest(staticActions.toast.hide, toastCall, "hide");
+
+  yield takeLatest(staticActions.alert.show, alertShow);
   /**
    * 用户
    */

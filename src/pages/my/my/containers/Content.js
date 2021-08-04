@@ -35,8 +35,11 @@ export default connect(
         dispatch($globalActions.env.changeTheme({ theme: "C" }));
       },
       goAction(url) {
+        dispatch(
+          $globalActions.alert.show(null, "登录失效", [{ text: "确定" }])
+        );
         // dispatch($globalActions.toast.info("test"));
-        dispatch($globalActions.navigate.goTo({ url }));
+        // dispatch($globalActions.navigate.goTo({ url }));
       },
       goBack() {
         dispatch($globalActions.navigate.goBack());

@@ -30,7 +30,7 @@ export default {
   ],
   my: [
     {
-      path: "/lcbtest/my/index",
+      path: "/lcbtest/my/my/index",
       component: React.lazy(() =>
         import(
           /* webpackChunkName: 'my' */ /* webpackMode: 'lazy' */ "@/src/pages/my/my"
