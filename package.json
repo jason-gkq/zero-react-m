@@ -2,7 +2,6 @@
   "name": "zero-react-m",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "./src/pages/index/index.js",
   "scripts": {
     "start": "zero-react-scripts start env=local",
@@ -46,7 +45,7 @@
     "require": "^2.4.20",
     "reselect": "^4.0.0",
     "web-vitals": "^1.1.1",
-    "zero-react-scripts": "0.2.26"
+    "zero-react-scripts": "0.2.27"
   },
   "browserslist": {
     "production": [
