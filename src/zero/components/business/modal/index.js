@@ -1,6 +1,18 @@
-import Modal from "./Modal";
-import alert from "./Alert";
+import React from "react";
+import { Modal } from "antd-mobile";
+import Portal from "../../hoc/protalFactory";
 
-Modal.alert = alert;
+import AlertContainer from "./AlertContainer";
 
-export default Modal;
+const modal = (props) => {
+  const { children, ...restProps } = props;
+  return <Modal {...restProps}>{children}</Modal>;
+};
+
+modal.alert = (props) => {
+  console.log("content---> ", props);
+  const { content: children, ...restProps } = props;
+  Portal(AlertContainer, { children, ...restProps });
+};
+
+export default modal;

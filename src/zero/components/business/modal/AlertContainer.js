@@ -1,48 +1,63 @@
 import React from "react";
-import { AntModal, Text, View } from "../../index";
-import Portal from "../../hoc/Portal";
+import { Modal } from "antd-mobile";
+import { Text, View } from "../../index";
 
-class AlertContainer extends React.Component {
+export default class AlertContainer extends React.Component {
   constructor(props) {
     super(props);
-    console.log("=====props", props);
 
     this.state = {
       visible: true,
     };
+    this.onClose = this.onClose.bind(this);
   }
-  onClose = (callback) => {
-    this.setState(
-      {
-        visible: false,
-      },
-      () => {
-        setTimeout(callback, 100);
-      }
-    );
+
+  // showModal = () => (e) => {
+  //   e.preventDefault(); // 修复 Android 上点击穿透
+  //   this.setState({
+  //     visible: true,
+  //   });
+  // };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
   };
 
   render() {
-    console.log("======AlertContainer", this.props);
-
-    const { title, actions, content, afterClose } = this.props;
-    const footer = actions.map((button) => {
-      const orginPress = button.onClick || function () {};
-      button.onClick = () => {
-        this.onClose(orginPress);
-      };
-      return button;
-    });
+    const { actions, children, transparent, ...restProps } = this.props;
+    const { visible } = this.state;
+    const footer = [];
+    if (actions && Array.isArray(actions) && actions.length > 0) {
+      actions.reduce((footer, item) => {
+        const button = {
+          text: item.text || "确定",
+        };
+        if (item.onClick) {
+          button["onPress"] = () => {
+            item.onClick();
+            this.onClose();
+          };
+        } else {
+          button["onPress"] = () => {
+            this.onClose();
+          };
+        }
+        footer.push(button);
+        return footer;
+      }, footer);
+    }
 
     return (
-      <AntModal
+      <Modal
+        {...restProps}
         transparent
-        title={title}
-        visible={this.state.visible}
+        visible={visible}
+        onClose={this.onClose}
         footer={footer}
-        afterClose={afterClose}
         style={{
-          marginTop: title ? 8 : 0,
+          // marginTop: title ? 8 : 0,
           paddingHorizontal: 12,
           alignItems: "center",
         }}
@@ -50,17 +65,17 @@ class AlertContainer extends React.Component {
         <View>
           <Text
             style={{
-              color: colors.textBase,
+              // color: colors.textBase,
               fontSize: 15,
               lineHeight: 20,
               textAlign: "center",
             }}
           >
-            {content}
+            {children}
           </Text>
         </View>
-      </AntModal>
+      </Modal>
     );
   }
 }
-export default Portal(AlertContainer);
+// export default Portal(AlertContainer);

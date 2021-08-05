@@ -36,7 +36,11 @@ export default connect(
       },
       goAction(url) {
         dispatch(
-          $globalActions.alert.show(null, "登录失效", [{ text: "确定" }])
+          $globalActions.alert.show({
+            // title: "cc",
+            content: "登录失效",
+            // actions: [{ text: "确定" }],
+          })
         );
         // dispatch($globalActions.toast.info("test"));
         // dispatch($globalActions.navigate.goTo({ url }));

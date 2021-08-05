@@ -288,36 +288,16 @@ export const toastCall = function* (method, { payload }) {
   if (method === "hide") {
     yield call([Toast, method]);
   } else {
-    // 优先展示alert
-    // if (alertVisable) {
-    //   return;
-    // }
     const { content, duration, onClose, mask } = payload;
     yield call([Toast, method], content, duration, onClose, mask);
   }
 };
 
-export const alertPromise = (title, message, btns) => {
-  return new Promise(function (resolve) {
-    Modal.alert(
-      title,
-      message,
-      btns.map((btn) => {
-        return {
-          text: btn.text,
-          onClick: () => resolve(btn),
-        };
-      })
-    );
-  }).catch((err) => {
-    console.log("eee", err);
-  });
-};
-
-export const alertShow = function* ({ payload: { title, message, btns } }) {
-  yield call(alertPromise, title, message, btns);
-  // yield call(delay, 500);
-  // yield put(action.alert.press(btn));
+export const alertShow = function* () {
+  while (true) {
+    const { payload } = yield take(staticActions.alert.show);
+    yield call(Modal.alert, payload);
+  }
 };
 
 export default function* staticSagas() {
@@ -329,6 +309,7 @@ export default function* staticSagas() {
   yield fork(redirect);
   yield fork(reLaunch);
   yield fork(takeLogout);
+  yield fork(alertShow);
 
   /**
    * 系统信息初始化
@@ -348,7 +329,7 @@ export default function* staticSagas() {
   yield takeLatest(staticActions.toast.offline, toastCall, "offline");
   yield takeLatest(staticActions.toast.hide, toastCall, "hide");
 
-  yield takeLatest(staticActions.alert.show, alertShow);
+  // yield takeLatest(staticActions.alert.show, alertShow);
   /**
    * 用户
    */

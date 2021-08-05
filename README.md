@@ -63,31 +63,31 @@ home // 页面目录名
 
 **说明**
 
--   `index.js` 页面入口文件，代码示例：
+- `index.js` 页面入口文件，代码示例：
 
 ```js
 import React, { Component } from "react";
 import { BasePage } from "@/zero/core";
 import model from "./index.model";
 
-import DivTest from './containers/DivTest';
+import DivTest from "./containers/DivTest";
 @BasePage(model) // 必须
 class Home extends Component {
-	constructor(props) {
-		super(props);
-	}
-	render() {
-		const { $model, $globalActions } = this.props;
-		return <DivTest $model={$model} $globalActions={$globalActions} />;
-	}
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    const { $model, $globalActions } = this.props;
+    return <DivTest $model={$model} $globalActions={$globalActions} />;
+  }
 }
 export default Home;
 ```
 
--   `index.model.js`用于处理页面逻辑，包括初始化的页面数据，接口请求，数据更新处理等。示例代码如下：
+- `index.model.js`用于处理页面逻辑，包括初始化的页面数据，接口请求，数据更新处理等。示例代码如下：
 
 ```js
-import { createModel } from "@src/common/redux";
+import { createModel } from "@/zero/redux";
 import { put, call } from "redux-saga/effects";
 
 export default createModel({
@@ -123,9 +123,9 @@ export default createModel({
 });
 ```
 
--   `index.less`页面样式
--   `conponents/DivTest.js` 页面的纯展示组件，不做多余逻辑处理
--   `containers/DivTest.js` 页面的状态组件，用于 View 和 Store 的联接
+- `index.less`页面样式
+- `conponents/DivTest.js` 页面的纯展示组件，不做多余逻辑处理
+- `containers/DivTest.js` 页面的状态组件，用于 View 和 Store 的联接
 
 ---
 
@@ -137,15 +137,15 @@ export default createModel({
 
 ### 全局 store 信息：通过 isGloable 配置
 
--   user
--   car
--   store
--   location
--   subscribtion
--   inviteInfo
+- user
+- car
+- store
+- location
+- subscribtion
+- inviteInfo
 
--   agentInfo
--   ad
+- agentInfo
+- ad
 
 ---
 
@@ -153,32 +153,30 @@ export default createModel({
 
 ### 基础
 
--   环境
+- 环境
 
-    -   `globalActions.env.setEnv`
-    -   `globalActions.env.initEnv`
+  - `globalActions.env.setEnv`
+  - `globalActions.env.initEnv`
 
--   对接
+- 对接
 
-    -   `globalActions.env.setAppCode`
-    -   `globalActions.env.setServiceUrl`
+  - `globalActions.env.setAppCode`
+  - `globalActions.env.setServiceUrl`
 
--   主题
+- 主题
 
-    -   `globalActions.env.changeTheme`
-    -   `globalActions.env.injectThemes`
+  - `globalActions.env.changeTheme`
 
--   页面信息
-    -   `globalActions.route.setRoute`
-    -   `globalActions.route.currentPage`
+- 页面信息
+  - `globalActions.route.currentPage`
 
 ### 路由
 
--   `globalActions.navigate.goTo({ url: "/home/home1" })`
--   `globalActions.navigate.goBack`
--   `globalActions.navigate.reLaunch`
--   `globalActions.navigate.redirect`
--   `globalActions.navigate.replace`
+- `globalActions.navigate.goTo({ url: "/home/home1" })`
+- `globalActions.navigate.goBack`
+- `globalActions.navigate.reLaunch`
+- `globalActions.navigate.redirect`
+- `globalActions.navigate.replace`
 
 ## 组件
 
@@ -186,45 +184,45 @@ export default createModel({
 
 basic
 
--   View
--   ScrollView
--   Swiper
--   Text
--   Button
--   Alert
--   Badge
--   Toast
--   Modal
--   Picker
--   DatePicker
--   Calendar
--   WingBlank 两翼留白
--   WhiteSpace 上下留白
--   NavNar 导航栏
--   Popover 气泡
--   Tabs 标签页
--   Checkbox 复选框
--   List
+- View
+- ScrollView
+- Swiper
+- Text
+- Button
+- Alert
+- Badge
+- Toast
+- Modal
+- Picker
+- DatePicker
+- Calendar
+- WingBlank 两翼留白
+- WhiteSpace 上下留白
+- NavNar 导航栏
+- Popover 气泡
+- Tabs 标签页
+- Checkbox 复选框
+- List
 
--   Drawer
--   Loading
+- Drawer
+- Loading
 
 ### 业务组件
 
--   店铺信息组件 StoreInfo
--   登录组件 OathLogin
--   技术支持 TechSupport
--   Loading
--   PageLoading
--   Share
--   选品牌-车型
--   选年款
--   客服组
--   打电话
--   支付
--   订单结果
--   公众号
--   Tab
+- 店铺信息组件 StoreInfo
+- 登录组件 OathLogin
+- 技术支持 TechSupport
+- Loading
+- PageLoading
+- Share
+- 选品牌-车型
+- 选年款
+- 客服组
+- 打电话
+- 支付
+- 订单结果
+- 公众号
+- Tab
 
 ---
 
@@ -257,13 +255,13 @@ yarn add --dev eslint babel-eslint
 npm install --save-dev eslint babel-eslint
 
 // 针对react的插件
-yarn add --dev eslint-plugin-react eslint-plugin-import eslint-plugin-react-hooks eslint-plugin-jsx-a11y 
+yarn add --dev eslint-plugin-react eslint-plugin-import eslint-plugin-react-hooks eslint-plugin-jsx-a11y
 ```
+
 - eslint-plugin-import：此插件主要为了校验 import/export 语法，防止错误拼写文件路径以及导出名称的问题
 - eslint-plugin-jsx-a11y：提供 jsx 元素可访问性校验(可选)
 - eslint-plugin-react：校验 React
 - eslint-plugin-react-hooks：根据 Hooks API 校验 Hooks 的使用
-
 
 初始化 eslint:
 
@@ -275,9 +273,9 @@ eslint --init
 
 #### 2. husky
 
-本地执行git commit操作时能够触发对代码检查
+本地执行 git commit 操作时能够触发对代码检查
 
-安装依赖(node版本需要>=12)
+安装依赖(node 版本需要>=12)
 
 ```shell
 yarn add --dev husky
@@ -285,14 +283,16 @@ yarn add --dev husky
 npm install -D husky
 ```
 
-查看git钩子目录（git 钩子目录就是在.git文件夹的hooks下）
+查看 git 钩子目录（git 钩子目录就是在.git 文件夹的 hooks 下）
+
 ```shell
 cd .git/hooks
 
 ls -l
 ```
 
-编辑package.json文件：
+编辑 package.json 文件：
+
 ```js
 {
   "scripts": {
@@ -301,6 +301,7 @@ ls -l
   }
 }
 ```
+
 #### 3. prettier
 
 安装依赖
@@ -316,7 +317,7 @@ yarn add --dev eslint-config-prettier eslint-plugin-prettier
 
 #### 4. lint-staged
 
-每次只对当前修改后的文件进行扫描, 即进行git add加入到stage区的文件进行扫描即可，完成对增量代码进行检查。
+每次只对当前修改后的文件进行扫描, 即进行 git add 加入到 stage 区的文件进行扫描即可，完成对增量代码进行检查。
 
 安装依赖
 
@@ -330,16 +331,16 @@ npm install -D lint-staged
 
 ### 备忘
 
--   .gitignore 忽略不提交的 git 文件
--   .prettierrc.json prettier 的规则编辑，扩展规则，可以不进行配置，使用默认配置
--   .prettierignore prettier 忽略校验代码风格的文件，规则基于：Base your .prettierignore on .gitignore and .eslintignore
+- .gitignore 忽略不提交的 git 文件
+- .prettierrc.json prettier 的规则编辑，扩展规则，可以不进行配置，使用默认配置
+- .prettierignore prettier 忽略校验代码风格的文件，规则基于：Base your .prettierignore on .gitignore and .eslintignore
 
 ## 代码风格
 
 prettier 介绍
 
--   https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true
--   https://www.zhihu.com/question/325832546/answer/694680925
+- https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true
+- https://www.zhihu.com/question/325832546/answer/694680925
 
 代码格式化主要采用 `prettier` 和 `eslint` 搭配使用，使用 `prettier` 对代码进行格式化，使用 `eslint` 进行代码错误校验。
 
@@ -348,54 +349,58 @@ prettier 介绍
 
 产生的包均为本地包：
 
--   prettier 代码格式化，配合插件
--   eslint 代码格式化【暂未安装】
--   eslint-config-prettier eslint 默认继承使用 prettier 规则插件
--   eslint-plugin-react eslint 扩展包 【暂未安装】
--   @typescript-eslint/eslint-plugin eslint 扩展包 【暂未安装】
--   @typescript-eslint/parser eslint 扩展包 【暂未安装】
+- prettier 代码格式化，配合插件
+- eslint 代码格式化【暂未安装】
+- eslint-config-prettier eslint 默认继承使用 prettier 规则插件
+- eslint-plugin-react eslint 扩展包 【暂未安装】
+- @typescript-eslint/eslint-plugin eslint 扩展包 【暂未安装】
+- @typescript-eslint/parser eslint 扩展包 【暂未安装】
 
 产生配置文件：
 
--   .prettierrc.json prettier 的规则编辑，扩展规则，可以不进行配置，使用默认配置
--   .prettierignore prettier 忽略校验代码风格的文件，规则基于：Base your .prettierignore on .gitignore and .eslintignore
--   .eslintrc.json eslint 对应的配置文件
+- .prettierrc.json prettier 的规则编辑，扩展规则，可以不进行配置，使用默认配置
+- .prettierignore prettier 忽略校验代码风格的文件，规则基于：Base your .prettierignore on .gitignore and .eslintignore
+- .eslintrc.json eslint 对应的配置文件
 
 ```json
 // 安装 eslint-config-prettier 使 eslint 可以继承 prettier 规则
 {
-	"env": {
-		"browser": true, // 浏览器环境中的全局变量
-		"es2021": true // 启用除了 modules 以外的所有 ECMAScript 6 特性
-	},
-	"extends": [
-		"eslint:recommended",
-		"plugin:react/recommended",
-		"plugin:@typescript-eslint/recommended",
-		"prettier",
-		"prettier/@typescript-eslint",
-		"prettier/babel",
-		"prettier/flowtype",
-		"prettier/prettier",
-		"prettier/react",
-		"prettier/standard",
-		"prettier/unicorn"
-	],
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"ecmaVersion": 12,
-		"sourceType": "module"
-	},
-	"plugins": ["react", "@typescript-eslint"],
-	"rules": {}
+  "env": {
+    "browser": true, // 浏览器环境中的全局变量
+    "es2021": true // 启用除了 modules 以外的所有 ECMAScript 6 特性
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "prettier/babel",
+    "prettier/flowtype",
+    "prettier/prettier",
+    "prettier/react",
+    "prettier/standard",
+    "prettier/unicorn"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {}
 }
 ```
 
 图片的使用
+
 ```js
 import china from "@/assets/img/logo.svg";
-<img src={china} />
+<img src={china} />;
 ```
+
+package.json 警告：
+https://www.cnblogs.com/peaky/p/package-json-severity-warning.html
