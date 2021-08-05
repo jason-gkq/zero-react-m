@@ -12,8 +12,6 @@ export const getUser = (state) => state.user || {};
 
 export const getShop = (state) => state.shop || {};
 
-export const getApp = (state) => state.app || {};
-
 // export const getDefaultCar = (state) => state.app.myDefaultCar || null;
 
 export const globalSelectors = {
@@ -23,7 +21,6 @@ export const globalSelectors = {
   getRoute,
   getUser,
   getShop,
-  getApp,
 };
 
 export function injectGlobalSelectors(selectors, name = null) {

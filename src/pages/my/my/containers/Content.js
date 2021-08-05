@@ -6,7 +6,7 @@ export default connect(
   (state, { $model }) => {
     const { pageStatus } = $model.selectors.getState(state);
     const { isLogin, userInfo, mobile = "" } = globalSelectors.getUser(state);
-    const { myDefaultCar } = globalSelectors.getApp(state);
+    const { myDefaultCar } = globalSelectors.app.getState(state);
     const car = myDefaultCar;
     let { nickName } = userInfo || {};
     return {
