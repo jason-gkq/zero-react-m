@@ -1,7 +1,7 @@
 import React from "react";
 import routes from "./routeData";
 import { Route } from "react-router-dom";
-import { storage } from "../cache";
+import { sessionStorage } from "../cache";
 import { flatDeep } from "../utils";
 
 const allPageRoute = [];
@@ -13,10 +13,8 @@ export function generateRoute() {
   const routeList = Object.values(routes)
     .flat()
     .map((item) => {
-      if (item.path.endsWith("/index/index")) {
-        indexRoute = (
-          <Route key='index' exact={true} component={item.component} />
-        );
+      if (item.path.endsWith("/index")) {
+        indexRoute = <Route key='index' component={item.component} />;
       }
       allPageRoute.push(item.path);
       if (item.path.endsWith("/login/index")) {
@@ -38,7 +36,7 @@ export function guardRoute(route) {
     return routerRules.includes(route);
   }
   const { routerRules: routerRulesCache } =
-    storage.getStorageSync("userAuth") || {};
+    sessionStorage.get("userAuth") || {};
   if (routerRulesCache && routerRulesCache.length > 0) {
     return routerRulesCache.includes(route);
   }

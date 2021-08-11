@@ -1,10 +1,5 @@
 import { createBrowserHistory } from "history";
-// import { cookieStorage, localStorage } from "../cache";
-
-/**
- * 暂不放入缓存
- */
-// let navigateHistory = []; //localStorage.get("navigateHistory") || [];
+import { appendQuery } from "../utils";
 
 class configureNavigate {
   constructor() {
@@ -12,9 +7,6 @@ class configureNavigate {
     this.maxHistoryLength = history.length;
     this.rootModelName = process.env.productConfig.appName;
     this.initHistory(this.history.location);
-    // this.history.listen((location) => {
-    //   console.log("location....>>>", data);
-    // });
   }
 
   initHistory(location) {
@@ -35,17 +27,8 @@ class configureNavigate {
   }
 
   getLocation(url, payload) {
-    if (String(url).startsWith("https:")) {
-      return {
-        pathname: url,
-      };
-    }
-    // if (String(url).startsWith(`/${rootModelName}`)) {
     const urlArr = String(url).split("?");
-    const pagePath = urlArr[0] || "/index/index";
-    const pathname = pagePath.startsWith(`/${this.rootModelName}`)
-      ? pagePath
-      : `/${this.rootModelName}${pagePath}`;
+    const pathname = urlArr[0] || `/${this.rootModelName}/index/index`;
     const state = payload || {};
     const search = urlArr[1] || "";
     if (urlArr[1]) {
@@ -64,30 +47,42 @@ class configureNavigate {
       state,
       key,
     };
-    // }
-    // 跨模块调整 TODO:
-    // if (String(url).startsWith(`/`)) {
-    // }
   }
+
   goTo({ url, payload = {}, options = {} } = {}) {
-    if (String(url).startsWith("https:") || String(url).startsWith("http:")) {
-      if (options.target) {
-        window.open(url, "target");
-      } else {
-        window.open(url, "_self");
+    if (String(url).startsWith(`/${this.rootModelName}`)) {
+      if (options && options.replace) {
+        this.redirect({ payload: { url, payload, options } });
+        return;
       }
-    }
-    if (options && options.replace) {
-      this.redirect({ payload: { url, payload, options } });
+      const location = this.getLocation(url, payload);
+      this.history.push(location);
+      if (this.navigateHistory.length >= this.maxHistoryLength) {
+        this.navigateHistory = this.navigateHistory.slice(1);
+      }
+      this.navigateHistory.push(location);
       return;
     }
-    const location = this.getLocation(url, payload);
-    this.history.push(location);
-    if (this.navigateHistory.length >= this.maxHistoryLength) {
-      this.navigateHistory = this.navigateHistory.slice(1);
+
+    if (String(url).startsWith("https:") || String(url).startsWith("http:")) {
+      window.open(
+        appendQuery(url, payload),
+        options.target ? "target" : "_self",
+        "",
+        options.replace || false
+      );
+      return;
     }
-    this.navigateHistory.push(location);
-    // localStorage.set("navigateHistory", navigateHistory);
+    if (String(url).startsWith(`/`)) {
+      window.open(
+        appendQuery(`https://${window.location.host}${url}`, payload),
+        options.target ? "target" : "_self",
+        "",
+        options.replace || false
+      );
+      return;
+    }
+    console.warn(`${url} 不符合规则，无法进行跳转。`);
     return;
   }
 
@@ -95,14 +90,12 @@ class configureNavigate {
     if (!delta && !url) {
       this.history.goBack();
       this.navigateHistory = this.navigateHistory.slice(0, -1);
-      // localStorage.set("navigateHistory", navigateHistory);
       return;
     }
 
     if (delta && delta < 0) {
       this.history.goBack(delta);
       this.navigateHistory = this.navigateHistory.slice(0, delta);
-      // localStorage.set("navigateHistory", navigateHistory);
       return;
     }
 
@@ -115,15 +108,15 @@ class configureNavigate {
         this.navigateHistory = this.navigateHistory.slice(0, tempIndex + 1);
         delta = this.navigateHistory.length - tempIndex + 1;
         this.history.goBack(delta);
-        // localStorage.set("navigateHistory", navigateHistory);
+        return;
       } else {
         this.goTo({ payload: { url } });
+        return;
       }
     }
 
     this.history.goBack();
     this.navigateHistory = this.navigateHistory.slice(0, -1);
-    // localStorage.set("navigateHistory", navigateHistory);
     return;
   }
 
@@ -131,7 +124,6 @@ class configureNavigate {
     const location = this.getLocation(url, payload);
     this.navigateHistory = this.navigateHistory.slice(0, -1);
     this.navigateHistory.push(location);
-    // localStorage.set("navigateHistory", navigateHistory);
     this.history.replace(location);
     return;
   }
