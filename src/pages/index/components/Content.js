@@ -8,6 +8,10 @@ export default class Content extends React.PureComponent {
     this.state = {};
   }
   render() {
-    return <View>上海</View>;
+    return (
+      <View>
+        <Button onClick={this.props.onAction}>点击</Button>
+      </View>
+    );
   }
 }

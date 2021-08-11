@@ -10,7 +10,6 @@ const modal = (props) => {
 };
 
 modal.alert = (props) => {
-  console.log("content---> ", props);
   const { content: children, ...restProps } = props;
   Portal(AlertContainer, { children, ...restProps });
 };

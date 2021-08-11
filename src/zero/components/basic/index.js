@@ -11,7 +11,9 @@ import {
   Button as antButton,
   InputItem as antInputItem,
   TabBar as antTabBar,
+  Modal as antModal,
 } from "antd-mobile";
 export const Button = antButton;
 export const InputItem = antInputItem;
 export const TabBar = antTabBar;
+export const Modal = antModal;

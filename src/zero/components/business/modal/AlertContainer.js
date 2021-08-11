@@ -12,13 +12,6 @@ export default class AlertContainer extends React.Component {
     this.onClose = this.onClose.bind(this);
   }
 
-  // showModal = () => (e) => {
-  //   e.preventDefault(); // 修复 Android 上点击穿透
-  //   this.setState({
-  //     visible: true,
-  //   });
-  // };
-
   onClose = () => {
     this.setState({
       visible: false,
@@ -67,7 +60,6 @@ export default class AlertContainer extends React.Component {
             style={{
               // color: colors.textBase,
               fontSize: 15,
-              lineHeight: 20,
               textAlign: "center",
             }}
           >
@@ -78,4 +70,3 @@ export default class AlertContainer extends React.Component {
     );
   }
 }
-// export default Portal(AlertContainer);

@@ -46,7 +46,7 @@ const model = createModel({
           key: "my",
           selectedIcon: "",
           icon: "",
-          pagePath: "/lcbtest/my/index",
+          pagePath: "/lcbtest/my/my/index",
         },
       ],
     },

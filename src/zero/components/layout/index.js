@@ -5,7 +5,7 @@ import Content from "./content";
 import { Switch } from "react-router-dom";
 import { globalSelectors } from "../../redux";
 import { connect } from "react-redux";
-import { PageLoading } from "../business";
+import { PageLoading, Debugpanel } from "../business";
 import { View } from "../basic";
 import "./index.less";
 import { AppConfigContext } from "../../core/configureContext";
@@ -37,6 +37,7 @@ export default class extends React.Component {
             </Fragment>
           </Content>
           <Footer isTabBar={isTabBar} />
+          <Debugpanel />
         </Suspense>
       </View>
     );
