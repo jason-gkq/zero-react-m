@@ -25,14 +25,16 @@ import platform from "platform";
 import staticActions from "./rootAction";
 import { getEnv } from "./rootSelector";
 
-import { cookieStorage, storage } from "../cache";
+import {
+  cookieStorage,
+  sessionStorage,
+  setCommonData,
+  setAxiosBase,
+} from "../api";
+
 import { guid } from "../utils";
 
-import { navigate } from "../navigate";
-
-import { setCommonData, setAxiosBase, httpsClient } from "../net";
 import { themes } from "../core/themeContext";
-
 import { Toast, Modal } from "../components/index";
 
 const initEnv = function* () {
@@ -202,7 +204,7 @@ const goTo = function* () {
     const { payload: { url, payload = {}, options = {} } = {} } = yield take(
       staticActions.navigate.goTo
     );
-    navigate.goTo({ url, payload, options });
+    Zero.goTo({ url, payload, options });
   }
 };
 
@@ -211,7 +213,7 @@ const goBack = function* () {
     const { payload: { delta, url = "" } = {} } = yield take(
       staticActions.navigate.goBack
     );
-    navigate.goBack({ delta, url });
+    Zero.goBack({ delta, url });
   }
 };
 
@@ -220,7 +222,7 @@ const redirect = function* () {
     const {
       payload: { url = "/index/index", payload = {}, options = {} } = {},
     } = yield take(staticActions.navigate.redirect);
-    navigate.redirect({ url, payload, options });
+    Zero.redirect({ url, payload, options });
   }
 };
 
@@ -230,7 +232,7 @@ const reLaunch = function* () {
       payload: { url = null, payload = {}, options = {} } = {},
     } = yield take(staticActions.navigate.reLaunch);
     if (url) {
-      yield navigate.redirect({ url, payload, options });
+      yield Zero.redirect({ url, payload, options });
     }
     window.location.reload();
   }
@@ -255,9 +257,10 @@ const reLaunch = function* () {
 const takeLogout = function* () {
   while (true) {
     yield take(staticActions.user.logout);
-    yield call(httpsClient.post, `gateway/user/logout`);
+    yield call(Zero.post, `gateway/user/logout`);
     yield put(staticActions.user.setUser({ isLogin: false }));
-    navigate.goBack();
+    // TODO: 进入登录页或者首页
+    Zero.goBack();
   }
 };
 
@@ -268,18 +271,18 @@ const rootLunch = function* () {
 
 const checkLogin = function* () {
   try {
-    const user = yield call(httpsClient.post, `gateway/user/currentUser`);
+    const user = yield call(Zero.post, `gateway/user/currentUser`);
     user["isLogin"] = false;
     if (user && user.user && user.user.mobile) {
       user["isLogin"] = true;
     }
     user["mobile"] = user.user && user.user.mobile;
-    yield call(storage.setStorageSync, "user", user, Infinity);
+    yield call(sessionStorage.set, "user", user, Infinity);
     yield put(staticActions.user.setUser(user));
 
     yield put(staticActions.app.getDefaultCar());
   } catch (error) {
-    yield call(storage.removeStorageSync, "user");
+    yield call(sessionStorage.remove, "user");
     yield put(staticActions.user.setUser({ isLogin: false }));
   }
 };

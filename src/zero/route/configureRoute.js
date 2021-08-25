@@ -1,7 +1,7 @@
 import React from "react";
 import routes from "./routeData";
 import { Route } from "react-router-dom";
-import { sessionStorage } from "../cache";
+import { sessionStorage } from "../api";
 import { flatDeep } from "../utils";
 
 const allPageRoute = [];
@@ -48,7 +48,6 @@ export class ConfigureMenu {
   allMenus = {};
 
   constructor(menus) {
-    this.generateMenuPath = this.generateMenuPath.bind(this);
     const allMenuArr = this.generateMenuPath(menus);
     const allMenuArrFlat = flatDeep(allMenuArr);
     allMenuArrFlat.map((item) => {
@@ -56,7 +55,7 @@ export class ConfigureMenu {
     });
   }
 
-  generateMenuPath(menus, keys = null) {
+  generateMenuPath = (menus, keys = null) => {
     if (!Array.isArray(menus)) {
       return;
     }
@@ -77,9 +76,9 @@ export class ConfigureMenu {
     });
 
     return menuList;
-  }
+  };
 
-  getBreadcrumb(path) {
+  getBreadcrumb = (path) => {
     let rel = "首页";
     if (!path) {
       return rel;
@@ -94,9 +93,9 @@ export class ConfigureMenu {
       return rel;
     }
     return rel;
-  }
+  };
 
-  getSelectKeys(path) {
+  getSelectKeys = (path) => {
     if (!path) {
       return [];
     }
@@ -104,5 +103,5 @@ export class ConfigureMenu {
       return this.allMenuRoute[path].split(",");
     }
     return [];
-  }
+  };
 }

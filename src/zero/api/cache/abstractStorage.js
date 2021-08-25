@@ -1,4 +1,4 @@
-import { isPlainObject } from "../utils";
+import { isPlainObject } from "../../utils";
 const environment = {
   prefixUnable: ["token", "__clientId"],
   prefix: process.env.productConfig.cachePrefix,
@@ -35,41 +35,35 @@ class NameStorage {
     this.proxy.session = ret.session;
 
     this.store = this.proxy[type];
-
-    this.getItem = this.getItem.bind(this);
-    this.setItem = this.setItem.bind(this);
-    this.removeItem = this.removeItem.bind(this);
-    this.clear = this.clear.bind(this);
-    this._saveNameValue = this._saveNameValue.bind(this);
   }
 
-  getItem(key) {
+  getItem = (key) => {
     return this.store[key];
-  }
+  };
 
-  setItem(key, value) {
+  setItem = (key, value) => {
     this.store[key] = value;
     this._saveNameValue();
-  }
+  };
 
-  removeItem(key) {
+  removeItem = (key) => {
     delete this.store[key];
     this._saveNameValue();
-  }
+  };
 
-  clear() {
+  clear = () => {
     this.store = {};
     this._saveNameValue();
-  }
+  };
 
-  _saveNameValue() {
+  _saveNameValue = () => {
     const ret = {
       session: this.proxy.session,
       local: this.proxy.local,
     };
 
     window.name = JSON.stringify(ret);
-  }
+  };
 }
 
 export class AbstractStorage {
@@ -89,21 +83,9 @@ export class AbstractStorage {
     }
 
     this.type = type;
-
-    this.checkStorage = this.checkStorage.bind(this);
-    this.get = this.get.bind(this);
-    this.set = this.set.bind(this);
-    this.remove = this.remove.bind(this);
-    this.clear = this.clear.bind(this);
-    this.clearAll = this.clearAll.bind(this);
-    this.removeHttp = this.removeHttp.bind(this);
-    this.getKey = this.getKey.bind(this);
-    this.getForObject = this.getForObject.bind(this);
-    this.isQuotaExceeded = this.isQuotaExceeded.bind(this);
-    this.setExpires = this.setExpires.bind(this);
   }
 
-  checkStorage() {
+  checkStorage = () => {
     try {
       sessionStorage.setItem("privateTest", "1");
     } catch (e) {
@@ -115,9 +97,9 @@ export class AbstractStorage {
     } catch (e) {
       this.hasStorage.local = 0;
     }
-  }
+  };
 
-  get(key) {
+  get = (key) => {
     key = this.getKey(key);
     let value = this.proxy.getItem(key);
 
@@ -142,9 +124,9 @@ export class AbstractStorage {
     } else {
       return null;
     }
-  }
+  };
 
-  set(key, value, expires = null) {
+  set = (key, value, expires = null) => {
     key = this.getKey(key);
     const ret = {
       value: value,
@@ -163,25 +145,25 @@ export class AbstractStorage {
         this.removeHttp();
       }
     }
-  }
+  };
 
-  remove(key) {
+  remove = (key) => {
     this.proxy.removeItem(this.getKey(key));
-  }
+  };
 
-  clear() {
+  clear = () => {
     for (const i of this.getForObject()) {
       if (environment.prefixUnable.indexOf(i) === -1) {
         this.proxy.removeItem(i);
       }
     }
-  }
+  };
 
-  clearAll() {
+  clearAll = () => {
     for (const i in this.getForObject()) {
       this.proxy.removeItem(i);
     }
-  }
+  };
 
   /**
    * @description
@@ -189,27 +171,27 @@ export class AbstractStorage {
    * @example
    * local.removeHttp('mycar/getMyDefaultCar')
    */
-  removeHttp(url = "") {
+  removeHttp = (url = "") => {
     url = environment.prefix + "http:" + url;
     for (const i in this.getForObject()) {
       if (i.startsWith(url)) {
         this.proxy.removeItem(i);
       }
     }
-  }
+  };
 
-  getKey(key) {
+  getKey = (key) => {
     if (environment.prefixUnable.indexOf(key) !== -1) {
       return key;
     }
     return environment.prefix + key;
-  }
+  };
 
-  getForObject() {
+  getForObject = () => {
     return this.proxy instanceof NameStorage ? this.proxy.store : this.proxy;
-  }
+  };
 
-  isQuotaExceeded(e) {
+  isQuotaExceeded = (e) => {
     let quotaExceeded = false;
     if (e) {
       if (e.code) {
@@ -230,9 +212,9 @@ export class AbstractStorage {
       }
     }
     return quotaExceeded;
-  }
+  };
 
-  setExpires(time) {
+  setExpires = (time) => {
     const str = time + "";
     let count = 0;
 
@@ -257,5 +239,5 @@ export class AbstractStorage {
     time = count ? count : time;
 
     return time * 1000;
-  }
+  };
 }

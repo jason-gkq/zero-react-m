@@ -1,7 +1,7 @@
 import { createModel } from "@/src/zero/redux";
 import { put, call, select } from "redux-saga/effects";
 import axios from "axios";
-import { cookieStorage } from "@/src/zero/cache";
+import { cookieStorage } from "@/src/zero/api";
 
 export default createModel({
   name: "login",

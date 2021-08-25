@@ -1,5 +1,5 @@
 import { createBrowserHistory } from "history";
-import { appendQuery } from "../utils";
+import { appendQuery } from "../../utils";
 
 class configureNavigate {
   constructor() {
@@ -9,26 +9,25 @@ class configureNavigate {
     this.initHistory(this.history.location);
   }
 
-  initHistory(location) {
+  initHistory = (location) => {
     this.navigateHistory = [];
     if (!location) {
       return;
     }
     let { pathname, search, state = {} } = location;
     if (pathname === "/" || pathname === `/${this.rootModelName}`) {
-      pathname = `/${this.rootModelName}/index/index`;
+      pathname = `/${this.rootModelName}/index`;
     }
     const url = search.includes("?")
       ? `${pathname}${search}`
       : `${pathname}?${search}`;
-    // action: "POP"
     this.navigateHistory.push(this.getLocation(url, state));
     return;
-  }
+  };
 
-  getLocation(url, payload) {
+  getLocation = (url, payload) => {
     const urlArr = String(url).split("?");
-    const pathname = urlArr[0] || `/${this.rootModelName}/index/index`;
+    const pathname = urlArr[0] || `/${this.rootModelName}/index`;
     const state = payload || {};
     const search = urlArr[1] || "";
     if (urlArr[1]) {
@@ -47,9 +46,9 @@ class configureNavigate {
       state,
       key,
     };
-  }
+  };
 
-  goTo({ url, payload = {}, options = {} } = {}) {
+  goTo = ({ url, payload = {}, options = {} } = {}) => {
     if (String(url).startsWith(`/${this.rootModelName}`)) {
       if (options && options.replace) {
         this.redirect({ payload: { url, payload, options } });
@@ -84,9 +83,10 @@ class configureNavigate {
     }
     console.warn(`${url} 不符合规则，无法进行跳转。`);
     return;
-  }
+  };
 
-  goBack({ delta, url = "" } = {}) {
+  goBack = ({ delta, url = "" } = {}) => {
+    console.log(this.history);
     if (!delta && !url) {
       this.history.goBack();
       this.navigateHistory = this.navigateHistory.slice(0, -1);
@@ -118,15 +118,15 @@ class configureNavigate {
     this.history.goBack();
     this.navigateHistory = this.navigateHistory.slice(0, -1);
     return;
-  }
+  };
 
-  redirect({ url, payload = {}, options = {} } = {}) {
+  redirect = ({ url, payload = {}, options = {} } = {}) => {
     const location = this.getLocation(url, payload);
     this.navigateHistory = this.navigateHistory.slice(0, -1);
     this.navigateHistory.push(location);
     this.history.replace(location);
     return;
-  }
+  };
 }
 
 export default new configureNavigate();

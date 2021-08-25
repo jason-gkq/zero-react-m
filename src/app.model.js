@@ -1,6 +1,5 @@
 import { createModel } from "@/src/zero/redux";
 import { put, call, select } from "redux-saga/effects";
-import { httpsClient } from "@/zero/net";
 
 const model = createModel({
   // model名称，view层用于提取state的key，需要保证唯一
@@ -66,7 +65,7 @@ const model = createModel({
       }
     },
     *getDefaultCar({ $actions }) {
-      const car = yield httpsClient.post(`gateway/mycar/getMyDefaultCar`, {
+      const car = yield Zero.post(`gateway/mycar/getMyDefaultCar`, {
         serviceType: 1,
         cityId: 10101,
       });

@@ -8,17 +8,22 @@
  * https://blog.csdn.net/qiushisoftware/article/details/80158593
  */
 import axios, { Cancel } from "axios";
-import { guid, cloneDeep } from "../utils/util";
+import { guid, cloneDeep } from "../../utils/util";
 import cookieStorage from "../cache/cookieStorage";
-import navigate from "../navigate/configureNavigate";
+import { navigate } from "../navigate";
 
 /* 不跳转登录页面白名单 */
-const loginWhiteListUrl = ["gateway/user/currentUser", "gateway/user/smsLogin"];
+const loginWhiteListUrl = [
+  "/gateway/user/currentUser",
+  "/gateway/user/smsLogin",
+];
 
 /**
  * 正在进行中的请求
  */
 const pending = {};
+
+let appName;
 
 let interceptorsFlag = true;
 /**
@@ -68,6 +73,7 @@ const initCommonData = (env) => {
     parentSessionId: env.parentSessionId,
     sessionId: env.sessionId,
   };
+  appName = env.appName;
 };
 /**
  * 更新公共参数
@@ -170,21 +176,23 @@ const responseHandler = (resp) => {
     });
   }
   let url = resp.config.url;
-
   if (
     [904, 907, 8800111].includes(statusCode) &&
     !loginWhiteListUrl.includes(url)
   ) {
-    console.log("url----", loginWhiteListUrl.includes(url));
     // 登录跳转，注意排除loginWhiteListUrl
     const location =
       navigate.navigateHistory.length > 0
         ? navigate.navigateHistory[navigate.navigateHistory.length - 1]
-        : { pathname: "/index/index", state: {} };
+        : { pathname: `/${appName}/index`, state: {} };
     navigate.redirect({
-      url: location.pathname.endsWith("/common/login/index")
-        ? `/common/login/index?to=${encodeURIComponent("/index/index")}`
-        : `/common/login/index?to=${encodeURIComponent(location.pathname)}`,
+      url: location.pathname.endsWith("/common/login")
+        ? `/${appName}/common/login?to=${encodeURIComponent(
+            `/${appName}/index`
+          )}`
+        : `/${appName}/common/login?to=${encodeURIComponent(
+            location.pathname
+          )}`,
       payload: location.state,
     });
   }
