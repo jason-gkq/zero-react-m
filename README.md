@@ -35,7 +35,7 @@ http://localhost:8080/
 
 ### 目录结构
 
-.  
+zero-react-m  
 | - dest/web // 打包后代码目录  
 | - env // 项目业务参数配置  
 | - | - env.com.json // 各个环境公共参数  
