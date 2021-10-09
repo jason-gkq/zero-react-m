@@ -4,10 +4,10 @@
 
 采用相同的项目结构以及语法进行了多个端的项目框架整理，也有使用过多端编译的框架，但是不同端在同一个项目中开发还是会有影响，且多个端的兼容性代码要写在一起，以及框架的相关问题会跟新不及时，使用方解决需要花费大量精力，所以稳定型项目且有专人负责的，建议还是自研，如果是快销项目建议采用多端编译。
 
-zero-react-m 移动端 h5
-zero-react-pc pc 端
-zero-react-micro 小程序端
-zero-react-native 手机端 rn
+- zero-react-m 移动端 h5
+- zero-react-pc pc 端
+- zero-react-micro 小程序端
+- zero-react-native 手机端 rn
 
 #### 项目启动
 
@@ -71,3 +71,22 @@ home // 页面目录名
 │ - index.less // 页面样式，固定名称  
 │ - index.model.js // 页面 model，固定名称  
 │ - index.js // 页面入口，固定名称
+
+---
+
+### 参考官网
+
+> [webpack](https://webpack.docschina.org/concepts/)  
+> [babel](https://www.babeljs.cn/docs/options)  
+> [ES6](http://es6.ruanyifeng.com/)  
+> [react](https://react.docschina.org/docs/getting-started.html)  
+> [redux](http://cn.redux.js.org/)  
+> [redux-saga](https://redux-saga-in-chinese.js.org/)  
+> [React Router](https://react-guide.github.io/react-router-cn/docs/Introduction.html)
+
+### 社区好文推荐
+
+> [redux 系列总结](https://juejin.cn/post/6880011662926364679)  
+> [分布式事务：Saga 模式](https://www.jianshu.com/p/e4b662407c66?from=timeline&isappinstalled=0)  
+> [深入理解 React 高阶组件](https://www.jianshu.com/p/0aae7d4d9bc1)  
+> [React 从渲染原理到性能优化](https://www.cnblogs.com/chaoyuehedy/p/9638848.html)
