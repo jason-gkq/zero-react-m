@@ -1,3 +1,7 @@
+/**
+ * 项目统一入口文件
+ */
+
 // import 'babel-polyfill';
 import Zero from "@/zero/vendor/zero";
 import React from "react";

@@ -1,3 +1,8 @@
+/**
+ * 项目全局model，主要用于项目配置、项目启动后页面启动前相关逻辑处理
+ * 以及项目全局方法和变量的定义
+ */
+
 import { createModel } from "@/src/zero/redux";
 import { put, call, select } from "redux-saga/effects";
 
