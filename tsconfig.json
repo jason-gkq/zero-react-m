@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["dom", "dom.iterable", "esnext", "es6"],
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@/assets/*": ["public/assets/*"],
+      "@/src/*": ["src/*"],
+      "@/zero": ["node_modules/@szero/mobile"],
+      "@/common": ["src/common"],
+      "@/common/*": ["src/common/*"]
+    }
+  },
+  "include": ["src"]
+}
