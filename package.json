@@ -1,14 +1,14 @@
 {
-  "name": "doms-mobile-h5",
+  "name": "zero-react-m",
   "version": "1.0.0",
-  "description": "",
+  "description": "基于react和mobx构建的移动端h5网站",
   "private": true,
   "main": "./src/pages/index/index.tsx",
   "scripts": {
     "start": "szero-scripts start env=local",
     "build": "szero-scripts build env=prod",
     "build:test": "szero-scripts build env=test",
-    "build:fz": "szero-scripts build env=fz",
+    "build:uat": "szero-scripts build env=uat",
     "build:prod": "szero-scripts build env=prod",
     "prepare": "husky install",
     "prettier:check": "prettier --check ./src",
@@ -16,13 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jason-gkq/zero-react-pc.git"
+    "url": "git+https://github.com/jason-gkq/zero-react-m.git"
   },
   "keywords": [],
   "author": "guokeqin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jason-gkq/zero-react-pc/issues"
+    "url": "https://github.com/jason-gkq/zero-react-m/issues"
   },
   "dependencies": {
     "@szero/mobile": "1.3.2",

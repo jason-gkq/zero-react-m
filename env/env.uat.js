@@ -1,5 +1,5 @@
 module.exports.defineConfig = () => ({
-  ENV: 'fz',
+  ENV: 'uat',
   REQUEST: {
     BASE: { baseURL: '/', successCode: 200 },
   },
