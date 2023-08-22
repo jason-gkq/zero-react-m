@@ -21,7 +21,7 @@ const axiosFile = ({ url, method = 'get', data }: IDownload) => {
       Authorization: `Bearer ${getToken()}`,
     },
     responseType: 'arraybuffer',
-  }).then((res) => {
+  }).then((res: any) => {
     try {
       const enc = new TextDecoder('utf-8');
       const data = JSON.parse(enc.decode(new Uint8Array(res.data)));

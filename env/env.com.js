@@ -1,26 +1,21 @@
 module.exports.defineConfig = () => ({
   appId: '100',
-  appName: 'szero-m',
-  cachePrefix: 'szero-m_',
+  appName: 'mobile',
+  cachePrefix: 'mobile_',
   layout: {
-    title: 'szero-m',
+    title: 'zero-mobile',
     index: '/index/index',
   },
   route: {
-    // type: "Hash",
     type: 'Browser',
-    isAnimated: true,
+    isAnimated: false,
   },
-  // apolloConf: ["DOMS_CONF"],
   webpackConfig: {
-    publicUrlOrPath: '/szero-m/',
-    port: 8400,
-    host: 'localhost',
-    headScripts: [
-      //   {
-      //     src: '//res.wx.qq.com/open/js/jweixin-1.2.0.js',
-      //   },
-    ],
+    publicUrlOrPath: '/mobile/',
+    devServer: {
+      port: 8090,
+      host: 'localhost',
+    },
   },
   routes: [
     {

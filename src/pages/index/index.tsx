@@ -319,7 +319,6 @@ const aa = function (eleImg: any) {
 // }
 
 export default createPage({ navBar: true }, (props: ICProps) => {
-  console.log(props);
   useEffect(() => {
     pageStore.setPageStatus('success');
   }, []);

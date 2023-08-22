@@ -52,7 +52,7 @@ export default createPage({ navBar: { title: '工具' } }, () => {
             navigate.reload('/index/index');
           }
         })
-        .catch((e) => {
+        .catch((e: any) => {
           setState({
             response: e,
           });

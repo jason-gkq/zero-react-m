@@ -37,6 +37,7 @@ export class AppStore {
   errorInfo: IErrorInfo | undefined | null;
   user = {};
   launchInfo = {};
+  routes: any = [];
   tabs: any = [
     {
       key: '/index/index',
@@ -92,11 +93,11 @@ export class AppStore {
       userAuth = {};
     }
     const { user } = yield userAuth;
-
-    yield runInAction(() => {
+    runInAction(() => {
       this.appStatus = 'success';
       this.user = user;
     });
+    console.log('11111------------', this.appStatus);
     console.log('app onLunch end');
   }
   onHide() {}
