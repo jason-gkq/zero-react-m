@@ -1950,10 +1950,10 @@
   dependencies:
     "@szero/cache" "^2.0.0"
 
-"@szero/mobile@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@szero/mobile/-/mobile-2.0.6.tgz#3fefdc495a77eafda69833fedcc4a222ef0fe105"
-  integrity sha512-hF1d/8isC+WGhylcmnQ9VZESglmqg4xPoWj09cyrE2YRmJLkmecHZ6/HsbCCwHWsTBlNy1WFIlWBG1477NbuqA==
+"@szero/mobile@2.0.11":
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/@szero/mobile/-/mobile-2.0.11.tgz#71e3c1c61dbe0aa00327ce0529d50908d4df2684"
+  integrity sha512-H0NkQBfr9iMYo0bYq0PkoN/s5W5RZde3cYs/8FN9CsOVuRKa5oxEQMVQzlu7CreIRaZKBbjLRPFvNHQAH8AnnA==
   dependencies:
     "@szero/cache" "^2.0.0"
     "@szero/hooks" "^2.0.1"

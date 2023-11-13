@@ -41,6 +41,29 @@ module.exports.defineConfig = () => ({
       ],
     },
     {
+      path: 'work',
+      children: [
+        {
+          path: 'dotask',
+          component: 'work/dotask',
+          children: [
+            {
+              path: 'agree',
+            },
+            {
+              path: 'disagree',
+            },
+          ],
+        },
+        {
+          path: 'donetask',
+        },
+        {
+          path: 'backlog',
+        },
+      ],
+    },
+    {
       path: 'common',
       children: [
         {

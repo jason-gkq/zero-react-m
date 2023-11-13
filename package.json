@@ -60,7 +60,7 @@
     "core-js": "3.32.1"
   },
   "dependencies": {
-    "@szero/mobile": "2.0.6",
+    "@szero/mobile": "2.0.11",
     "antd-mobile": "5.29.1",
     "antd-mobile-icons": "0.3.0",
     "crypto-js": "4.1.1",
