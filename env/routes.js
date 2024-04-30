@@ -1,4 +1,4 @@
-module.exports.routes = [
+export const routes = [
   {
     path: 'index',
     children: [

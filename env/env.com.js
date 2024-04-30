@@ -1,8 +1,11 @@
-const deps = require('../node_modules/@szero/mobile/package.json').dependencies;
-const { ModuleFederationPlugin } = require('webpack').container;
-const { routes } = require('./routes.js');
+import federation from '@originjs/vite-plugin-federation';
+import { default as pkg } from '../node_modules/@szero/mobile/package.json' assert { type: 'json' };
+import wbk from 'webpack';
+const { ModuleFederationPlugin } = wbk.container;
+const { dependencies: deps } = pkg;
+import { routes } from './routes.js';
 
-module.exports.defineConfig = () => ({
+export const defineConfig = () => ({
   appId: '100',
   appName: 'mobile',
   cachePrefix: 'mobile_',
@@ -21,6 +24,127 @@ module.exports.defineConfig = () => ({
       baseURL: 'http://rap2api.taobao.org/app/mock/302222/',
       successCode: 200,
     },
+  },
+  viteConfig: {
+    base: '/mobile/',
+    server: {
+      host: 'localhost',
+      port: 3200,
+      // preTransformRequests: false,
+      // 代理配置参考
+      // proxy: {
+      //   '/gateway': {
+      //     target: 'http://10.84.203.22:8800',
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(/^\/gateway/, ''),
+      //   },
+      // },
+    },
+    // privateConfig: {
+    //   headScripts: [
+    //     {
+    //       src: 'https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.common.js',
+    //     },
+    //   ],
+    //   copyOptions: {
+    //     targets: [
+    //       {
+    //         src: 'bin/example.wasm',
+    //         dest: 'wasm-files',
+    //       },
+    //     ],
+    //   },
+    // },
+    plugins: [
+      /**
+       * 联邦模块相关配置，基站和子模块配置
+       * 和webpack的联邦模块可以混用，如果vite是子模块，则正常配置即可，如果是加载webpack的子模块，则需要特殊配置
+       * 暂没找到动态加载的方法
+       */
+      // 基站配置 参考
+      // federation({
+      //   remotes: {
+      //     // 暂没找到动态加载的方法
+      //     remote_app: 'http://localhost:5001/remoteEntry.js',
+      //   },
+      //   shared: {
+      //     react: {
+      //       singleton: true,
+      //       requiredVersion: pkg.dependencies.react,
+      //       version: '16.13.1',
+      //     },
+      //     'react-dom': {
+      //       singleton: true,
+      //       requiredVersion: pkg.dependencies['react-dom'],
+      //     },
+      //   },
+      // }),
+      // 分享模块配置
+      // federation({
+      //   name: 'extension_remote',
+      //   filename: 'remoteEntry.js',
+      //   exposes: {
+      //     './Button': './src/button.jsx',
+      //     './Button1': './src/button1.jsx',
+      //   },
+      //   shared: [
+      //     {
+      //       react: {},
+      //       'react-dom': {
+      //         requiredVersion: pkg.dependencies['react-dom'],
+      //         import: false,
+      //       },
+      //     },
+      //   ],
+      // }),
+      // 如果vite加载的是wepack打包出来的子模块则如下配置
+      // federation({
+      //   remotes: {
+      //     remote_app: {
+      //       external: 'http://localhost:3301/remoteEntry.js',
+      //       from: 'webpack',
+      //     },
+      //   },
+      //   shared: {
+      //     react: { singleton: true, eager: true, requiredVersion: deps.react },
+      //     'react-dom': {
+      //       singleton: true,
+      //       eager: true,
+      //       requiredVersion: deps['react-dom'],
+      //     },
+      //     'react-router-dom': {
+      //       singleton: true,
+      //       eager: true,
+      //       requiredVersion: deps['react-router-dom'],
+      //     },
+      //     mobx: {
+      //       singleton: true,
+      //       eager: true,
+      //       // requiredVersion: deps['mobx'],
+      //     },
+      //     'mobx-react-lite': {
+      //       singleton: true,
+      //       eager: true,
+      //       // requiredVersion: deps['mobx-react-lite'],
+      //     },
+      //     antd: {
+      //       singleton: true,
+      //       eager: true,
+      //       // requiredVersion: deps['antd'],
+      //     },
+      //     '@ant-design/pro-components': {
+      //       singleton: true,
+      //       eager: true,
+      //       // requiredVersion: deps['@ant-design/pro-components'],
+      //     },
+      //     '@szero/pc': {
+      //       singleton: true,
+      //       eager: true,
+      //       requiredVersion: '2.2.0',
+      //     },
+      //   },
+      // }),
+    ],
   },
   webpackConfig: {
     publicUrlOrPath: '/mobile/',

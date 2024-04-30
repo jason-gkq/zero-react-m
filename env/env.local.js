@@ -1,3 +1,3 @@
-module.exports.defineConfig = () => ({
+export const defineConfig = () => ({
   ENV: 'local',
 });

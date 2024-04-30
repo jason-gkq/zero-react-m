@@ -7,15 +7,15 @@ import {
   appendParam,
   pageStore,
   useToken,
+  useEnv,
 } from '@/zero';
 
-const { removeToken } = useToken();
+const { getToken,removeToken } = useToken();
 
 export default (
   REQUEST: Record<string, { baseURL: string; successCode: string }>
 ) => {
   net.interceptors.request.use((config) => {
-    const { getToken } = useToken();
     const token = getToken();
     if (token) {
       config.headers['Authorization'] = token;
@@ -81,17 +81,19 @@ export default (
       localStorage.set('retry-times', 0);
       return Promise.resolve(resp);
     }
-    if ([401].includes(code)) {
+    const { needLoginCode } = useEnv();
+    if (needLoginCode == Number(code)) {
       removeToken();
+      sessionStorage.clearAll();
       navigate.goTo(
         `/login?redirect=${appendParam(pageStore.route, pageStore.params)}`
       );
-      return resp;
     }
     const cloneResp = cloneDeep(resp || {});
     let result = {
       msg: data.msg || data.desc || '服务器内部错误',
       code,
+      ...data,
     };
     cloneResp['data'] = result;
     return Promise.reject(cloneResp);

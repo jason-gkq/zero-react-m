@@ -3,12 +3,9 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import {
   HttpClient,
   useEnv,
-  navigate,
   sessionStorage,
   isInBrowser,
   isInWechatWork,
-  appendParam,
-  useToken,
 } from '@/zero';
 import initHttpClient from './initHttpClient';
 import {
@@ -18,7 +15,16 @@ import {
 } from 'antd-mobile-icons';
 
 const env = useEnv();
-const { getToken } = useToken();
+const platform = isInBrowser() ? 'browser' : isInWechatWork() ? 'qw' : 'wx';
+env.setEnv({ platform });
+if (process.env.NODE_ENV !== 'development') {
+  try {
+    const { defineConfig } = await import(
+      `../env/env.${process.env.BUILD_ENV}.js`
+    );
+    env.setEnv(defineConfig());
+  } catch (error) {}
+}
 
 type IOptions = {
   route: string;
@@ -51,8 +57,6 @@ export class AppStore {
     },
   ];
   constructor() {
-    const platform = isInBrowser() ? 'browser' : isInWechatWork() ? 'qw' : 'wx';
-    env.setEnv({ platform });
     /**
      * 设置http拦截器
      */
