@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { ErrorBlock } from 'antd-mobile';
 import { createPage, pageStore, useMergeState, debounce } from '@/zero';
-import { requestFile } from '@/common/hooks';
+import { requestFile } from '@/src/common/hooks';
 import { renderAsync } from 'docx-preview';
 import './index.less';
 import * as PDFJS from 'pdfjs-dist/legacy/build/pdf';

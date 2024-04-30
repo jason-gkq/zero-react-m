@@ -22,9 +22,7 @@
     "paths": {
       "@/assets/*": ["public/assets/*"],
       "@/src/*": ["src/*"],
-      "@/zero": ["node_modules/@szero/mobile"],
-      "@/common": ["src/common"],
-      "@/common/*": ["src/common/*"]
+      "@/zero": ["node_modules/@szero/mobile"]
     }
   },
   "include": ["src"]

@@ -36,7 +36,6 @@ export class AppStore {
   appStatus: 'loading' | 'error' | 'success' = 'loading';
   errorInfo: IErrorInfo | undefined | null;
   user = {};
-  launchInfo = {};
   routes: any = [];
   tabs: any = [
     {
@@ -67,37 +66,31 @@ export class AppStore {
   /* 静默授权获取凭证code */
   *onLaunch(options: IOptions) {
     console.log('app onLunch start', options);
-    const { params, route } = options;
-    yield runInAction(() => {
-      this.launchInfo = options;
-    });
-
-    if (!getToken()) {
-      yield runInAction(() => {
-        this.appStatus = 'success';
-      });
-      navigate.goTo(`/login?redirect=${appendParam(route, params)}`);
-      return;
-    }
-    /**
-     * 获取用户信息
-     */
-    let userAuth = sessionStorage.get('userInfo');
+    // const { params, route } = options;
+    // 可做登录拦截
+    // if (!getToken()) {
+    //   yield runInAction(() => {
+    //     this.appStatus = 'success';
+    //   });
+    //   navigate.goTo(`/login?redirect=${appendParam(route, params)}`);
+    //   return;
+    // }
     try {
+      /**
+       * 获取用户信息
+       */
+      let userAuth = sessionStorage.get('userInfo');
       if (!userAuth) {
         const result: Promise<any> = yield HttpClient.get('getUserInfo');
         userAuth = result;
         sessionStorage.set('userInfo', result);
       }
-    } catch (error) {
-      userAuth = {};
-    }
-    const { user } = yield userAuth;
-    runInAction(() => {
-      this.appStatus = 'success';
-      this.user = user;
-    });
-    console.log('11111------------', this.appStatus);
+      const { user } = yield userAuth;
+      runInAction(() => {
+        this.appStatus = 'success';
+        this.user = user;
+      });
+    } catch (error) {}
     console.log('app onLunch end');
   }
   onHide() {}

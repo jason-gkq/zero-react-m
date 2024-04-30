@@ -38,22 +38,17 @@ yarn build:prod
 zero-react-m  
 | - dest/web // 打包后代码目录  
 | - env // 项目业务参数配置  
-| - | - env.com.json // 各个环境公共参数  
-| - | - env.dev.json // 开发环境  
-| - | - env.local.json // 本地  
-| - | - env.pre.json // 预发布  
-| - | - env.prod.json // 生产  
-| - | - env.uat.json // 测试  
+| - | - env.com.js // 各个环境公共参数  
+| - | - env.dev.js // 开发环境  
+| - | - env.local.js // 本地  
+| - | - env.prod.js // 生产  
 | - node_modules  
 | - public  
 | - | - assets // 媒体资源存放  
-| - | - themes // 多主题配置  
 | - | - index.html // html 模板  
-| - | - manifest.json  
 | - src  
 | - | - common // 公共组件&页面  
 | - | - pages // 业务页面  
-| - | - zero // 框架核心文件  
 | - | - app.js // 入口  
 | - | - app.less // 全局样式  
 | - | - app.model.js // 全局 model 配置  
