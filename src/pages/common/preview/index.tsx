@@ -215,7 +215,7 @@ const aa = function (eleImg: any) {
           {
             x: events2.pageX,
             y: events2.pageY,
-          }
+          },
         ) /
         getDistance(
           {
@@ -225,7 +225,7 @@ const aa = function (eleImg: any) {
           {
             x: store.pageX2,
             y: store.pageY2,
-          }
+          },
         );
       // 应用在元素上的缩放比例
       let newScale = store.originScale * zoom;
@@ -371,7 +371,7 @@ export default createPage({ navBar: { title: '预览' } }, () => {
   const wrapperRef = useRef();
   const rootRef = useRef();
 
-  const [state, setState] = useMergeState({
+  const [state, setState] = useMergeState<any>({
     imgdata: null,
     isEmpty: false,
     pdfPages: undefined,
@@ -418,7 +418,7 @@ export default createPage({ navBar: { title: '预览' } }, () => {
         });
       });
     },
-    [pdfPages]
+    [pdfPages],
   );
 
   useEffect(() => {
