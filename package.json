@@ -5,7 +5,6 @@
   "private": true,
   "main": "./src/pages/index/index.tsx",
   "type": "module",
-  "packageManager": "yarn@1.22.21",
   "scripts": {
     "start": "szero-scripts start env=local",
     "startv": "szero-vite start env=local",
@@ -62,7 +61,7 @@
     "core-js": "3.32.1"
   },
   "dependencies": {
-    "@szero/mobile": "2.1.0",
+    "@szero/mobile": "3.0.0",
     "antd-mobile": "5.29.1",
     "antd-mobile-icons": "0.3.0",
     "axios": "^1.6.7",
